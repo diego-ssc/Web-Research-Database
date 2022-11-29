@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class WebController {
+public class ControladorWeb {
     @GetMapping("/greeting")
     public String greeting
         (@RequestParam(name="name", required=false, defaultValue="World")
