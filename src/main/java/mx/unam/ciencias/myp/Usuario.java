@@ -1,9 +1,18 @@
 package mx.unam.ciencias.myp;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import javax.persistence.*;
 
+/**
+ * Clase que representa la tabla de usuarios
+ * en la base de datos.
+ *
+ */
+@Entity
+@Table(name = "usuarios")
 public class Usuario {
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "id_usuario")
     private Integer id;
 
     private String nombre;
@@ -16,7 +25,9 @@ public class Usuario {
 
     private String apellido;
 
-    private Integer perfil;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "perfil", referencedColumnName = "id_perfil")
+    private Perfil perfil;
 
     public Integer getId() {
         return id;
@@ -29,7 +40,7 @@ public class Usuario {
     public String getNombre() {
         return nombre;
     }
-                 
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -58,11 +69,11 @@ public class Usuario {
         this.apellido = apellido;
     }
 
-    public Integer getPerfil() {
+    public Perfil getPerfil() {
         return perfil;
     }
 
-    public void setPerfil(Integer perfil) {
+    public void setPerfil(Perfil perfil) {
         this.perfil = perfil;
     }
 }
