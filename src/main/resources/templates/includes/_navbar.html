@@ -1,0 +1,47 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+<!-- logo  -->
+<svg style="display: none;">
+    <symbol id="logo" viewBox="60 10 600 100">
+        <title>Logo</title>
+        <g>
+            <line x1="360" y1="40" x2="200" y2="120" stroke="black" stroke-width="3" />
+            <line x1="360" y1="40" x2="520" y2="120" stroke="black" stroke-width="3" />
+            <circle cx=" 360" cy="40" r="20" stroke-width="3" stroke="black" fill="black"/>
+            <circle cx=" 200" cy="120" r="20" stroke-width="3" stroke="black" fill="black"/>
+            <line x1="520" y1="120" x2="440" y2="200" stroke="black" stroke-width="3" />
+            <line x1="520" y1="120" x2="600" y2="200" stroke="black" stroke-width="3" />
+            <circle cx=" 520" cy="120" r="20" stroke-width="3" stroke="black" fill="black"/>
+            <circle cx=" 440" cy="200" r="20" stroke-width="3" stroke="black" fill="black"/>
+            <circle cx=" 600" cy="200" r="20" stroke-width="3" stroke="black" fill="black"/>
+        </g>     
+    </symbol> 
+</svg>
+
+<!-- navbar -->
+<div class="container-fluid gx-5" >
+      <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <a href="./greeting.html" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+          <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#logo"/></svg>
+          <span class="fs-4">Red de Investigadores</span>
+        </a>
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="#" class="nav-link px-2 link-secondary">Página Principal</a></li>
+          <li><a href="#" class="nav-link px-2 link-dark">Artículos Destacados</a></li>
+          <li><a href="#" class="nav-link px-2 link-dark">Investigadores</a></li>
+          <li><a href="#" class="nav-link px-2 link-dark">Estudiantes</a></li>
+          <li><a href="#" class="nav-link px-2 link-dark">Acerca de</a></li>
+        </ul>
+
+        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+            <input type="search" class="form-control " placeholder="Buscar..." aria-label="Search">
+        </form>
+
+        <div class="text-end">
+          <button onclick="location.href='login.html'" type="button" class="btn btn-outline-primary me-2">Acceder</button>
+          <button onclick="location.href='register.html'" type="button" class="btn btn-primary">Registrarse</button>
+        </div>
+      </header>
+</div>
+
