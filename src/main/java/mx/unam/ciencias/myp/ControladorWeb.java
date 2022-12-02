@@ -40,4 +40,16 @@ public class ControladorWeb {
     public @ResponseBody Iterable<Usuario> getUsuarios() {
         return repositorioUsuario.findAll();
     }
+
+    @Autowired
+    @Qualifier("repositorioarticulo")
+    private RepositorioArticulo repositorioArticulo;
+
+    public List<Articulo> consulta() {
+        return repositorioArticulo.findAll();
+    }
+
+    public Articulo inserta(Articulo articulo) {
+        return repositorioArticulo.save(articulo);
+    }
 }
