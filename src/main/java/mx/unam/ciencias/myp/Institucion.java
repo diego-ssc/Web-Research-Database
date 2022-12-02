@@ -12,20 +12,21 @@ import java.io.Serializable;
 @Table(name = "instituciones")
 public class Institucion implements Serializable {
     @Id
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_institucion", referencedColumnName = "institucion")
-    private Usuario usuario;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "id_institucion",
+            columnDefinition = "integer default 1")
+    private Integer id;
 
     private String nombre;
 
     private String locacion;
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Integer getId() {
+        return id;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNombre() {

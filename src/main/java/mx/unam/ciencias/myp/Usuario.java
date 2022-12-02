@@ -11,19 +11,24 @@ import javax.persistence.*;
 @Table(name = "usuarios")
 public class Usuario {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name = "id_usuario")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "id_usuario",
+            columnDefinition = "integer default 1")
+
     private Integer id;
 
     private String nombre;
 
-    private Integer institucion;
+    private String apellido;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "institucion", referencedColumnName = "nombre")
+    private Institucion institucion;
 
     private String email;
-
+    
+    @Column(name = "fecha_nacimiento")
     private String fechaNacimiento;
-
-    private String apellido;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "perfil", referencedColumnName = "id_perfil")
@@ -45,6 +50,22 @@ public class Usuario {
         this.nombre = nombre;
     }
 
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public Institucion getInstitucion() {
+        return institucion;
+
+    }
+    public void setInstitucion(Institucion institucion) {
+        this.institucion = institucion;
+    }
+    
     public String getEmail() {
         return email;
     }
@@ -61,13 +82,7 @@ public class Usuario {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public String getApellido() {
-        return apellido;
-    }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
 
     public Perfil getPerfil() {
         return perfil;
