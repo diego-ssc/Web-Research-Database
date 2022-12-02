@@ -14,6 +14,7 @@ public class Usuario {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_usuario",
             columnDefinition = "integer default 1")
+
     private Integer id;
 
     private String nombre;
