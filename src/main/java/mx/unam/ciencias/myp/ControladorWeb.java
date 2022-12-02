@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ControladorWeb {
     @Autowired
     private RepositorioUsuario repositorioUsuario;
+    @Autowired
+    private RepositorioArticulo repositorioArticulo;
     @GetMapping("/greeting")
     public String greeting
         (@RequestParam(name="name", required=false, defaultValue="World")
          String name, Model model) {
         model.addAttribute("name", name);
-        return "greeting";
+        return "index";
     }
 
     @PostMapping(path="/add")
@@ -39,5 +41,16 @@ public class ControladorWeb {
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Usuario> getUsuarios() {
         return repositorioUsuario.findAll();
+    }
+
+
+
+    @GetMapping(path="/allArticles")
+    public @ResponseBody Iterable<Articulo> consulta() {
+        return repositorioArticulo.findAll();
+    }
+
+    public Articulo inserta(Articulo articulo) {
+        return repositorioArticulo.save(articulo);
     }
 }
