@@ -2,10 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
-        <title>Red de Investigadores | Login</title>
+        <title>Red de Investigadores | Register</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-        <link href="css/login.css" rel="stylesheet">
+        <link href="css/register.css" rel="stylesheet">
     </head>
     <body>
         <!-- logo  -->
@@ -53,22 +53,51 @@
         </div>
 
         <!-- formulario -->
-        <div class="form-login">
-            <form>
-                <div class="mb-3">
+        <div class="form">
+            <form class="row g-3">
+                <div class="col-md-6">
+                    <label for="entradaNombre" class="form-label">Nombre(s)</label>
+                    <input type="text" class="form-control" id="entradaNombre">
+                </div>
+                <div class="col-md-6">
+                    <label for="entradaApellido" class="form-label">Apellido</label>
+                    <input type="text" class="form-control" id="entradaApellido">
+                </div>
+                <div class="col-md-6">
                     <label for="entradaEmail" class="form-label">Correo Electronico</label>
-                    <input type="email" class="form-control" id="entradaEmail" aria-describedby="emailNota">
-                    <div id="emailNota" class="form-text">Nunca compartiremos su correo electronico con alguien mas.</div>
+                    <input type="email" class="form-control" id="entradaEmail">
                 </div>
-                <div class="mb-3">
-                    <label for="entradaContraseña" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" id="entradaContraseña">
+                <div class="col-md-6">
+                    <label for="entradaPassword" class="form-label">Constraseña</label>
+                    <input type="password" class="form-control" id="entradaPassword">
                 </div>
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="checkboxRecuerdame">
-                    <label class="form-check-label" for="checkboxRecuerdame">Recuerdame</label>
+                <div class="row">
+                    <label class="form-label">Fecha de nacimiento</label>
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Dia" aria-label="dia">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Mes" aria-label="mes">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Año" aria-label="año">
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Enviar</button>
+                <select class="form-select" aria-label="select Perfil">
+                    <option selected>Perfil</option>
+                    <option value="1">Estudiante</option>
+                    <option value="2">Profesor</option>
+                    <option value="3">Investigador</option>
+                </select>
+                <select class="form-select" aria-label="select instituciones">
+                    <option selected>Institucion</option>
+                    <option value="1">Fac de Ciencias</option>
+                    <option value="2">Fac de Derecho</option>
+                    <option value="3">Instituto de Matematicas</option>
+                </select>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Sign in</button>
+                </div>
             </form>
         </div>
 
