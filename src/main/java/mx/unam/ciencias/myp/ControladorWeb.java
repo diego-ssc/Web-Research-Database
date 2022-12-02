@@ -12,6 +12,6 @@ public class ControladorWeb {
         (@RequestParam(name="name", required=false, defaultValue="World")
          String name, Model model) {
         model.addAttribute("name", name);
-        return "greeting";
+        return "index";
     }
 }
