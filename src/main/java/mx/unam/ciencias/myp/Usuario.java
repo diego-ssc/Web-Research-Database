@@ -1,22 +1,38 @@
 package mx.unam.ciencias.myp;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import javax.persistence.*;
 
+/**
+ * Clase que representa la tabla de usuarios
+ * en la base de datos.
+ *
+ */
+@Entity
+@Table(name = "usuarios")
 public class Usuario {
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "id_usuario",
+            columnDefinition = "integer default 1")
+
     private Integer id;
 
     private String nombre;
 
-    private Integer institucion;
-
-    private String email;
-
-    private String fechaNacimiento;
-
     private String apellido;
 
-    private Integer perfil;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "institucion", referencedColumnName = "nombre")
+    private Institucion institucion;
+
+    private String email;
+    
+    @Column(name = "fecha_nacimiento")
+    private String fechaNacimiento;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "perfil", referencedColumnName = "id_perfil")
+    private Perfil perfil;
 
     public Integer getId() {
         return id;
@@ -29,11 +45,27 @@ public class Usuario {
     public String getNombre() {
         return nombre;
     }
-                 
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public Institucion getInstitucion() {
+        return institucion;
+
+    }
+    public void setInstitucion(Institucion institucion) {
+        this.institucion = institucion;
+    }
+    
     public String getEmail() {
         return email;
     }
@@ -50,19 +82,13 @@ public class Usuario {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public String getApellido() {
-        return apellido;
-    }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
 
-    public Integer getPerfil() {
+    public Perfil getPerfil() {
         return perfil;
     }
 
-    public void setPerfil(Integer perfil) {
+    public void setPerfil(Perfil perfil) {
         this.perfil = perfil;
     }
 }
