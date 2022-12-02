@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ControladorWeb {
     @Autowired
     private RepositorioUsuario repositorioUsuario;
+    @Autowired
+    private RepositorioArticulo repositorioArticulo;
     @GetMapping("/greeting")
     public String greeting
         (@RequestParam(name="name", required=false, defaultValue="World")
@@ -41,11 +43,10 @@ public class ControladorWeb {
         return repositorioUsuario.findAll();
     }
 
-    @Autowired
-    @Qualifier("repositorioarticulo")
-    private RepositorioArticulo repositorioArticulo;
 
-    public List<Articulo> consulta() {
+
+    @GetMapping(path="/allArticles")
+    public @ResponseBody Iterable<Articulo> consulta() {
         return repositorioArticulo.findAll();
     }
 
