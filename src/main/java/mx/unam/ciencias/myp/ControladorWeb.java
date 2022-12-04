@@ -1,12 +1,8 @@
 package mx.unam.ciencias.myp;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class ControladorWeb {
@@ -22,7 +18,17 @@ public class ControladorWeb {
         return "index";
     }
 
-    @PostMapping(path="/add")
+    @GetMapping("/addArticle")
+    public @ResponseBody String agregaNuevoArticulo(@RequestParam String nombre,
+                                                    @RequestParam String url ){
+        Articulo articulo= new Articulo();
+        articulo.setNombre(nombre);
+        articulo.setUrl(url);
+        repositorioArticulo.save(articulo);
+        return "Saved";
+    }
+
+    @GetMapping(path="/addUser")
     public @ResponseBody String agregaNuevoUsuario (@RequestParam String nombre,
                                                     @RequestParam String apellido,
                                                     @RequestParam String institucion,
@@ -52,5 +58,15 @@ public class ControladorWeb {
 
     public Articulo inserta(Articulo articulo) {
         return repositorioArticulo.save(articulo);
+    }
+
+    @RequestMapping(value = "/index.html", method = RequestMethod.GET)
+    public String indexView(){
+        return "index.html";
+    }
+
+    @RequestMapping(value = "/articles.html", method = RequestMethod.GET)
+    public String articlesView(){
+        return "articles.html";
     }
 }

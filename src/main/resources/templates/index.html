@@ -36,8 +36,8 @@
                 </a>
 
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="index.html" class="nav-link px-2 link-secondary">Página Principal</a></li>
-                    <li><a href="articles.html" class="nav-link px-2 link-dark">Artículos Destacados</a></li>
+                    <li><a th:href="@{index.html}" class="nav-link px-2 link-secondary">Página Principal</a></li>
+                    <li><a th:href="@{articles.html}" class="nav-link px-2 link-dark">Artículos Destacados</a></li>
                     <li><a href="#" class="nav-link px-2 link-dark">Investigadores</a></li>
                     <li><a href="#" class="nav-link px-2 link-dark">Estudiantes</a></li>
                 </ul>
@@ -66,7 +66,7 @@
             </div>
             <div class="overflow-hidden" style="max-height: 30vh;">
                 <div class="container px-5">
-                    <img src="./img/lab1.jpg" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
+                    <img th:src="@{img/lab1.jpg}" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
                 </div>
             </div>
         </div>
@@ -75,7 +75,7 @@
         <div class="container col-xxl-8 px-4 py-5">
             <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
                 <div class="col-10 col-sm-8 col-lg-6">
-                    <img src="./img/lab3.jpg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+                    <img th:src="@{img/lab3.jpg}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
                 </div>
                 <div class="col-lg-6">
                     <h1 class="display-5 fw-bold lh-1 mb-3">Investigaciones, artículos, revistas, proyectos.</h1>
@@ -100,7 +100,7 @@
                         </form>
                 </div>
                 <div class="col-10 col-sm-8 col-lg-6">
-                    <img src="./img/report1.jpg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+                    <img th:src="@{img/report1.jpg}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
                 </div>
             </div>
         </div>
