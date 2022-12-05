@@ -8,7 +8,7 @@
 
 </head>
 <body>
-    <script src="/static/js/articles.js" th:src="@{/js/articles.js}"></script>
+
     <!-- logo  -->
     <svg style="display: none;">
         <symbol id="logo" viewBox="60 10 600 100">
@@ -56,118 +56,9 @@
     <div class="container-lg" >
         <h3 >Articulos destacados.</h3>
         <hr>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col">
-                <div class="card border-dark mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Titulo articulo</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Autor </h6>
-                        <p class="card-text">Resumen/ Abstract articulo..</p>
-                        <a href="#" class="btn btn-dark">Ir al articulo</a>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">Fecha de publicacion: mes/año</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card border-dark mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Titulo articulo</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Autor </h6>
-                        <p class="card-text">Resumen/ Abstract articulo..</p>
-                        <a href="#" class="btn btn-dark">Ir al articulo</a>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">Fecha de publicacion: mes/año</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card border-dark mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Titulo articulo</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Autor </h6>
-                        <p class="card-text">Resumen/ Abstract articulo..</p>
-                        <a href="#" class="btn btn-dark">Ir al articulo</a>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">Fecha de publicacion: mes/año</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card border-dark mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Titulo articulo</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Autor </h6>
-                        <p class="card-text">Resumen/ Abstract articulo..</p>
-                        <a href="#" class="btn btn-dark">Ir al articulo</a>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">Fecha de publicacion: mes/año</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card border-dark mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Titulo articulo</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Autor </h6>
-                        <p class="card-text">Resumen/ Abstract articulo..</p>
-                        <a href="#" class="btn btn-dark">Ir al articulo</a>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">Fecha de publicacion: mes/año</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card border-dark mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Titulo articulo</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Autor </h6>
-                        <p class="card-text">Resumen/ Abstract articulo..</p>
-                        <a href="#" class="btn btn-dark">Ir al articulo</a>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">Fecha de publicacion: mes/año</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card border-dark mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Titulo articulo</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Autor </h6>
-                        <p class="card-text">Resumen/ Abstract articulo..</p>
-                        <a href="#" class="btn btn-dark">Ir al articulo</a>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">Fecha de publicacion: mes/año</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card border-dark mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Titulo articulo</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Autor </h6>
-                        <p class="card-text">Resumen/ Abstract articulo..</p>
-                        <a href="#" class="btn btn-dark">Ir al articulo</a>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">Fecha de publicacion: mes/año</small>
-                    </div>
-                </div>
-            </div>
-            
-
-
-
+        <div th:id="cartas">
         </div>
-
     </div>
-
+    <script src="/static/js/articles.js" th:src="@{/js/articles.js}"></script>
 </body>
 </html>

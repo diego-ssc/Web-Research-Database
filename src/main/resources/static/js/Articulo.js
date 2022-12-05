@@ -1,5 +1,5 @@
 class Articulo{
-    constructor(id, nombre, url, usuario, fecha) {
+    constructor(id, nombre, url, fecha) {
         this.id=id;
         this.nombre=nombre;
         this.usuario=usuario;

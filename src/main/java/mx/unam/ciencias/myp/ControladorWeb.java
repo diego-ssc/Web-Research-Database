@@ -69,4 +69,14 @@ public class ControladorWeb {
     public String articlesView(){
         return "articles.html";
     }
+
+    @RequestMapping(value = "/login.html", method = RequestMethod.GET)
+    public String loginView(){
+        return "login.html";
+    }
+
+    @RequestMapping(value = "/register.html", method = RequestMethod.GET)
+    public String registerView(){
+        return "register.html";
+    }
 }
