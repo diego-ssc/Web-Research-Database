@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Optional;
+
 @Controller
 public class ControladorWeb {
     @Autowired
@@ -65,9 +67,9 @@ public class ControladorWeb {
         return "index.html";
     }
 
-    @RequestMapping(value = "/articles.html", method = RequestMethod.GET)
+    @RequestMapping(value = "/featuredArticles.html", method = RequestMethod.GET)
     public String articlesView(){
-        return "articles.html";
+        return "featuredArticles.html";
     }
 
     @RequestMapping(value = "/login.html", method = RequestMethod.GET)
@@ -78,5 +80,10 @@ public class ControladorWeb {
     @RequestMapping(value = "/register.html", method = RequestMethod.GET)
     public String registerView(){
         return "register.html";
+    }
+
+    @GetMapping
+    public Optional<Articulo> getArticulo(@RequestParam int idArticulo){
+        return repositorioArticulo.findById(idArticulo);
     }
 }
