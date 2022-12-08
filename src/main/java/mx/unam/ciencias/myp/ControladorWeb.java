@@ -12,38 +12,35 @@ public class ControladorWeb {
     private RepositorioUsuario repositorioUsuario;
     @Autowired
     private RepositorioArticulo repositorioArticulo;
-    @GetMapping("/greeting")
-    public String greeting
-        (@RequestParam(name="name", required=false, defaultValue="World")
-         String name, Model model) {
-        model.addAttribute("name", name);
+    @GetMapping("")
+    public String index() {
         return "index";
     }
 
     @GetMapping("/addArticle")
     public @ResponseBody String agregaNuevoArticulo(@RequestParam String nombre,
-                                                    @RequestParam String url ){
+                                                    @RequestParam String url){
         Articulo articulo= new Articulo();
         articulo.setNombre(nombre);
         articulo.setUrl(url);
         repositorioArticulo.save(articulo);
-        return "Saved";
+        return "";
     }
 
-    @GetMapping(path="/addUser")
-    public @ResponseBody String agregaNuevoUsuario (@RequestParam String nombre,
-                                                    @RequestParam String apellido,
-                                                    @RequestParam String institucion,
-                                                    @RequestParam String email,
-                                                    @RequestParam String fechaNacimiento) {
-        Usuario usuario = new Usuario();
-        usuario.setNombre(nombre);
-        usuario.setApellido(apellido);
-        usuario.getInstitucion().setNombre(institucion); 
-        usuario.setEmail(email);
-        usuario.setFechaNacimiento(fechaNacimiento);
+    @GetMapping(path="/registrarse")
+    public String muestraFormularioRegistro(Model model) {
+        model.addAttribute("usuario", new Usuario());
+        return "register";
+    }
+
+    @GetMapping(path="/registered")
+    public String paginaPrincipalUsuario() {
+        return "registerSuccess";
+    }
+    
+    @PostMapping(path="/add_user")
+    public @ResponseBody void agregaNuevoUsuario (Usuario usuario) {
         repositorioUsuario.save(usuario);
-        return "Saved";
     }
 
     @GetMapping(path="/all")
@@ -51,10 +48,8 @@ public class ControladorWeb {
         return repositorioUsuario.findAll();
     }
 
-
-
     @GetMapping(path="/allArticles")
-    public @ResponseBody Iterable<Articulo> consulta() {
+    public @ResponseBody Iterable<Articulo> getArticulos() {
         return repositorioArticulo.findAll();
     }
 
@@ -82,8 +77,11 @@ public class ControladorWeb {
         return "register.html";
     }
 
-    @GetMapping
-    public Optional<Articulo> getArticulo(@RequestParam int idArticulo){
-        return repositorioArticulo.findById(idArticulo);
-    }
+    // @GetMapping
+    // public Optional<Articulo> getArticulo(@RequestParam int idArticulo){
+    //     // if (!repositorioArticulo.containsKey(idArticulo)) {
+    //     //     return ResponseEntity.badRequest().body("El artículo no existe.");
+    //     // }
+    //     return repositorioArticulo.findById(idArticulo);
+    // }
 }

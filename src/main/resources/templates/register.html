@@ -51,39 +51,48 @@
                 </div>
             </header>
         </div>
-
+        
         <!-- formulario -->
         <div class="container">
-            <h4>Registrate</h4>
-            <hr>
-            <form class="row g-3">
-                <div class="col-md-6">
-                    <label for="entradaNombre" class="form-label">Nombre(s)</label>
-                    <input type="text" class="form-control" id="entradaNombre">
-                </div>
-                <div class="col-md-6">
-                    <label for="entradaApellido" class="form-label">Apellido</label>
-                    <input type="text" class="form-control" id="entradaApellido">
-                </div>
-                <div class="col-md-6">
-                    <label for="entradaEmail" class="form-label">Correo Electronico</label>
-                    <input type="email" class="form-control" id="entradaEmail">
-                </div>
-                <div class="col-md-6">
-                    <label for="entradaPassword" class="form-label">Constraseña</label>
-                    <input type="password" class="form-control" id="entradaPassword">
-                </div>
-                <div class="row">
-                    <label class="form-label">Fecha de nacimiento</label>
-                    <div class="col">
-                        <input type="text" class="form-control" placeholder="Dia" aria-label="dia">
-                    </div>
-                    <div class="col">
-                        <input type="text" class="form-control" placeholder="Mes" aria-label="mes">
-                    </div>
-                    <div class="col">
-                        <input type="text" class="form-control" placeholder="Año" aria-label="año">
-                    </div>
+          <h4>Registrate</h4>
+          <hr>
+          <form class="row g-3" target="_blank" th:action="@{/add_user}" th:object="${usuario}" method="post">
+            <div class="col-md-6">
+              <label for="entradaNombre" class="form-label">Nombre(s)</label>
+              <input type="text" class="form-control" id="entradaNombre" th:field="*{nombre}" required />
+            </div>
+            <div class="col-md-6">
+              <label for="entradaApellido" class="form-label">Apellido</label>
+              <input type="text" class="form-control" id="entradaApellido" th:field="*{apellido}" required />
+            </div>
+            <div class="col-md-6">
+              <label for="entradaEmail" class="form-label">Correo Electrónico</label>
+              <input type="email" class="form-control" id="entradaEmail" th:field="*{email}" required />
+            </div>
+            <div class="col-md-6">
+              <label for="entradaPassword" class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="entradaPassword" th:field="*{contrasena}" required />
+            </div>
+            <div class="row">
+              <label class="form-label">Fecha de nacimiento</label>
+              <!-- <script> -->
+              <!--   function concatenate() { -->
+              <!--       var a = document.getElementById(“dia”).value; -->
+              <!--       var b = document.getElementById(“mes”).value; -->
+              <!--       var c = document.getElementById(“ano”).value; -->
+              <!--       document.getElementById("fecha_nacimiento") = a + "/" + b + "/" + c; -->
+              <!--   } -->
+              <!-- </script> -->
+              <div class="col">
+                <input type="text" class="form-control" placeholder="Dia" aria-label="dia" id="dia" required />
+              </div>
+              <div class="col">
+                <input type="text" class="form-control" placeholder="Mes" aria-label="mes" id="mes" required/>
+              </div>
+              <div class="col">
+                <input type="text" class="form-control" placeholder="Año" aria-label="año" id="ano" required/>
+              </div>
+              <!-- <span id="fecha_nacimiento" th:field="*{fechaNacimiento}"/ -->>
                 </div>
                 <select class="form-select" aria-label="select Perfil">
                     <option selected>Perfil</option>
@@ -98,7 +107,10 @@
                     <option value="3">Instituto de Matematicas</option>
                 </select>
                 <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Registrarse</button>
+                  <div id="liveAlertPlaceholder"></div>
+                  <!-- <a href="/registered"> -->
+                    <button onclick="window.location.href = '/registered';" type="submit" id="register_success" class="btn btn-primary">Registrarse</button>
+                  <!-- </a> -->
                 </div>
             </form>
         </div>
@@ -121,5 +133,6 @@
                 </ul>
             </footer>
         </div>
+        <script src="/js/registerAlert.js" th:src="@{/js/registerAlert.js}"></script>
     </body>
 </html>

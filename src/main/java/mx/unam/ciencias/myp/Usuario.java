@@ -26,6 +26,8 @@ public class Usuario {
     private Institucion institucion;
 
     private String email;
+
+    private String contrasena;
     
     @Column(name = "fecha_nacimiento")
     private String fechaNacimiento;
@@ -72,6 +74,14 @@ public class Usuario {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
     public String getFechaNacimiento() {
