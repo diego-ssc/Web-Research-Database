@@ -12,8 +12,7 @@ import javax.persistence.*;
 public class DescripcionArticulo {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "id_descripcion",
-            columnDefinition = "integer default 1")
+    @Column(name = "id_descripcion")
     private Integer id;
 
     private String descripcion;

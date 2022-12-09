@@ -13,8 +13,7 @@ import java.io.Serializable;
 public class Institucion implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "id_institucion",
-            columnDefinition = "integer default 1")
+    @Column(name = "id_institucion")
     private Integer id;
 
     private String nombre;

@@ -12,8 +12,7 @@ import javax.persistence.*;
 public class Usuario {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "id_usuario",
-            columnDefinition = "integer default 1")
+    @Column(name = "id_usuario")
 
     private Integer id;
 
