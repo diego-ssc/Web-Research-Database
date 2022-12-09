@@ -19,7 +19,7 @@ public class ControladorWeb {
     }
 
     @GetMapping("/addArticle")
-    public @ResponseBody String agregaNuevoArticulo(@RequestParam String nombre,
+    public String agregaNuevoArticulo(@RequestParam String nombre,
                                                     @RequestParam String url){
         Articulo articulo= new Articulo();
         articulo.setNombre(nombre);
@@ -40,13 +40,13 @@ public class ControladorWeb {
     }
     
     @PostMapping(path="/add_user")
-    public @ResponseBody String agregaNuevoUsuario (Usuario usuario) {
+    public String agregaNuevoUsuario (Usuario usuario) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(usuario.getContrasena());
         usuario.setContrasena(encodedPassword);
         
         repositorioUsuario.save(usuario);
-        return "/registered";
+        return "registerSuccess";
     }
 
     @GetMapping(path="/all")

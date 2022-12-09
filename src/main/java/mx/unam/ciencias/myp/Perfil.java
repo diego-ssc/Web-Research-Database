@@ -17,11 +17,11 @@ public class Perfil {
 
     private String descripcion;
 
-    public Integer getIdPerfil() {
+    public Integer getId() {
         return id;
     }
 
-    public void setIdPerfil(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
