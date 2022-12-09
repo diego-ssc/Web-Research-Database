@@ -38,6 +38,16 @@ public class ControladorWeb {
     public String paginaPrincipalUsuario() {
         return "registerSuccess";
     }
+
+    @GetMapping(path="/registered/profile")
+    public String perfilUsuario() {
+        return "perfil";
+    }
+
+    @GetMapping(path="/registered/f_Articles")
+    public String articulosDestacados() {
+        return "featuredArticles";
+    }
     
     @PostMapping(path="/add_user")
     public String agregaNuevoUsuario (Usuario usuario) {
