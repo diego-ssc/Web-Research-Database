@@ -20,7 +20,7 @@ public class ControladorWeb {
 
     @GetMapping("/addArticle")
     public String agregaNuevoArticulo(@RequestParam String nombre,
-                                      @RequestParam String url){
+                                      @RequestParam String url) {
         Articulo articulo= new Articulo();
         articulo.setNombre(nombre);
         articulo.setUrl(url);
@@ -48,6 +48,12 @@ public class ControladorWeb {
         String m = usuario.getMes();
         String a = usuario.getAno();
         usuario.setFechaNacimiento(d + "/" + m + "/" + a);
+        Perfil perfil = new Perfil();
+        Institucion institucion = new Institucion();
+        perfil.setId(Integer.parseInt(usuario.getPerfilString()));
+        institucion.setId(Integer.parseInt(usuario.getInstitucionString()));
+        usuario.setPerfil(perfil);
+        usuario.setInstitucion(institucion);
         repositorioUsuario.save(usuario);
         return "registerSuccess";
     }
