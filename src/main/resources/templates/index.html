@@ -47,7 +47,7 @@
                 </form>
 
                 <div class="text-end">
-                    <button onclick="location.href='login.html'" type="button" class="btn btn-outline-primary me-2">Acceder</button>
+                    <button onclick="location.href='/login'" th:href="@{/login}" type="button" class="btn btn-outline-primary me-2">Acceder</button> <!-- onclick="location.href='login.html'" -->
                     <button onclick="location.href='/registrarse'" type="button" class="btn btn-primary">Registrarse</button>
                 </div>
             </header>
@@ -61,7 +61,7 @@
                 <p class="lead mb-4">Encuentra artículos y perfiles de investigadores y estudiantes.</p>
                 <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
                     <button onclick="location.href='/registrarse'" type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Registrarse</button>
-                    <button type="button" class="btn btn-outline-secondary btn-lg px-4">Acceder</button>
+                    <button type="button" onclick="location.href='/login'" th:href="@{/login}" class="btn btn-outline-secondary btn-lg px-4">Acceder</button>
                 </div>
             </div>
             <div class="overflow-hidden" style="max-height: 30vh;">
@@ -82,7 +82,7 @@
                     <p class="lead">Encuentra todo con una búsqueda, puedes conocer también el rol de los autores y generar un reporte de perfiles.</p>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-start">
                         <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Registrarse</button>
-                        <button type="button" class="btn btn-outline-secondary btn-lg px-4">Acceder</button>
+                        <button type="button" th:href="@{/login}" class="btn btn-outline-secondary btn-lg px-4">Acceder</button>
                     </div>
                 </div>
             </div>
