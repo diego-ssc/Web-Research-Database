@@ -51,54 +51,55 @@
                 </div>
             </header>
         </div>
-
+        
         <!-- formulario -->
         <div class="container">
-            <h4>Registrate</h4>
-            <hr>
-            <form class="row g-3">
-                <div class="col-md-6">
-                    <label for="entradaNombre" class="form-label">Nombre(s)</label>
-                    <input type="text" class="form-control" id="entradaNombre">
+          <h4>Registrate</h4>
+          <hr>
+          <form class="row g-3" th:action="@{/add_user}" th:object="${usuario}" method="post">
+            <div class="col-md-6">
+              <label for="entradaNombre" class="form-label">Nombre(s)</label>
+              <input type="text" class="form-control" id="entradaNombre" th:field="*{nombre}" required />
+            </div>
+            <div class="col-md-6">
+              <label for="entradaApellido" class="form-label">Apellido</label>
+              <input type="text" class="form-control" id="entradaApellido" th:field="*{apellido}" required />
+            </div>
+            <div class="col-md-6">
+              <label for="entradaEmail" class="form-label">Correo Electrónico</label>
+              <input type="email" class="form-control" id="entradaEmail" th:field="*{email}" required />
+            </div>
+            <div class="col-md-6">
+              <label for="entradaPassword" class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="entradaPassword" th:field="*{contrasena}" required />
+            </div>
+            <div class="row">
+              <label class="form-label">Fecha de nacimiento</label>
+              <div class="col">
+                <input type="text" class="form-control" placeholder="Día" aria-label="dia" th:field="*{dia}" id="dia" required />
+              </div>                                                                           
+              <div class="col">
+                <input type="text" class="form-control" placeholder="Mes" aria-label="mes" th:field="*{mes}" id="mes" required />
+              </div>
+              <div class="col">
+                <input type="text" class="form-control" placeholder="Año" aria-label="año" th:field="*{ano}" id="ano" required />
+              </div>
                 </div>
-                <div class="col-md-6">
-                    <label for="entradaApellido" class="form-label">Apellido</label>
-                    <input type="text" class="form-control" id="entradaApellido">
-                </div>
-                <div class="col-md-6">
-                    <label for="entradaEmail" class="form-label">Correo Electronico</label>
-                    <input type="email" class="form-control" id="entradaEmail">
-                </div>
-                <div class="col-md-6">
-                    <label for="entradaPassword" class="form-label">Constraseña</label>
-                    <input type="password" class="form-control" id="entradaPassword">
-                </div>
-                <div class="row">
-                    <label class="form-label">Fecha de nacimiento</label>
-                    <div class="col">
-                        <input type="text" class="form-control" placeholder="Dia" aria-label="dia">
-                    </div>
-                    <div class="col">
-                        <input type="text" class="form-control" placeholder="Mes" aria-label="mes">
-                    </div>
-                    <div class="col">
-                        <input type="text" class="form-control" placeholder="Año" aria-label="año">
-                    </div>
-                </div>
-                <select class="form-select" aria-label="select Perfil">
-                    <option selected>Perfil</option>
-                    <option value="1">Estudiante</option>
-                    <option value="2">Profesor</option>
-                    <option value="3">Investigador</option>
+                <select th:field="*{perfil}" class="form-select" aria-label="select Perfil">
+                  <option type="number" th:value='0' selected>Perfil</option>
+                  <option type="number" th:value='1' value="1">Investigador</option>
+                  <option type="number" th:value='2' value="2">Estudiante</option>
+                  <option type="number" th:value='3' value="3">General</option>
                 </select>
                 <select class="form-select" aria-label="select instituciones">
-                    <option selected>Institucion</option>
-                    <option value="1">Fac de Ciencias</option>
-                    <option value="2">Fac de Derecho</option>
-                    <option value="3">Instituto de Matematicas</option>
+                    <option selected>Institución</option>
+                    <option value="1">Facultad de Ciencias</option>
+                    <option value="2">Facultad de Derecho</option>
+                    <option value="3">Instituto de Matemáticas</option>
                 </select>
                 <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Registrarse</button>
+                  <div id="liveAlertPlaceholder"></div>
+                    <button onclick="window.location.href = '/registered';" type="submit" id="register_success" class="btn btn-primary">Registrarse</button>
                 </div>
             </form>
         </div>
@@ -121,5 +122,6 @@
                 </ul>
             </footer>
         </div>
+        <script src="/js/registerAlert.js" th:src="@{/js/registerAlert.js}"></script>
     </body>
 </html>

@@ -12,8 +12,7 @@ import javax.persistence.*;
 public class Usuario {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "id_usuario",
-            columnDefinition = "integer default 1")
+    @Column(name = "id_usuario")
 
     private Integer id;
 
@@ -22,10 +21,18 @@ public class Usuario {
     private String apellido;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "institucion", referencedColumnName = "nombre")
+    @JoinColumn(name = "institucion", referencedColumnName = "id_institucion")
     private Institucion institucion;
 
     private String email;
+
+    private String contrasena;
+
+    private String dia;
+    
+    private String mes;
+
+    private String ano;
     
     @Column(name = "fecha_nacimiento")
     private String fechaNacimiento;
@@ -33,7 +40,7 @@ public class Usuario {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "perfil", referencedColumnName = "id_perfil")
     private Perfil perfil;
-
+    
     public Integer getId() {
         return id;
     }
@@ -73,6 +80,14 @@ public class Usuario {
     public void setEmail(String email) {
         this.email = email;
     }
+    
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
 
     public String getFechaNacimiento() {
         return fechaNacimiento;
@@ -82,7 +97,29 @@ public class Usuario {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public String getDia() {
+        return dia;
+    }
 
+    public void setDia(String dia) {
+        this.dia = dia;
+    }
+
+    public String getMes() {
+        return mes;
+    }
+
+    public void setMes(String mes) {
+        this.mes = mes;
+    }
+
+    public String getAno() {
+        return ano;
+    }
+
+    public void setAno(String ano) {
+        this.ano = ano;
+    }
 
     public Perfil getPerfil() {
         return perfil;

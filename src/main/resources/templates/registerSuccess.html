@@ -14,42 +14,37 @@
             <symbol id="logo" viewBox="60 10 600 100">
                 <title>Logo</title>
                 <g>
-                    <line x1="360" y1="40" x2="200" y2="120" stroke="black" stroke-width="3" />
-                    <line x1="360" y1="40" x2="520" y2="120" stroke="black" stroke-width="3" />
-                    <circle cx=" 360" cy="40" r="20" stroke-width="3" stroke="black" fill="black"/>
-                    <circle cx=" 200" cy="120" r="20" stroke-width="3" stroke="black" fill="black"/>
-                    <line x1="520" y1="120" x2="440" y2="200" stroke="black" stroke-width="3" />
-                    <line x1="520" y1="120" x2="600" y2="200" stroke="black" stroke-width="3" />
-                    <circle cx=" 520" cy="120" r="20" stroke-width="3" stroke="black" fill="black"/>
-                    <circle cx=" 440" cy="200" r="20" stroke-width="3" stroke="black" fill="black"/>
-                    <circle cx=" 600" cy="200" r="20" stroke-width="3" stroke="black" fill="black"/>
+                  <line x1="360" y1="40" x2="200" y2="120" stroke="black" stroke-width="3" />
+                  <line x1="360" y1="40" x2="520" y2="120" stroke="black" stroke-width="3" />
+                  <circle cx=" 360" cy="40" r="20" stroke-width="3" stroke="black" fill="black"/>
+                  <circle cx=" 200" cy="120" r="20" stroke-width="3" stroke="black" fill="black"/>
+                  <line x1="520" y1="120" x2="440" y2="200" stroke="black" stroke-width="3" />
+                  <line x1="520" y1="120" x2="600" y2="200" stroke="black" stroke-width="3" />
+                  <circle cx=" 520" cy="120" r="20" stroke-width="3" stroke="black" fill="black"/>
+                  <circle cx=" 440" cy="200" r="20" stroke-width="3" stroke="black" fill="black"/>
+                  <circle cx=" 600" cy="200" r="20" stroke-width="3" stroke="black" fill="black"/>
                 </g>
             </symbol>
         </svg>
-
+        
         <!-- navbar -->
         <div class="container-fluid gx-5" >
             <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-                <a href="./index.html" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+                <a href="./registerSuccess.html" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
                     <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#logo"/></svg>
                     <span class="fs-4">Red de Investigadores</span>
                 </a>
-
+                
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a th:href="@{index.html}" class="nav-link px-2 link-secondary">Página Principal</a></li>
+                    <li><a th:href="@{registerSuccess.html}" class="nav-link px-2 link-secondary">Página Principal</a></li>
                     <li><a th:href="@{featuredArticles.html}" class="nav-link px-2 link-dark">Artículos Destacados</a></li>
                     <li><a href="#" class="nav-link px-2 link-dark">Investigadores</a></li>
                     <li><a href="#" class="nav-link px-2 link-dark">Estudiantes</a></li>
                 </ul>
 
-                <form action="busqueda.html" method="get" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                    <input type="search" name="q" class="form-control " placeholder="Buscar..." aria-label="Search">
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                    <input type="search" class="form-control " placeholder="Buscar..." aria-label="Search">
                 </form>
-
-                <div class="text-end">
-                    <button onclick="location.href='login.html'" type="button" class="btn btn-outline-primary me-2">Acceder</button>
-                    <button onclick="location.href='/registrarse'" type="button" class="btn btn-primary">Registrarse</button>
-                </div>
             </header>
         </div>
 
@@ -59,14 +54,10 @@
             <h1 class="display-4 fw-bold">Una red de investigadores</h1>
             <div class="col-lg-6 mx-auto">
                 <p class="lead mb-4">Encuentra artículos y perfiles de investigadores y estudiantes.</p>
-                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
-                    <button onclick="location.href='/registrarse'" type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Registrarse</button>
-                    <button type="button" class="btn btn-outline-secondary btn-lg px-4">Acceder</button>
-                </div>
             </div>
             <div class="overflow-hidden" style="max-height: 30vh;">
                 <div class="container px-5">
-                    <img src="../static/img/lab1.jpg" th:src="@{img/lab1.jpg}" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
+                    <img th:src="@{img/lab1.jpg}" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
                 </div>
             </div>
         </div>
@@ -75,15 +66,11 @@
         <div class="container col-xxl-8 px-4 py-5">
             <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
                 <div class="col-10 col-sm-8 col-lg-6">
-                    <img src="../static/img/lab3.jpg" th:src="@{img/lab3.jpg}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+                    <img th:src="@{img/lab3.jpg}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
                 </div>
                 <div class="col-lg-6">
                     <h1 class="display-5 fw-bold lh-1 mb-3">Investigaciones, artículos, revistas, proyectos.</h1>
                     <p class="lead">Encuentra todo con una búsqueda, puedes conocer también el rol de los autores y generar un reporte de perfiles.</p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Registrarse</button>
-                        <button type="button" class="btn btn-outline-secondary btn-lg px-4">Acceder</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -100,7 +87,7 @@
                         </form>
                 </div>
                 <div class="col-10 col-sm-8 col-lg-6">
-                    <img src="../static/img/report1.jpg" h:src="@{img/report1.jpg}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+                    <img th:src="@{img/report1.jpg}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
                 </div>
             </div>
         </div>
@@ -145,67 +132,7 @@
                 </div>
             </div>
         </div>
-
-        <!-- heroe 4 -->
-        <div class="container col-xl-10 col-xxl-8 px-4 py-5">
-            <div class="row align-items-center g-lg-5 py-5">
-                <div class="col-lg-7 text-center text-lg-start">
-                    <h1 class="display-4 fw-bold lh-1 mb-3">¡Registrate!</h1>
-                    <p class="col-lg-10 fs-4">Únete a la comunidad de investigadores y estudiantes.</p>
-                </div>
-                <div class="col-md-10 mx-auto col-lg-5">
-                    <!-- form -->
-                    <div class="form">
-                        <form class="row g-3">
-                            <div class="col-md-6">
-                                <label for="entradaNombre" class="form-label">Nombre(s)</label>
-                                <input type="text" class="form-control" id="entradaNombre">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="entradaApellido" class="form-label">Apellido</label>
-                                <input type="text" class="form-control" id="entradaApellido">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="entradaEmail" class="form-label">Correo Electronico</label>
-                                <input type="email" class="form-control" id="entradaEmail">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="entradaPassword" class="form-label">Constraseña</label>
-                                <input type="password" class="form-control" id="entradaPassword">
-                            </div>
-                            <div class="row">
-                                <label class="form-label">Fecha de nacimiento</label>
-                                <div class="col">
-                                    <input type="text" class="form-control" placeholder="Dia" aria-label="dia">
-                                </div>
-                                <div class="col">
-                                    <input type="text" class="form-control" placeholder="Mes" aria-label="mes">
-                                </div>
-                                <div class="col">
-                                    <input type="text" class="form-control" placeholder="Año" aria-label="año">
-                                </div>
-                            </div>
-                            <select class="form-select" aria-label="select Perfil">
-                                <option selected>Perfil</option>
-                                <option value="1">Estudiante</option>
-                                <option value="2">Profesor</option>
-                                <option value="3">Investigador</option>
-                            </select>
-                            <select class="form-select" aria-label="select instituciones">
-                                <option selected>Institucion</option>
-                                <option value="1">Fac de Ciencias</option>
-                                <option value="2">Fac de Derecho</option>
-                                <option value="3">Instituto de Matematicas</option>
-                            </select>
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-primary">Sign up</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        
         <!-- footer -->
         <div class="container">
             <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
@@ -217,8 +144,6 @@
 
                 <ul class="nav col-md-4 justify-content-end">
                     <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Página principal</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Acceder</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Registrarse</a></li>
                     <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
                     <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Sobre nosotros</a></li>
                 </ul>

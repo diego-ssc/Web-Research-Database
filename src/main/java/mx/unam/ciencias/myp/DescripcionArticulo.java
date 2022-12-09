@@ -3,16 +3,16 @@ package mx.unam.ciencias.myp;
 import javax.persistence.*;
 
 /**
- * Clase que representa la tabla de perfiles
- * en la base de datos.
+ * Clase que representa la tabla de descripciones
+ * de artículos en la base de datos.
  *
  */
 @Entity
-@Table(name = "perfiles")
-public class Perfil {
+@Table(name = "descripcion_articulos")
+public class DescripcionArticulo {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name = "id_perfil")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "id_descripcion")
     private Integer id;
 
     private String descripcion;
