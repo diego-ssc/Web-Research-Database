@@ -13,6 +13,9 @@ public class ControladorWeb {
     private RepositorioUsuario repositorioUsuario;
     @Autowired
     private RepositorioArticulo repositorioArticulo;
+
+    @Autowired
+    private RepositorioEnArticulo repositorioEnArticulo;
     @GetMapping("")
     public String index() {
         return "index";
@@ -52,7 +55,7 @@ public class ControladorWeb {
         return "registerSuccess";
     }
 
-    @GetMapping(path="/all")
+    @GetMapping(path="/allUsers")
     public @ResponseBody Iterable<Usuario> getUsuarios() {
         return repositorioUsuario.findAll();
     }
@@ -60,6 +63,11 @@ public class ControladorWeb {
     @GetMapping(path="/allArticles")
     public @ResponseBody Iterable<Articulo> getArticulos() {
         return repositorioArticulo.findAll();
+    }
+
+    @GetMapping(path="/autores_articulos")
+    public @ResponseBody Iterable<EnArticulo> getAutoresArticulo(@RequestParam String idArticulo){
+        return repositorioEnArticulo.findAll();
     }
 
     public Articulo inserta(Articulo articulo) {
@@ -84,6 +92,16 @@ public class ControladorWeb {
     @RequestMapping(value = "/register.html", method = RequestMethod.GET)
     public String registerView(){
         return "register.html";
+    }
+
+    @RequestMapping(value = "/investigadores", method = RequestMethod.GET)
+    public String researchersView(){
+        return "researchers.html";
+    }
+
+    @RequestMapping(value = "/estudiantes", method = RequestMethod.GET)
+    public String studentsView(){
+        return "students.html";
     }
 
     // @GetMapping
