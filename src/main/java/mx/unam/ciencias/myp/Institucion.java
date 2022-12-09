@@ -2,6 +2,7 @@ package mx.unam.ciencias.myp;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Clase que representa la tabla de instituciones
@@ -20,6 +21,10 @@ public class Institucion implements Serializable {
 
     private String locacion;
 
+    @OneToMany(targetEntity=Usuario.class)
+    private List<Usuario> usuarios;
+    
+    
     public Integer getId() {
         return id;
     }
@@ -42,5 +47,13 @@ public class Institucion implements Serializable {
 
     public void setLocacion(String locacion) {
         this.locacion = locacion;
+    }
+
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
     }
 }

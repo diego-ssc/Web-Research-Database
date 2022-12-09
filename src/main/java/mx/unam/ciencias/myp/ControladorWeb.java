@@ -6,21 +6,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Optional;
+import java.util.List;
 
 @Controller
 public class ControladorWeb {
     @Autowired
     private RepositorioUsuario repositorioUsuario;
-    
+
     @Autowired
     private RepositorioArticulo repositorioArticulo;
-    
+
     @Autowired
     private RepositorioPerfil repositorioPerfil;
-    
+
     @Autowired
     private RepositorioInstitucion repositorioInstitucion;
-    
+
     @Autowired
     private RepositorioEnArticulo repositorioEnArticulo;
 
@@ -59,9 +60,9 @@ public class ControladorWeb {
     public String articulosDestacados() {
         return "featuredArticlesRegistered";
     }
-    
+
     @PostMapping(path="/add_user")
-    public String agregaNuevoUsuario (Usuario usuario) {
+    public String agregaNuevoUsuario(Usuario usuario) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(usuario.getContrasena());
         usuario.setContrasena(encodedPassword);
@@ -75,6 +76,8 @@ public class ControladorWeb {
         institucion.setId(Integer.parseInt(usuario.getInstitucionString()));
         usuario.setPerfil(perfil);
         usuario.setInstitucion(institucion);
+        List<Usuario> lista = institucion.getUsuarios();
+        lista.add(usuario);
         repositorioUsuario.save(usuario);
         return "registerSuccess";
     }
@@ -87,6 +90,12 @@ public class ControladorWeb {
     @GetMapping(path="/allArticles")
     public @ResponseBody Iterable<Articulo> getArticulos() {
         return repositorioArticulo.findAll();
+    }
+
+    @GetMapping(path="/registered/institucion")
+    public @ResponseBody Iterable<Usuario> getArticulos(@RequestParam String nombre) {
+        Institucion institucion = repositorioInstitucion.buscarPorNombre(nombre);
+        return institucion.getUsuarios();
     }
 
     @GetMapping(path="/autores_articulos")
@@ -127,7 +136,7 @@ public class ControladorWeb {
     public String studentsView(){
         return "students.html";
     }
-    
+
     public Optional<Articulo> getArticulo(@RequestParam int idArticulo){
         return repositorioArticulo.findById(idArticulo);
     }
