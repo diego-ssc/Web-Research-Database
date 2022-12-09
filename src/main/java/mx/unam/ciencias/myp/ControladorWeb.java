@@ -11,11 +11,19 @@ import java.util.Optional;
 public class ControladorWeb {
     @Autowired
     private RepositorioUsuario repositorioUsuario;
+    
     @Autowired
     private RepositorioArticulo repositorioArticulo;
-
+    
+    @Autowired
+    private RepositorioPerfil repositorioPerfil;
+    
+    @Autowired
+    private RepositorioInstitucion repositorioInstitucion;
+    
     @Autowired
     private RepositorioEnArticulo repositorioEnArticulo;
+
     @GetMapping("")
     public String index() {
         return "index";
@@ -49,7 +57,7 @@ public class ControladorWeb {
 
     @GetMapping(path="/registered/f_Articles")
     public String articulosDestacados() {
-        return "featuredArticles";
+        return "featuredArticlesRegistered";
     }
     
     @PostMapping(path="/add_user")
@@ -119,12 +127,18 @@ public class ControladorWeb {
     public String studentsView(){
         return "students.html";
     }
+    
+    public Optional<Articulo> getArticulo(@RequestParam int idArticulo){
+        return repositorioArticulo.findById(idArticulo);
+    }
 
-    // @GetMapping
-    // public Optional<Articulo> getArticulo(@RequestParam int idArticulo){
-    //     // if (!repositorioArticulo.containsKey(idArticulo)) {
-    //     //     return ResponseEntity.badRequest().body("El artículo no existe.");
-    //     // }
-    //     return repositorioArticulo.findById(idArticulo);
-    // }
+    public Optional<Perfil> getPerfil(@PathVariable Integer id){
+        System.out.println(repositorioPerfil);
+        return repositorioPerfil.findById(id);
+    }
+
+    public Optional<Institucion> getInstitucion(Integer id){
+        System.out.println(repositorioInstitucion);
+        return repositorioInstitucion.findById(id);
+    }
 }

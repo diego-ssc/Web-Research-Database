@@ -38,14 +38,18 @@
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                     <li><a th:href="@{/registered}" class="nav-link px-2 link-secondary">Página Principal</a></li>
                     <li><a th:href="@{/registered/f_Articles}" class="nav-link px-2 link-dark">Artículos Destacados</a></li>
-                    <li><a href="#" class="nav-link px-2 link-dark">Investigadores</a></li>
-                    <li><a href="#" class="nav-link px-2 link-dark">Estudiantes</a></li>
+                    <li><a href="@{investigadores}" class="nav-link px-2 link-dark">Investigadores</a></li>
+                    <li><a href="@{estudiantes}" class="nav-link px-2 link-dark">Estudiantes</a></li>
                     <li><a th:href="@{/registered/profile}" class="nav-link px-2 link-dark">Perfil</a></li>
                 </ul>
-
+                
                 <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                    <input type="search" class="form-control " placeholder="Buscar..." aria-label="Search">
+                  <input type="search" class="form-control " placeholder="Buscar..." aria-label="Search">
                 </form>
+
+                <div class="text-end">
+                  <button onclick="location.href='/logout'" type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Salir</button>
+                </div>
             </header>
         </div>
 
