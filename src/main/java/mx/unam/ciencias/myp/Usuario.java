@@ -21,7 +21,7 @@ public class Usuario {
     private String apellido;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "institucion", referencedColumnName = "nombre")
+    @JoinColumn(name = "institucion", referencedColumnName = "id_institucion")
     private Institucion institucion;
 
     private String email;
@@ -40,7 +40,7 @@ public class Usuario {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "perfil", referencedColumnName = "id_perfil")
     private Perfil perfil;
-
+    
     public Integer getId() {
         return id;
     }
