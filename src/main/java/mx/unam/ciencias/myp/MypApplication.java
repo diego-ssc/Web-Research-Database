@@ -17,6 +17,10 @@ public class MypApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        Perfil indefinido = new Perfil();
+        indefinido.setId(0);
+        indefinido.setDescripcion("indefinido");
+        
         Perfil investigador = new Perfil();
         investigador.setId(1);
         investigador.setDescripcion("investigador");
@@ -33,6 +37,7 @@ public class MypApplication implements CommandLineRunner {
         administrador.setId(4);
         administrador.setDescripcion("administrador");
 
+        repositorioPerfil.save(indefinido);
         repositorioPerfil.save(investigador);
         repositorioPerfil.save(estudiante);
         repositorioPerfil.save(general);

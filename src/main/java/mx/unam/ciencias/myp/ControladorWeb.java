@@ -20,7 +20,7 @@ public class ControladorWeb {
 
     @GetMapping("/addArticle")
     public String agregaNuevoArticulo(@RequestParam String nombre,
-                                                    @RequestParam String url){
+                                      @RequestParam String url){
         Articulo articulo= new Articulo();
         articulo.setNombre(nombre);
         articulo.setUrl(url);
@@ -44,7 +44,10 @@ public class ControladorWeb {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(usuario.getContrasena());
         usuario.setContrasena(encodedPassword);
-        
+        String d = usuario.getDia();
+        String m = usuario.getMes();
+        String a = usuario.getAno();
+        usuario.setFechaNacimiento(d + "/" + m + "/" + a);
         repositorioUsuario.save(usuario);
         return "registerSuccess";
     }
