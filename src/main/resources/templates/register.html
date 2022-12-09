@@ -85,17 +85,34 @@
                 <input type="text" class="form-control" placeholder="Año" aria-label="año" th:field="*{ano}" id="ano" required />
               </div>
                 </div>
-                <select th:field="*{perfil}" class="form-select" aria-label="select Perfil">
-                  <option type="number" th:value='0' selected>Perfil</option>
-                  <option type="number" th:value='1' value="1">Investigador</option>
-                  <option type="number" th:value='2' value="2">Estudiante</option>
-                  <option type="number" th:value='3' value="3">General</option>
+                <select th:field="*{perfilString}" class="form-select" aria-label="select Perfil">
+                  <option th:value="${1}" selected>Perfil</option>
+                  <option th:value="${2}" value="1">Investigador</option>
+                  <option th:value="${3}" value="2">Estudiante</option>
+                  <option th:value="${4}" value="3">General</option>
                 </select>
-                <select class="form-select" aria-label="select instituciones">
-                    <option selected>Institución</option>
-                    <option value="1">Facultad de Ciencias</option>
-                    <option value="2">Facultad de Derecho</option>
-                    <option value="3">Instituto de Matemáticas</option>
+                <select th:field="*{InstitucionString}" class="form-select" aria-label="select instituciones">
+                    <option th:value="${1}" selected>Institución</option>
+                    <option th:value="${2}">Facultad de Arquitectura</option>
+                    <option th:value="${3}">Facultad de Artes y Diseño</option>
+                    <option th:value="${4}">Facultad de Ciencias</option>
+                    <option th:value="${5}">Facultad de Ciencias Políticas y Sociales</option>
+                    <option th:value="${6}">Facultad de Contaduría y Administración</option>
+                    <option th:value="${7}">Facultad de Derecho</option>
+                    <option th:value="${8}">Facultad de Economía</option>
+                    <option th:value="${9}">Facultad de Estudios Superiores (FES) Acatlán</option>
+                    <option th:value="${10}">Facultad de Estudios Superiores (FES) Aragón</option>
+                    <option th:value="${11}">Facultad de Estudios Superiores (FES) Cuautitlán</option>
+                    <option th:value="${12}">Facultad de Estudios Superiores (FES) Iztacala</option>
+                    <option th:value="${13}">Facultad de Estudios Superiores (FES) Zaragoza</option>
+                    <option th:value="${14}">Facultad de Filosofía y Letras</option>
+                    <option th:value="${15}">Facultad de Ingeniería</option>
+                    <option th:value="${16}">Facultad de Medicina</option>
+                    <option th:value="${17}">Facultad de Medicina Veterinaria y Zootecnia</option>
+                    <option th:value="${18}">Facultad de Música</option>
+                    <option th:value="${19}">Facultad de Odontología</option>
+                    <option th:value="${20}">Facultad de Psicología</option>
+                    <option th:value="${21}">Facultad de Química</option>
                 </select>
                 <div class="col-12">
                   <div id="liveAlertPlaceholder"></div>

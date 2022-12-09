@@ -20,7 +20,7 @@ public class Usuario {
 
     private String apellido;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "institucion", referencedColumnName = "id_institucion")
     private Institucion institucion;
 
@@ -29,18 +29,22 @@ public class Usuario {
     private String contrasena;
 
     private String dia;
-    
+
     private String mes;
 
     private String ano;
-    
+
+    private String perfilString;
+
+    private String institucionString;
+
     @Column(name = "fecha_nacimiento")
     private String fechaNacimiento;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "perfil", referencedColumnName = "id_perfil")
     private Perfil perfil;
-    
+
     public Integer getId() {
         return id;
     }
@@ -72,7 +76,7 @@ public class Usuario {
     public void setInstitucion(Institucion institucion) {
         this.institucion = institucion;
     }
-    
+
     public String getEmail() {
         return email;
     }
@@ -80,7 +84,7 @@ public class Usuario {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     public String getContrasena() {
         return contrasena;
     }
@@ -127,5 +131,21 @@ public class Usuario {
 
     public void setPerfil(Perfil perfil) {
         this.perfil = perfil;
+    }
+
+    public String getPerfilString() {
+        return perfilString;
+    }
+
+    public void setPerfilString(String perfilString) {
+        this.perfilString = perfilString;
+    }
+
+    public String getInstitucionString() {
+        return institucionString;
+    }
+
+    public void setInstitucionString(String institucionString) {
+        this.institucionString = institucionString;
     }
 }
