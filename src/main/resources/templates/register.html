@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
         <title>Red de Investigadores | Register</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-        <link href="css/register.css" rel="stylesheet">
+        <link href="../static/css/register.css" rel="stylesheet">
     </head>
     <body>
         <!-- logo  -->
@@ -35,10 +35,10 @@
                 </a>
 
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="index.html" class="nav-link px-2 link-secondary">Página Principal</a></li>
-                    <li><a href="articles.html" class="nav-link px-2 link-dark">Artículos Destacados</a></li>
-                    <li><a href="#" class="nav-link px-2 link-dark">Investigadores</a></li>
-                    <li><a href="#" class="nav-link px-2 link-dark">Estudiantes</a></li>
+                    <li><a th:href="@{index.html}" class="nav-link px-2 link-secondary">Página Principal</a></li>
+                    <li><a th:href="@{featuredArticles.html}" class="nav-link px-2 link-dark">Artículos Destacados</a></li>
+                    <li><a th:href="@{investigadores}" class="nav-link px-2 link-dark">Investigadores</a></li>
+                    <li><a th:href="@{estudiantes}" class="nav-link px-2 link-dark">Estudiantes</a></li>
                 </ul>
 
                 <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
@@ -51,54 +51,72 @@
                 </div>
             </header>
         </div>
-
+        
         <!-- formulario -->
         <div class="container">
-            <h4>Registrate</h4>
-            <hr>
-            <form class="row g-3">
-                <div class="col-md-6">
-                    <label for="entradaNombre" class="form-label">Nombre(s)</label>
-                    <input type="text" class="form-control" id="entradaNombre">
+          <h4>Registrate</h4>
+          <hr>
+          <form class="row g-3" th:action="@{/add_user}" th:object="${usuario}" method="post">
+            <div class="col-md-6">
+              <label for="entradaNombre" class="form-label">Nombre(s)</label>
+              <input type="text" class="form-control" id="entradaNombre" th:field="*{nombre}" required />
+            </div>
+            <div class="col-md-6">
+              <label for="entradaApellido" class="form-label">Apellido</label>
+              <input type="text" class="form-control" id="entradaApellido" th:field="*{apellido}" required />
+            </div>
+            <div class="col-md-6">
+              <label for="entradaEmail" class="form-label">Correo Electrónico</label>
+              <input type="email" class="form-control" id="entradaEmail" th:field="*{email}" required />
+            </div>
+            <div class="col-md-6">
+              <label for="entradaPassword" class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="entradaPassword" th:field="*{contrasena}" required />
+            </div>
+            <div class="row">
+              <label class="form-label">Fecha de nacimiento</label>
+              <div class="col">
+                <input type="text" class="form-control" placeholder="Día" aria-label="dia" th:field="*{dia}" id="dia" required />
+              </div>                                                                           
+              <div class="col">
+                <input type="text" class="form-control" placeholder="Mes" aria-label="mes" th:field="*{mes}" id="mes" required />
+              </div>
+              <div class="col">
+                <input type="text" class="form-control" placeholder="Año" aria-label="año" th:field="*{ano}" id="ano" required />
+              </div>
                 </div>
-                <div class="col-md-6">
-                    <label for="entradaApellido" class="form-label">Apellido</label>
-                    <input type="text" class="form-control" id="entradaApellido">
-                </div>
-                <div class="col-md-6">
-                    <label for="entradaEmail" class="form-label">Correo Electronico</label>
-                    <input type="email" class="form-control" id="entradaEmail">
-                </div>
-                <div class="col-md-6">
-                    <label for="entradaPassword" class="form-label">Constraseña</label>
-                    <input type="password" class="form-control" id="entradaPassword">
-                </div>
-                <div class="row">
-                    <label class="form-label">Fecha de nacimiento</label>
-                    <div class="col">
-                        <input type="text" class="form-control" placeholder="Dia" aria-label="dia">
-                    </div>
-                    <div class="col">
-                        <input type="text" class="form-control" placeholder="Mes" aria-label="mes">
-                    </div>
-                    <div class="col">
-                        <input type="text" class="form-control" placeholder="Año" aria-label="año">
-                    </div>
-                </div>
-                <select class="form-select" aria-label="select Perfil">
-                    <option selected>Perfil</option>
-                    <option value="1">Estudiante</option>
-                    <option value="2">Profesor</option>
-                    <option value="3">Investigador</option>
+                <select th:field="*{perfilString}" class="form-select" aria-label="select Perfil">
+                  <option th:value="${1}" selected>Perfil</option>
+                  <option th:value="${2}" value="1">Investigador</option>
+                  <option th:value="${3}" value="2">Estudiante</option>
+                  <option th:value="${4}" value="3">General</option>
                 </select>
-                <select class="form-select" aria-label="select instituciones">
-                    <option selected>Institucion</option>
-                    <option value="1">Fac de Ciencias</option>
-                    <option value="2">Fac de Derecho</option>
-                    <option value="3">Instituto de Matematicas</option>
+                <select th:field="*{InstitucionString}" class="form-select" aria-label="select instituciones">
+                    <option th:value="${1}" selected>Institución</option>
+                    <option th:value="${2}">Facultad de Arquitectura</option>
+                    <option th:value="${3}">Facultad de Artes y Diseño</option>
+                    <option th:value="${4}">Facultad de Ciencias</option>
+                    <option th:value="${5}">Facultad de Ciencias Políticas y Sociales</option>
+                    <option th:value="${6}">Facultad de Contaduría y Administración</option>
+                    <option th:value="${7}">Facultad de Derecho</option>
+                    <option th:value="${8}">Facultad de Economía</option>
+                    <option th:value="${9}">Facultad de Estudios Superiores (FES) Acatlán</option>
+                    <option th:value="${10}">Facultad de Estudios Superiores (FES) Aragón</option>
+                    <option th:value="${11}">Facultad de Estudios Superiores (FES) Cuautitlán</option>
+                    <option th:value="${12}">Facultad de Estudios Superiores (FES) Iztacala</option>
+                    <option th:value="${13}">Facultad de Estudios Superiores (FES) Zaragoza</option>
+                    <option th:value="${14}">Facultad de Filosofía y Letras</option>
+                    <option th:value="${15}">Facultad de Ingeniería</option>
+                    <option th:value="${16}">Facultad de Medicina</option>
+                    <option th:value="${17}">Facultad de Medicina Veterinaria y Zootecnia</option>
+                    <option th:value="${18}">Facultad de Música</option>
+                    <option th:value="${19}">Facultad de Odontología</option>
+                    <option th:value="${20}">Facultad de Psicología</option>
+                    <option th:value="${21}">Facultad de Química</option>
                 </select>
                 <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Registrarse</button>
+                  <div id="liveAlertPlaceholder"></div>
+                    <button onclick="window.location.href = '/registered';" type="submit" id="register_success" class="btn btn-primary">Registrarse</button>
                 </div>
             </form>
         </div>
@@ -121,5 +139,6 @@
                 </ul>
             </footer>
         </div>
+        <script src="/js/registerAlert.js" th:src="@{/js/registerAlert.js}"></script>
     </body>
 </html>

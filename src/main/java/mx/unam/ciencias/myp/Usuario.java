@@ -12,8 +12,7 @@ import javax.persistence.*;
 public class Usuario {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "id_usuario",
-            columnDefinition = "integer default 1")
+    @Column(name = "id_usuario")
 
     private Integer id;
 
@@ -21,16 +20,28 @@ public class Usuario {
 
     private String apellido;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "institucion", referencedColumnName = "nombre")
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "institucion", referencedColumnName = "id_institucion")
     private Institucion institucion;
 
     private String email;
-    
+
+    private String contrasena;
+
+    private String dia;
+
+    private String mes;
+
+    private String ano;
+
+    private String perfilString;
+
+    private String institucionString;
+
     @Column(name = "fecha_nacimiento")
     private String fechaNacimiento;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "perfil", referencedColumnName = "id_perfil")
     private Perfil perfil;
 
@@ -65,13 +76,21 @@ public class Usuario {
     public void setInstitucion(Institucion institucion) {
         this.institucion = institucion;
     }
-    
+
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
     public String getFechaNacimiento() {
@@ -82,7 +101,29 @@ public class Usuario {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public String getDia() {
+        return dia;
+    }
 
+    public void setDia(String dia) {
+        this.dia = dia;
+    }
+
+    public String getMes() {
+        return mes;
+    }
+
+    public void setMes(String mes) {
+        this.mes = mes;
+    }
+
+    public String getAno() {
+        return ano;
+    }
+
+    public void setAno(String ano) {
+        this.ano = ano;
+    }
 
     public Perfil getPerfil() {
         return perfil;
@@ -90,5 +131,21 @@ public class Usuario {
 
     public void setPerfil(Perfil perfil) {
         this.perfil = perfil;
+    }
+
+    public String getPerfilString() {
+        return perfilString;
+    }
+
+    public void setPerfilString(String perfilString) {
+        this.perfilString = perfilString;
+    }
+
+    public String getInstitucionString() {
+        return institucionString;
+    }
+
+    public void setInstitucionString(String institucionString) {
+        this.institucionString = institucionString;
     }
 }

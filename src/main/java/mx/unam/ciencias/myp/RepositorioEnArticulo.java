@@ -6,6 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import mx.unam.ciencias.myp.Articulo;
 
-@Repository("repositorioarticulo")
-public interface RepositorioArticulo extends CrudRepository<Articulo, Serializable> {
+@Repository("repositorioenarticulo")
+public interface RepositorioEnArticulo extends CrudRepository<EnArticulo, Serializable>{
 }

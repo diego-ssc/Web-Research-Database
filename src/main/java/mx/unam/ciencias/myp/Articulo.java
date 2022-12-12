@@ -19,6 +19,10 @@ public class Articulo {
 
     private String url;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "descripcion", referencedColumnName = "descripcion")
+    private DescripcionArticulo descripcion;
+
     public Integer getIdArticulo() {
         return id;
     }
@@ -41,5 +45,13 @@ public class Articulo {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public DescripcionArticulo getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(DescripcionArticulo descripcion) {
+        this.descripcion = descripcion;
     }
 }

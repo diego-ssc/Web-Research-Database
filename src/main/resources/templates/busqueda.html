@@ -1,11 +1,12 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
-        <meta charset="UTF-8">
-        <title>Red de Investigadores | Login</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Red de Investigadores</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-        <link href="../static/css/login.css" rel="stylesheet">
+
     </head>
     <body>
         <!-- logo  -->
@@ -26,10 +27,10 @@
             </symbol>
         </svg>
 
-        <!-- navbar -->
+        <!-- navbar --> 
         <div class="container-fluid gx-5" >
             <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-                <a href="index.html" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+                <a href="./index.html" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
                     <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#logo"/></svg>
                     <span class="fs-4">Red de Investigadores</span>
                 </a>
@@ -41,8 +42,8 @@
                     <li><a th:href="@{estudiantes}" class="nav-link px-2 link-dark">Estudiantes</a></li>
                 </ul>
 
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                    <input type="search" class="form-control " placeholder="Buscar..." aria-label="Search">
+                <form action="index.html" method="get" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                    <input type="search" name="q" class="form-control " placeholder="Buscar..." aria-label="Search">
                 </form>
 
                 <div class="text-end">
@@ -52,27 +53,81 @@
             </header>
         </div>
 
-        <!-- formulario -->
+        <!-- Select type + search -->
         <div class="container">
-            <h3>Iniciar sesión</h3>
-            <hr>
-            <form>
-                <div class="mb-3">
-                    <label for="entradaEmail" class="form-label">Correo Electronico</label>
-                    <input type="email" class="form-control" id="entradaEmail" name="email" aria-describedby="emailNota">
-                    <div id="emailNota" class="form-text">Nunca compartiremos su correo electronico con alguien mas.</div>
+            <form class="row g-3">
+                <div class="col-md-5">
+                    <input type="search" name="q" class="form-control form-control-lg" placeholder="Buscar..." aria-label="Search">
                 </div>
-                <div class="mb-3">
-                    <label for="entradaContraseña" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" id="entradaContraseña" name="contrasena">
+                <div class="col-md-3">
                 </div>
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="checkboxRecuerdame">
-                    <label class="form-check-label" for="checkboxRecuerdame">Recuérdame</label>
+                <div class="col-md-3">
+                    <select class="form-select form-select-lg" name="op" >
+                        <option value="articulos" selected>Artículos</option>
+                        <option value="investigadores">Investigadores</option>
+                        <option value="estudiantes">Estudiantes</option>
+                    </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Enviar</button>
             </form>
         </div>
+
+        <br />
+        <!-- data output -->
+
+        <script src="../js/busqueda.js" th:src="@{/js/busqueda.js}"></script>
+
+        <div class="container">
+            <div class="row row-cols-1 row-cols-md-3 g-4" id="data-output">
+
+                <!-- articulos ejemplo -->
+                <div class="col">
+                    <div class="card border-dark mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">${articulo.nombre}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Autor </h6>
+                            <p class="card-text">Resumen/ Abstract articulo..</p>
+                            <a href="${articulo.url}" class="btn btn-dark">Ir al articulo</a>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Fecha de publicacion: 12/2002</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card border-dark mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">${articulo.nombre}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Autor </h6>
+                            <p class="card-text">Resumen/ Abstract articulo..</p>
+                            <a href="${articulo.url}" class="btn btn-dark">Ir al articulo</a>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Fecha de publicacion: 12/2002</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card border-dark mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">${articulo.nombre}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Autor </h6>
+                            <p class="card-text">Resumen/ Abstract articulo..</p>
+                            <a href="${articulo.url}" class="btn btn-dark">Ir al articulo</a>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Fecha de publicacion: 12/2002</small>
+                        </div>
+                    </div>
+                </div>
+                <!-- articulos ejemplo -->
+
+            </div>
+        </div>
+
+        </div>
+        <br />
 
         <!-- footer -->
         <div class="container">
