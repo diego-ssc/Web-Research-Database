@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Red de Investigadores | Nombre del Artículo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="../static/css/article.css" rel="stylesheet">
+</head>
+<body>
+    <!-- logo  -->
+    <svg style="display: none;">
+        <symbol id="logo" viewBox="60 10 600 100">
+            <title>Logo</title>
+            <g>
+                <line x1="360" y1="40" x2="200" y2="120" stroke="black" stroke-width="3" />
+                <line x1="360" y1="40" x2="520" y2="120" stroke="black" stroke-width="3" />
+                <circle cx=" 360" cy="40" r="20" stroke-width="3" stroke="black" fill="black"/>
+                <circle cx=" 200" cy="120" r="20" stroke-width="3" stroke="black" fill="black"/>
+                <line x1="520" y1="120" x2="440" y2="200" stroke="black" stroke-width="3" />
+                <line x1="520" y1="120" x2="600" y2="200" stroke="black" stroke-width="3" />
+                <circle cx=" 520" cy="120" r="20" stroke-width="3" stroke="black" fill="black"/>
+                <circle cx=" 440" cy="200" r="20" stroke-width="3" stroke="black" fill="black"/>
+                <circle cx=" 600" cy="200" r="20" stroke-width="3" stroke="black" fill="black"/>
+            </g>
+        </symbol>
+    </svg>
+
+    <!-- navbar -->
+    <div class="container-fluid gx-5" >
+        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+            <a href="/registered" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#logo"/></svg>
+                <span class="fs-4">Red de Investigadores</span>
+            </a>
+
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a th:href="@{/registered}" class="nav-link px-2 link-secondary">Página Principal</a></li>
+                <li><a th:href="@{/registered/f_Articles}" class="nav-link px-2 link-dark">Artículos Destacados</a></li>
+                <li><a th:href="@{investigadores}" class="nav-link px-2 link-dark">Investigadores</a></li>
+                <li><a th:href="@{estudiantes}" class="nav-link px-2 link-dark">Estudiantes</a></li>
+                <li><a th:href="@{/registered/profile}" class="nav-link px-2 link-dark">Perfil</a></li>
+
+            </ul>
+
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                <input type="search" class="form-control " placeholder="Buscar..." aria-label="Search">
+            </form>
+
+            <div class="text-end">
+              <button onclick="location.href='/logout'" type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Salir</button>
+            </div>
+        </header>
+    </div>
+
+    
+    <div class="container-lg">
+      <h2 id="nombreUsuario">[[${#request.userPrincipal.principal.fullName}]]</h2>
+      <h5>Artículos:</h5>
+      <div class="container m-1">
+        <div class="row">
+          <div class="col-6 col-sm-3"><a href="">Artículo 1</a></div>
+          <div class="col-6 col-sm-3"><a href="">Artículo 2</a></div>
+          <hr>
+        </div>
+
+        <div class="container-md">
+          <p class="lead">Datos Personales:</p>
+          <p>[[${#request.userPrincipal.principal.Perfil}]] en
+            <a href="@(/registered/institucion?nombre=+"[[${#request.userPrincipal.principal.Institucion}]]")">[[${#request.userPrincipal.principal.Institucion}]]</a></p>
+          <p>Email: [[${#request.userPrincipal.principal.Email}]]</p>
+          <p>Fecha de Nacimiento: [[${#request.userPrincipal.principal.FechaNacimiento}]]</p>
+        </div>
+                
+    <!-- footer -->
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <p class="col-md-4 mb-0 text-muted">&copy; 2022 Red de Investigadores</p>
+
+            <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                <svg class="bi me-2" width="40" height="32"><use xlink:href="#logo"/></svg>
+            </a>
+
+            <ul class="nav col-md-4 justify-content-end">
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Página principal</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Sobre nosotros</a></li>
+            </ul>
+        </footer>
+    </div>
+
+    <script src="/js/featuredArticles.js" th:src="@{/js/featuredArticles.js}"></script>
+</body>
+</html>

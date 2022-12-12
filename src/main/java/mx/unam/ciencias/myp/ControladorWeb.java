@@ -6,16 +6,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Optional;
+import java.util.List;
 
 @Controller
 public class ControladorWeb {
     @Autowired
     private RepositorioUsuario repositorioUsuario;
+
     @Autowired
     private RepositorioArticulo repositorioArticulo;
 
     @Autowired
+    private RepositorioPerfil repositorioPerfil;
+
+    @Autowired
+    private RepositorioInstitucion repositorioInstitucion;
+
+    @Autowired
     private RepositorioEnArticulo repositorioEnArticulo;
+
     @GetMapping("")
     public String index() {
         return "index";
@@ -41,9 +50,19 @@ public class ControladorWeb {
     public String paginaPrincipalUsuario() {
         return "registerSuccess";
     }
-    
+
+    @GetMapping(path="/registered/profile")
+    public String perfilUsuario() {
+        return "perfil";
+    }
+
+    @GetMapping(path="/registered/f_Articles")
+    public String articulosDestacados() {
+        return "featuredArticlesRegistered";
+    }
+
     @PostMapping(path="/add_user")
-    public String agregaNuevoUsuario (Usuario usuario) {
+    public String agregaNuevoUsuario(Usuario usuario) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(usuario.getContrasena());
         usuario.setContrasena(encodedPassword);
@@ -57,6 +76,8 @@ public class ControladorWeb {
         institucion.setId(Integer.parseInt(usuario.getInstitucionString()));
         usuario.setPerfil(perfil);
         usuario.setInstitucion(institucion);
+        List<Usuario> lista = institucion.getUsuarios();
+        lista.add(usuario);
         repositorioUsuario.save(usuario);
         return "registerSuccess";
     }
@@ -69,6 +90,12 @@ public class ControladorWeb {
     @GetMapping(path="/allArticles")
     public @ResponseBody Iterable<Articulo> getArticulos() {
         return repositorioArticulo.findAll();
+    }
+
+    @GetMapping(path="/registered/institucion")
+    public @ResponseBody Iterable<Usuario> getArticulos(@RequestParam String nombre) {
+        Institucion institucion = repositorioInstitucion.buscarPorNombre(nombre);
+        return institucion.getUsuarios();
     }
 
     @GetMapping(path="/autores_articulos")
@@ -110,11 +137,17 @@ public class ControladorWeb {
         return "students.html";
     }
 
-    // @GetMapping
-    // public Optional<Articulo> getArticulo(@RequestParam int idArticulo){
-    //     // if (!repositorioArticulo.containsKey(idArticulo)) {
-    //     //     return ResponseEntity.badRequest().body("El artículo no existe.");
-    //     // }
-    //     return repositorioArticulo.findById(idArticulo);
-    // }
+    public Optional<Articulo> getArticulo(@RequestParam int idArticulo){
+        return repositorioArticulo.findById(idArticulo);
+    }
+
+    public Optional<Perfil> getPerfil(@PathVariable Integer id){
+        System.out.println(repositorioPerfil);
+        return repositorioPerfil.findById(id);
+    }
+
+    public Optional<Institucion> getInstitucion(Integer id){
+        System.out.println(repositorioInstitucion);
+        return repositorioInstitucion.findById(id);
+    }
 }
