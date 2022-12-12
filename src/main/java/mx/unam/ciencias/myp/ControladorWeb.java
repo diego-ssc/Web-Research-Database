@@ -76,8 +76,8 @@ public class ControladorWeb {
         institucion.setId(Integer.parseInt(usuario.getInstitucionString()));
         usuario.setPerfil(perfil);
         usuario.setInstitucion(institucion);
-        List<Usuario> lista = institucion.getUsuarios();
-        lista.add(usuario);
+        // List<Usuario> lista = institucion.getUsuarios();
+        // lista.add(usuario);
         repositorioUsuario.save(usuario);
         return "registerSuccess";
     }

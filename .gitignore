@@ -25,3 +25,9 @@ hs_err_pid*
 # maven generated directories
 target/
 /.idea/
+
+# ggtags
+GPATH
+GRTAGS
+GTAGS
+
