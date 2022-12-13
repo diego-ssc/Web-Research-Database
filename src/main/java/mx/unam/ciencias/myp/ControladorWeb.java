@@ -40,6 +40,15 @@ public class ControladorWeb {
         return "";
     }
 
+    @GetMapping("/article")
+    public String article(@RequestParam(name = "idArticulo", required=false) String idArticulo, Model model){
+        Articulo articulo = (repositorioArticulo.findById(Integer.parseInt(idArticulo))).get();
+        model.addAttribute("idArticulo", articulo.getIdArticulo());
+        model.addAttribute("nombre", articulo.getNombre() );
+        model.addAttribute("descripcion", articulo.getDescripcion());
+        return "article.html";
+    }
+
     @GetMapping(path="/registrarse")
     public String muestraFormularioRegistro(Model model) {
         model.addAttribute("usuario", new Usuario());
@@ -137,8 +146,9 @@ public class ControladorWeb {
         return "students.html";
     }
 
-    public Optional<Articulo> getArticulo(@RequestParam int idArticulo){
-        return repositorioArticulo.findById(idArticulo);
+    @GetMapping(path= "/getArticulo")
+    public Articulo getArticulo(@RequestParam int idArticulo){
+        return repositorioArticulo.buscarPorId(idArticulo);
     }
 
     public Optional<Perfil> getPerfil(@PathVariable Integer id){
