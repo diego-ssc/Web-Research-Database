@@ -78,4 +78,8 @@ public class InformacionUsuario implements UserDetails {
         String s = usuario.getFechaNacimiento();
         return s;
     }
+
+    public boolean hasRole(String roleName) {
+        return this.usuario.hasRole(roleName);
+    }
 }

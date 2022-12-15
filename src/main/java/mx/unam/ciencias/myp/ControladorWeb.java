@@ -150,4 +150,24 @@ public class ControladorWeb {
         System.out.println(repositorioInstitucion);
         return repositorioInstitucion.findById(id);
     }
+
+    @GetMapping(path="/researcher")
+    public String researcherView() {
+        return "investigador";
+    }
+
+    @GetMapping(path="/student")
+    public String studentView() {
+        return "estudiante";
+    }
+
+    @GetMapping(path="/general_user")
+    public String generalView() {
+        return "general";
+    }
+
+    @GetMapping(path="/administrator")
+    public String adminView() {
+        return "administrador";
+    }
 }

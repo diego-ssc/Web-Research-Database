@@ -23,8 +23,15 @@ public class Institucion implements Serializable {
 
     @OneToMany(targetEntity=Usuario.class)
     private List<Usuario> usuarios;
-    
-    
+
+    public Institucion() {}
+
+    public Institucion(Integer id, String nombre, String locacion) {
+        this.id = id;
+        this.nombre = nombre;
+        this.locacion = locacion;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -68,7 +68,7 @@
         <div class="container-md">
           <p class="lead">Datos Personales:</p>
           <p>[[${#request.userPrincipal.principal.Perfil}]] en
-            <a v-bind:href="'/registered/institucion?nombre=' + [[${#request.userPrincipal.principal.Institucion}]]">[[${#request.userPrincipal.principal.Institucion}]]</a></p>
+            <a href="/registered/institucion?nombre=1" & [[${#request.userPrincipal.principal.Institucion}]] & """">[[${#request.userPrincipal.principal.Institucion}]]</a></p>
           <p>Email: [[${#request.userPrincipal.principal.Email}]]</p>
           <p>Fecha de Nacimiento: [[${#request.userPrincipal.principal.FechaNacimiento}]]</p>
         </div>

@@ -45,6 +45,12 @@ public class Usuario {
     @JoinColumn(name = "perfil", referencedColumnName = "id_perfil")
     private Perfil perfil;
 
+    public boolean hasRole(String roleName) {
+        if (roleName == null)
+            return false;        
+        return this.perfil.getDescripcion().equals(roleName);
+    }
+
     public Integer getId() {
         return id;
     }
