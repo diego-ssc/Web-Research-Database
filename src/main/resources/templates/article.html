@@ -39,6 +39,7 @@
                 <li><a th:href="@{featuredArticles.html}" class="nav-link px-2 link-dark">Artículos Destacados</a></li>
                 <li><a th:href="@{investigadores}" class="nav-link px-2 link-dark">Investigadores</a></li>
                 <li><a th:href="@{estudiantes}" class="nav-link px-2 link-dark">Estudiantes</a></li>
+                <li><a th:href="@{instituciones}" class="nav-link px-2 link-dark">Instituciones</a></li>
             </ul>
 
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
@@ -55,19 +56,11 @@
     <div class="container-lg">
         <div class="alert alert-secondary" role="alert" style="width: 80px; height:40px">Articulo</div>
             <h2 id="tituloArticulo" th:text="${nombre}"/>
-            <p th:text="${idArticulo}"/>
             <h5>Autores:</h5>
-            <div class="container m-1">
-                <div class="row">
-                    <div class="col-6 col-sm-3"><a href="">Autor 1</a></div>
-                    <div class="col-6 col-sm-3"><a href="">Autor 2</a></div>
-
+            <div class="container m-1" >
+                <div class="row" th:each="autor : ${listaAutores}">
+                    <div class="col-6 col-sm-3"><a href="" th:text="${autor.nombre}+' '+${autor.apellido}"></a></div>
                     <div class="w-100"></div>
-
-                    <div class="col-6 col-sm-3"><a href="">Autor 3</a></div>
-                    <div class="col-6 col-sm-3"><a href="">Autor 4</a></div>
-                <div>
-            </div>
 
                 </div>
             </div>
@@ -96,16 +89,16 @@
             </a>
 
             <ul class="nav col-md-4 justify-content-end">
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Página principal</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Acceder</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Registrarse</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Sobre nosotros</a></li>
+                <li class="nav-item"><a th:href="@{index.html}" class="nav-link px-2 text-muted">Página principal</a></li>
+                <li class="nav-item"><a th:href="@{login}" class="nav-link px-2 text-muted">Acceder</a></li>
+                <li class="nav-item"><a th:href="@{registrarse}" class="nav-link px-2 text-muted">Registrarse</a></li>
+                <li class="nav-item"><a th:href="@{faqs}" class="nav-link px-2 text-muted">FAQs</a></li>
+                <li class="nav-item"><a th:href="@{sobreNosotros}" class="nav-link px-2 text-muted">Sobre nosotros</a></li>
             </ul>
         </footer>
     </div>
 
-    <script
+    <script th:src="@{/js/article.js}"> </script>
 
 
 </body>

@@ -36,7 +36,7 @@ fetch('http://localhost:8080/registered/institucion?nombre=${nombre}')
                             <p class="card-text">Email: ${email}</p>
                             <p class="card-text">Fecha de Nacimiento: ${fechaNacimiento}</p>
                             <p class="card-text">Perfil: ${perfil}</p>
-                            <a href="${}" class="btn btn-dark">Ir a perfil de usuario</a>
+                            <a href="" class="btn btn-dark">Ir a perfil de usuario</a>
                         </div>
                     </div>
                 </div>

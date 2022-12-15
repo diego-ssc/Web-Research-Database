@@ -1,4 +1,4 @@
-
+console.log(descripcion);
 fetch('http://localhost:8080/getArticulo?idArticulo=1')
 .then(function (respuesta  ){return respuesta.json();})
 .then(function (articulo){

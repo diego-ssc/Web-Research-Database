@@ -49,4 +49,8 @@ public class EnArticulo implements Serializable {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    public Usuario getUsuario(){
+        return usuario;
+    }
 }

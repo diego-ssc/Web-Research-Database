@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.LinkedList;
 import java.util.Optional;
 import java.util.List;
 
@@ -43,9 +44,9 @@ public class ControladorWeb {
     @GetMapping("/article")
     public String article(@RequestParam(name = "idArticulo", required=false) String idArticulo, Model model){
         Articulo articulo = (repositorioArticulo.findById(Integer.parseInt(idArticulo))).get();
-        model.addAttribute("idArticulo", articulo.getIdArticulo());
         model.addAttribute("nombre", articulo.getNombre() );
         model.addAttribute("descripcion", articulo.getDescripcion());
+        model.addAttribute("listaAutores", getAutoresArticulo(idArticulo));
         return "article.html";
     }
 
@@ -101,15 +102,26 @@ public class ControladorWeb {
         return repositorioArticulo.findAll();
     }
 
+    @GetMapping(path = "/allInstituciones")
+    public @ResponseBody Iterable<Institucion> getInstituciones(){
+        return repositorioInstitucion.findAll();
+    }
+
     @GetMapping(path="/registered/institucion")
     public @ResponseBody Iterable<Usuario> getArticulos(@RequestParam String nombre) {
         Institucion institucion = repositorioInstitucion.buscarPorNombre(nombre);
         return institucion.getUsuarios();
     }
 
-    @GetMapping(path="/autores_articulos")
-    public @ResponseBody Iterable<EnArticulo> getAutoresArticulo(@RequestParam String idArticulo){
-        return repositorioEnArticulo.findAll();
+    @GetMapping(path="/autores_articulo")
+    public @ResponseBody Iterable<Usuario> getAutoresArticulo(@RequestParam String idArticulo){
+        Articulo articuloBuscar= (repositorioArticulo.findById(Integer.parseInt(idArticulo))).get();
+        Iterable<EnArticulo> listaEnArticulo= repositorioEnArticulo.findByArticulo(articuloBuscar);
+        LinkedList<Usuario> listaAutores = new LinkedList<Usuario>();
+        for (EnArticulo enArticulo : listaEnArticulo){
+            listaAutores.add(enArticulo.getUsuario());
+        }
+        return listaAutores;
     }
 
     public Articulo inserta(Articulo articulo) {
@@ -144,6 +156,11 @@ public class ControladorWeb {
     @RequestMapping(value = "/estudiantes", method = RequestMethod.GET)
     public String studentsView(){
         return "students.html";
+    }
+
+    @RequestMapping(value = "/instituciones", method = RequestMethod.GET)
+    public String institucionesVista(){
+        return "instituciones.html";
     }
 
     @GetMapping(path= "/getArticulo")

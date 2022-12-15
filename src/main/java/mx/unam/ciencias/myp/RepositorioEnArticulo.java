@@ -8,4 +8,5 @@ import mx.unam.ciencias.myp.Articulo;
 
 @Repository("repositorioenarticulo")
 public interface RepositorioEnArticulo extends CrudRepository<EnArticulo, Serializable>{
+    public Iterable<EnArticulo> findByArticulo(Articulo articulo);
 }
