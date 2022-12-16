@@ -11,16 +11,39 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.junit.Assert;
 
 import org.springframework.boot.test.context.SpringBootTest;
-@DataJpaTest
 
+@DataJpaTest
 class MypApplicationTests {
 
     @Autowired
-	public RepositorioUsuario repositorio;
+	private RepositorioUsuario repositorio;
+
+    private ControladorWeb controlador = new ControladorWeb();
+    Usuario usuario = new Usuario();
 
     @Test
     public void testAgregaNuevoUsuario() {
-        Assert.assertTrue(true);
+        usuario.setPerfilString("999");
+        usuario.setInstitucionString("888");
+        usuario.setContrasena("contrasena");
+        usuario.setDia("18");
+        usuario.setMes("03");
+        usuario.setAno("2003");
+
+        Iterable<Usuario> usuarios = controlador.getUsuarios();
+        int i = 0;
+        for (Usuario u : usuarios) {
+            i++;
+        }
+        Assert.assertTrue(i == 0);
+        controlador.agregaNuevoUsuario(usuario);
+        usuarios = controlador.getUsuarios();
+        for (Usuario u : usuarios) {
+            Assert.assertTrue(u == usuario);
+            return;
+        }
+        Assert.assertTrue(false);
+
     }
 
     
