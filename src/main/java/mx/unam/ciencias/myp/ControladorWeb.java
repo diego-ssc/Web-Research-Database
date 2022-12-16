@@ -47,6 +47,8 @@ public class ControladorWeb {
         model.addAttribute("nombre", articulo.getNombre() );
         model.addAttribute("descripcion", articulo.getDescripcion());
         model.addAttribute("listaAutores", getAutoresArticulo(idArticulo));
+        model.addAttribute("mes",articulo.getMes() );
+        model.addAttribute("ano", articulo.getAno());
         return "article.html";
     }
 
@@ -173,8 +175,8 @@ public class ControladorWeb {
         return repositorioPerfil.findById(id);
     }
 
-    public Optional<Institucion> getInstitucion(Integer id){
-        System.out.println(repositorioInstitucion);
-        return repositorioInstitucion.findById(id);
+    @RequestMapping(value = "/institucion", method = RequestMethod.GET)
+    public String getInstitucion(){
+        return "institucion.html";
     }
 }
