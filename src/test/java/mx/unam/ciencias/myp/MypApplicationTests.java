@@ -11,8 +11,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.junit.Assert;
 
 import org.springframework.boot.test.context.SpringBootTest;
-
 @DataJpaTest
+
 class MypApplicationTests {
 
     @Autowired
