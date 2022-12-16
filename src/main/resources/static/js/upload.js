@@ -40,11 +40,14 @@ formulario.addEventListener("submit", e ==> {
         datosAEnviar.append('autores', item);
     });
 
-    datosAEnviar.append("Archivo", inputArchivo.files[0]);
+    datosAEnviar.append("Archivo", inputArchivo.files[0], "nuevonombre.pdf");
 
     fetch(lugarEnvio, {
         method: "POST",
-        body: datosAEnviar
+        body: datosAEnviar,
+        headers: {
+            "Content-Type": "application/json"
+        }
     });
 
 });

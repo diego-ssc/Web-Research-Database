@@ -28,6 +28,16 @@ public class ControladorWeb {
         return "index";
     }
 
+    // @GetMapping(value = "/addArticle")
+    // public void agregaNuevoArticulo(@RequestParam("autor") String[] autor,
+    //                     @RequestParam("archivo") MultipartFile archivo) {
+
+    //     String System.getProperty("user.home");
+    //     new File("/path/directory").mkdirs();
+
+    //     //code to get results from db for those params.
+    // }
+
     @GetMapping("/addArticle")
     public String agregaNuevoArticulo(@RequestParam String nombre,
                                       @RequestParam String url) {
