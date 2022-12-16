@@ -4,6 +4,5 @@ class Articulo{
         this.nombre=nombre;
         this.usuario=usuario;
         this.fecha=fecha;
-
     }
 }

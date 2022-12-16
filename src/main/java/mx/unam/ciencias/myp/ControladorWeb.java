@@ -23,9 +23,6 @@ public class ControladorWeb {
     @Autowired
     private RepositorioInstitucion repositorioInstitucion;
 
-    @Autowired
-    private RepositorioEnArticulo repositorioEnArticulo;
-
     @GetMapping("")
     public String index() {
         return "index";
@@ -86,8 +83,8 @@ public class ControladorWeb {
         institucion.setId(Integer.parseInt(usuario.getInstitucionString()));
         usuario.setPerfil(perfil);
         usuario.setInstitucion(institucion);
-        List<Usuario> lista = institucion.getUsuarios();
-        lista.add(usuario);
+        // List<Usuario> lista = institucion.getUsuarios();
+        // lista.add(usuario);
         repositorioUsuario.save(usuario);
         return "registerSuccess";
     }
@@ -108,20 +105,22 @@ public class ControladorWeb {
     }
 
     @GetMapping(path="/registered/institucion")
-    public @ResponseBody Iterable<Usuario> getArticulos(@RequestParam String nombre) {
-        Institucion institucion = repositorioInstitucion.buscarPorNombre(nombre);
+    public @ResponseBody Iterable<Usuario> getArticulos
+        (@RequestParam String nombre) {
+        Institucion institucion = repositorioInstitucion
+            .buscarPorNombre(nombre);
         return institucion.getUsuarios();
     }
 
-    @GetMapping(path="/autores_articulo")
-    public @ResponseBody Iterable<Usuario> getAutoresArticulo(@RequestParam String idArticulo){
-        Articulo articuloBuscar= (repositorioArticulo.findById(Integer.parseInt(idArticulo))).get();
-        Iterable<EnArticulo> listaEnArticulo= repositorioEnArticulo.findByArticulo(articuloBuscar);
-        LinkedList<Usuario> listaAutores = new LinkedList<Usuario>();
-        for (EnArticulo enArticulo : listaEnArticulo){
-            listaAutores.add(enArticulo.getUsuario());
+    @GetMapping(path="/autores_articulos")
+    public @ResponseBody Iterable<Usuario> getAutoresArticulo
+        (@RequestParam String idArticulo){
+        Optional<Articulo> articulo = repositorioArticulo.
+            findById(Integer.parseInt(idArticulo));
+        if (articulo.isPresent()) {
+            return articulo.get().getUsuarios();
         }
-        return listaAutores;
+        return null;
     }
 
     public Articulo inserta(Articulo articulo) {
@@ -176,5 +175,25 @@ public class ControladorWeb {
     public Optional<Institucion> getInstitucion(Integer id){
         System.out.println(repositorioInstitucion);
         return repositorioInstitucion.findById(id);
+    }
+
+    @GetMapping(path="/researcher")
+    public String researcherView() {
+        return "investigador";
+    }
+
+    @GetMapping(path="/student")
+    public String studentView() {
+        return "estudiante";
+    }
+
+    @GetMapping(path="/general_user")
+    public String generalView() {
+        return "general";
+    }
+
+    @GetMapping(path="/administrator")
+    public String adminView() {
+        return "administrador";
     }
 }

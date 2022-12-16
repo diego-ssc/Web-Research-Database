@@ -1,6 +1,4 @@
-package mx.unam.ciencias.myp;
-
-import javax.sql.DataSource;
+package mx.unam.ciencias.myp.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,50 +18,38 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.core.annotation.Order;
 import java.util.UUID;
 
+import mx.unam.ciencias.myp.ServicioInformacionUsuario;
+
 @Configuration
 @EnableWebSecurity
-@Order(2)
-public class ConfiguracionSeguridadWeb extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private DataSource dataSource;
-
+@Order(1)
+public class ConfiguracionSeguridadAdministrador extends WebSecurityConfigurerAdapter {
     @Bean
-    public UserDetailsService userDetailsService() {
+    public UserDetailsService UserDetailsService() {
         return new ServicioInformacionUsuario();
     }
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoderAdministrator() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
-        authProvider.setPasswordEncoder(passwordEncoder());
-
-        return authProvider;
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-            .antMatchers("/user/registered").authenticated()
-            .anyRequest().permitAll()
+        http.authorizeRequests().antMatchers("/").permitAll();
+
+        http.antMatcher("/administrator/**")
+            .authorizeRequests().anyRequest().hasAuthority("administrador")
             .and()
             .formLogin()
-            .loginPage("/user/login")
+            .loginPage("/administrator/login")
             .usernameParameter("email")
-            .successHandler(administradorInicioSesion)
+            .loginProcessingUrl("/administrator/login")
+            .defaultSuccessUrl("/administrator/home")
             .permitAll()
             .and()
-            .logout().logoutSuccessUrl("/").permitAll();
+            .logout()
+            .logoutUrl("/administrator/logout")
+            .logoutSuccessUrl("/");
     }
-    @Autowired private AdministradorInicioSesion administradorInicioSesion;    
 }
