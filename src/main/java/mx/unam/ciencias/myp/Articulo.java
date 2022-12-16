@@ -1,6 +1,9 @@
 package mx.unam.ciencias.myp;
 
 import javax.persistence.*;
+import java.util.Set;
+import java.util.HashSet;
+import java.io.Serializable;
 
 /**
  * Clase que representa la tabla de instituciones
@@ -9,7 +12,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "articulos")
-public class Articulo {
+public class Articulo implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "id_articulo")
@@ -18,6 +21,9 @@ public class Articulo {
     private String nombre;
 
     private String url;
+
+    @ManyToMany(mappedBy = "articulos", fetch = FetchType.LAZY)
+    private Set<Usuario> usuarios = new HashSet<>();
 
     private String descripcion;
 
@@ -55,6 +61,14 @@ public class Articulo {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Set<Usuario> getUsuarios() {
+        return this.usuarios;
+    }
+
+    public void setUsuarios(Set<Usuario> usuarios) {
+        this.usuarios = usuarios;
     }
 
     public String getMes() {

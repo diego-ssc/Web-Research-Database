@@ -1,10 +1,12 @@
 package mx.unam.ciencias.myp;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Optional;
 /**
@@ -21,7 +23,10 @@ public class InformacionUsuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(usuario.getPerfil().getDescripcion()));
+        
+        return authorities;
     }
 
     @Override
@@ -77,5 +82,9 @@ public class InformacionUsuario implements UserDetails {
     public String getFechaNacimiento() {
         String s = usuario.getFechaNacimiento();
         return s;
+    }
+
+    public boolean hasRole(String roleName) {
+        return this.usuario.hasRole(roleName);
     }
 }

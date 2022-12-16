@@ -1,6 +1,9 @@
 package mx.unam.ciencias.myp;
 
 import javax.persistence.*;
+import java.util.Set;
+import java.util.HashSet;
+import java.io.Serializable;
 
 /**
  * Clase que representa la tabla de proyectos
@@ -9,13 +12,16 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "proyectos")
-public class Proyecto {
+public class Proyecto implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "id_proyecto")
     private Integer id;
 
     private String nombre;
+
+    @ManyToMany(mappedBy = "proyectos", fetch = FetchType.LAZY)
+    private Set<Usuario> usuarios = new HashSet<>();
 
     public Integer getIdProyecto() {
         return id;
@@ -31,5 +37,13 @@ public class Proyecto {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public Set<Usuario> getUsuarios() {
+        return this.usuarios;
+    }
+
+    public void setUsuarios(Set<Usuario> usuarios) {
+        this.usuarios = usuarios;
     }
 }

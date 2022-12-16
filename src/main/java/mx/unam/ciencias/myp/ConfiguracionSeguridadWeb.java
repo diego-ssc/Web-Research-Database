@@ -12,6 +12,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.core.annotation.Order;
+import java.util.UUID;
 
 @Configuration
 @EnableWebSecurity
@@ -45,15 +52,19 @@ public class ConfiguracionSeguridadWeb extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests().antMatchers("/actuator/**").permitAll();
         http.authorizeRequests()
-            .antMatchers("/registered").authenticated()
+            .antMatchers("/user/registered").authenticated()
             .anyRequest().permitAll()
             .and()
             .formLogin()
+            // .loginPage("/user/login")
             .usernameParameter("email")
+            // .successHandler(administradorInicioSesion)
             .defaultSuccessUrl("/registered")
             .permitAll()
             .and()
             .logout().logoutSuccessUrl("/").permitAll();
     }
+    @Autowired private AdministradorInicioSesion administradorInicioSesion;    
 }
