@@ -8,8 +8,8 @@ fetch("http://localhost:8080/allUsers")
             const {id, nombre, apellido, perfil, institucion}= usuario;
             if (perfil.descripcion == "indefinido") {
                 salida += `        <tr>
-                             <td><a href="http://localhost:8080/user?idUsuario=${id}">${nombre}</a></td>
-                             <td><a href="http://localhost:8080/user?idUsuario=${id}">${apellido}</a></td>
+                             <td><a href="http://localhost:8080/usuario?idUsuario=${id}">${nombre}</a></td>
+                             <td><a href="http://localhost:8080/usuario?idUsuario=${id}">${apellido}</a></td>
                              <td><a href="http://localhost:8080/institucion?idInstitucion=${institucion.id}">${institucion.nombre}</a></td>
                              </tr>`;
             }
