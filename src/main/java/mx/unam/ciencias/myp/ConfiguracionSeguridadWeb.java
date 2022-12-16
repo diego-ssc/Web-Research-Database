@@ -54,14 +54,12 @@ public class ConfiguracionSeguridadWeb extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/actuator/**").permitAll();
         http.authorizeRequests()
-            .antMatchers("/user/registered").authenticated()
+            .antMatchers("/user").authenticated()
             .anyRequest().permitAll()
             .and()
             .formLogin()
-            // .loginPage("/user/login")
             .usernameParameter("email")
-            // .successHandler(administradorInicioSesion)
-            .defaultSuccessUrl("/registered")
+            .successHandler(administradorInicioSesion)
             .permitAll()
             .and()
             .logout().logoutSuccessUrl("/").permitAll();

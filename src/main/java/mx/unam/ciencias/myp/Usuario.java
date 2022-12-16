@@ -37,8 +37,10 @@ public class Usuario implements Serializable {
 
     private String ano;
 
+    @Transient
     private String perfilString;
 
+    @Transient
     private String institucionString;
 
     @Column(name = "fecha_nacimiento")

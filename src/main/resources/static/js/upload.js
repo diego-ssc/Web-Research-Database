@@ -51,11 +51,13 @@ formulario.addEventListener("submit", function(e) {
         datosAEnviar.append('autores', item);
     });
 
+
     datosAEnviar.append("archivo", inputArchivo.files[0]);
     datosAEnviar.append("ano", ano);
     datosAEnviar.append("mes", mes);
     datosAEnviar.append("descripcion", descripcion);
     datosAEnviar.append("nombre", nombre);
+
 
     fetch(lugarEnvio, {
         method: "POST",
