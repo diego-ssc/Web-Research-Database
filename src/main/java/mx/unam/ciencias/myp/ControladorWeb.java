@@ -85,7 +85,7 @@ public class ControladorWeb {
         return "article.html";
     }
 
-    @GetMapping("user")
+    @GetMapping("/usuario")
     public String usuario(@RequestParam(name = "idUsuario", required = false) String idUsuario, Model model){
         Usuario usuario = (repositorioUsuario.findById(Integer.parseInt(idUsuario))).get();
         model.addAttribute("nombre", usuario.getNombre());
