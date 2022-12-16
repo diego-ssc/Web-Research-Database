@@ -41,9 +41,9 @@ public class ControladorWeb {
     @GetMapping("/article")
     public String article(@RequestParam(name = "idArticulo", required=false) String idArticulo, Model model){
         Articulo articulo = (repositorioArticulo.findById(Integer.parseInt(idArticulo))).get();
-        model.addAttribute("nombre", articulo.getNombre() );
+        model.addAttribute("nombre", articulo.getNombre());
         model.addAttribute("descripcion", articulo.getDescripcion());
-        model.addAttribute("listaAutores", getAutoresArticulo(idArticulo));
+        // model.addAttribute("listaAutores", getAutoresArticulo(idArticulo));
         return "article.html";
     }
 
@@ -68,6 +68,21 @@ public class ControladorWeb {
         return "featuredArticlesRegistered";
     }
 
+    @GetMapping(path="/registered/researchers")
+    public String investigadores() {
+        return "researchers";
+    }
+
+    @GetMapping(path="/registered/students")
+    public String estudiantes() {
+        return "students";
+    }
+
+    @GetMapping(path="/registered/institutions")
+    public String instituciones() {
+        return "instituciones";
+    }
+
     @PostMapping(path="/add_user")
     public String agregaNuevoUsuario(Usuario usuario) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -86,7 +101,7 @@ public class ControladorWeb {
         // List<Usuario> lista = institucion.getUsuarios();
         // lista.add(usuario);
         repositorioUsuario.save(usuario);
-        return "registerSuccess";
+        return "user_added";
     }
 
     @GetMapping(path="/allUsers")
@@ -114,11 +129,22 @@ public class ControladorWeb {
 
     @GetMapping(path="/autores_articulos")
     public @ResponseBody Iterable<Usuario> getAutoresArticulo
-        (@RequestParam String idArticulo){
+        (@RequestParam String idArticulo) {
         Optional<Articulo> articulo = repositorioArticulo.
             findById(Integer.parseInt(idArticulo));
         if (articulo.isPresent()) {
             return articulo.get().getUsuarios();
+        }
+        return null;
+    }
+
+    @GetMapping(path="/articulos_usuario")
+    public @ResponseBody Iterable<Articulo> getArticulosUsuario
+        (@RequestParam String idUsuario){
+        Optional<Usuario> usuario = repositorioUsuario.
+            findById(Integer.parseInt(idUsuario));
+        if (usuario.isPresent()) {
+            return usuario.get().getArticulos();
         }
         return null;
     }
@@ -160,11 +186,6 @@ public class ControladorWeb {
     @RequestMapping(value = "/instituciones", method = RequestMethod.GET)
     public String institucionesVista(){
         return "instituciones.html";
-    }
-
-    @GetMapping(path= "/getArticulo")
-    public Articulo getArticulo(@RequestParam int idArticulo){
-        return repositorioArticulo.buscarPorId(idArticulo);
     }
 
     public Optional<Perfil> getPerfil(@PathVariable Integer id){

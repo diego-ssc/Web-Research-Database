@@ -58,9 +58,10 @@ public class ConfiguracionSeguridadWeb extends WebSecurityConfigurerAdapter {
             .anyRequest().permitAll()
             .and()
             .formLogin()
-            .loginPage("/user/login")
+            // .loginPage("/user/login")
             .usernameParameter("email")
-            .successHandler(administradorInicioSesion)
+            // .successHandler(administradorInicioSesion)
+            .defaultSuccessUrl("/registered")
             .permitAll()
             .and()
             .logout().logoutSuccessUrl("/").permitAll();
