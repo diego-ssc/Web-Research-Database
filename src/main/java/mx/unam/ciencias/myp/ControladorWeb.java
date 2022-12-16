@@ -90,15 +90,23 @@ public class ControladorWeb {
     }
 
     @GetMapping(path="/registered/institucion")
-    public @ResponseBody Iterable<Usuario> getArticulos(@RequestParam String nombre) {
-        Institucion institucion = repositorioInstitucion.buscarPorNombre(nombre);
+    public @ResponseBody Iterable<Usuario> getArticulos
+        (@RequestParam String nombre) {
+        Institucion institucion = repositorioInstitucion
+            .buscarPorNombre(nombre);
         return institucion.getUsuarios();
     }
 
-    // @GetMapping(path="/autores_articulos")
-    // public @ResponseBody Iterable<EnArticulo> getAutoresArticulo(@RequestParam String idArticulo){
-    //     return repositorioEnArticulo.findAll();
-    // }
+    @GetMapping(path="/autores_articulos")
+    public @ResponseBody Iterable<Usuario> getAutoresArticulo
+        (@RequestParam String idArticulo){
+        Optional<Articulo> articulo = repositorioArticulo.
+            findById(Integer.parseInt(idArticulo));
+        if (articulo.isPresent()) {
+            return articulo.get().getUsuarios();
+        }
+        return null;
+    }
 
     public Articulo inserta(Articulo articulo) {
         return repositorioArticulo.save(articulo);
