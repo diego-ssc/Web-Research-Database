@@ -60,6 +60,26 @@ public class ControladorWeb {
         return "article.html";
     }
 
+    @GetMapping("user")
+    public String usuario(@RequestParam(name = "idUsuario", required = false) String idUsuario, Model model){
+        Usuario usuario = (repositorioUsuario.findById(Integer.parseInt(idUsuario))).get();
+        model.addAttribute("nombre", usuario.getNombre());
+        model.addAttribute("apellido", usuario.getApellido());
+        model.addAttribute("listaArticulos", usuario.getArticulos());
+        Perfil perfilUsuario= usuario.getPerfil();
+        model.addAttribute("perfil", perfilUsuario.getDescripcion());
+        Institucion institucionUsuario=usuario.getInstitucion();
+        model.addAttribute("idInstitucion",institucionUsuario.getId());
+        model.addAttribute("institucion", institucionUsuario.getNombre());
+
+        model.addAttribute("email", usuario.getEmail());
+        model.addAttribute("fechaDeNacimiento", usuario.getFechaNacimiento());
+       // model.addAttribute("dia", usuario.getDia());
+        //model.addAttribute("mes", usuario.getMes());
+        //model.addAttribute("ano", usuario.getAno());
+        return "usuario.html";
+    }
+
     @GetMapping(path="/registrarse")
     public String muestraFormularioRegistro(Model model) {
         model.addAttribute("usuario", new Usuario());
@@ -207,7 +227,11 @@ public class ControladorWeb {
     }
 
     @RequestMapping(value = "/institucion", method = RequestMethod.GET)
-    public String getInstitucion(){
+    public String getInstitucion(@RequestParam(name = "idInstitucion", required=false) String idInstitucion, Model model){
+        Institucion institucion= (repositorioInstitucion.findById(Integer.parseInt(idInstitucion))).get();
+        model.addAttribute("nombre", institucion.getNombre());
+        model.addAttribute("locacion", institucion.getLocacion());
+        model.addAttribute("listaUsuarios", institucion.getUsuarios());
         return "institucion.html";
     }
 

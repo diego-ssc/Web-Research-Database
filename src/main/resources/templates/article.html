@@ -59,7 +59,7 @@
             <h5>Autores:</h5>
             <div class="container m-1" >
                 <div class="row" th:each="autor : ${listaAutores}">
-                    <div class="col-6 col-sm-3"><a href="" th:text="${autor.nombre}+' '+${autor.apellido}"></a></div>
+                    <div class="col-6 col-sm-3"><a th:href="'http://localhost:8080/article?idArticulo='+${autor.id}" th:text="${autor.nombre}+' '+${autor.apellido}"></a></div>
                     <div class="w-100"></div>
 
                 </div>
@@ -98,7 +98,6 @@
         </footer>
     </div>
 
-    <script th:src="@{/js/article.js}"> </script>
 
 
 </body>
