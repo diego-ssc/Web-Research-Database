@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Red de Investigadores | [[${#request.userPrincipal.principal.Institucion}]]</title>
+    <title>Red de Investigadores </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
@@ -56,9 +56,17 @@
     </div>
 
     <div class="container-lg" >
-        <h3 >Usuarios asociados</h3>
-        <hr>
-        <div th:id="cartas">
+        <h3 th:text="${nombre}"/>
+        <h4 th:text="'Ubicacion: '+${locacion}">Ubicacion: </h4>
+
+
+        <div class="container m-1">
+            <h5>Usuarios asociados</h5>
+            <hr>
+            <div class="row" th:each="usuario : ${listaUsuarios}">
+                <div class="col-6 col-sm-3"><a href="" th:text="${usuario.nombre}+' '+${usuario.apellido}"></a></div>
+                <div class="w-100"></div>
+            </div>
         </div>
     </div>
     <!-- footer -->
@@ -79,6 +87,5 @@
             </ul>
         </footer>
     </div>
-    <script src="/js/institutionUsers.js" th:src="@{/js/institutionUsers.js}"></script>
 </body>
 </html>

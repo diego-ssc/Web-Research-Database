@@ -6,11 +6,13 @@ fetch("http://localhost:8080/allUsers")
     for (usuario of listaUsuarios){
 
         const {id, nombre, apellido, perfil, institucion}= usuario;
-            salida+=`        <tr>
-                             <td><a href="http://localhost:8080/user?id_usuario=${id}">${nombre}</a></td>
-                             <td><a href="http://localhost:8080/user?id_usuario=${id}">${apellido}</a></td>
-                             <td><a href="http://localhost:8080/institucion?id_institucion=${institucion.id}">${institucion.nombre}</a></td>
+        if (perfil.descripcion == "investigador") {
+            salida += `        <tr>
+                             <td><a href="http://localhost:8080/user?idUsuario=${id}">${nombre}</a></td>
+                             <td><a href="http://localhost:8080/user?idUsuario=${id}">${apellido}</a></td>
+                             <td><a href="http://localhost:8080/institucion?idInstitucion=${institucion.id}">${institucion.nombre}</a></td>
                              </tr>`;
+        }
     }
     elementoHTML.innerHTML=salida;
 })
