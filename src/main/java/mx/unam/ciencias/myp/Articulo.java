@@ -90,3 +90,4 @@ public class Articulo implements Serializable {
     public void setAno(int ano) {
         this.ano = ano;
     }
+}
