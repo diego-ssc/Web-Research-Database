@@ -22,9 +22,6 @@ public class ControladorWeb {
     @Autowired
     private RepositorioInstitucion repositorioInstitucion;
 
-    @Autowired
-    private RepositorioEnArticulo repositorioEnArticulo;
-
     @GetMapping("")
     public String index() {
         return "index";
@@ -98,10 +95,10 @@ public class ControladorWeb {
         return institucion.getUsuarios();
     }
 
-    @GetMapping(path="/autores_articulos")
-    public @ResponseBody Iterable<EnArticulo> getAutoresArticulo(@RequestParam String idArticulo){
-        return repositorioEnArticulo.findAll();
-    }
+    // @GetMapping(path="/autores_articulos")
+    // public @ResponseBody Iterable<EnArticulo> getAutoresArticulo(@RequestParam String idArticulo){
+    //     return repositorioEnArticulo.findAll();
+    // }
 
     public Articulo inserta(Articulo articulo) {
         return repositorioArticulo.save(articulo);

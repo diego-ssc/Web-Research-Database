@@ -1,6 +1,9 @@
 package mx.unam.ciencias.myp;
 
 import javax.persistence.*;
+import java.util.Set;
+import java.util.HashSet;
+import java.io.Serializable;
 
 /**
  * Clase que representa la tabla de usuarios
@@ -9,7 +12,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "usuarios")
-public class Usuario {
+public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_usuario")
@@ -45,9 +48,36 @@ public class Usuario {
     @JoinColumn(name = "perfil", referencedColumnName = "id_perfil")
     private Perfil perfil;
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(joinColumns = {
+            @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario",
+                        nullable = false, updatable = false)},
+        inverseJoinColumns = {
+            @JoinColumn(name = "id_articulo", referencedColumnName = "id_articulo",
+                        nullable = false, updatable = false)})
+    private Set<Articulo> articulos = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(joinColumns = {
+            @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario",
+                        nullable = false, updatable = false)},
+        inverseJoinColumns = {
+            @JoinColumn(name = "id_proyecto", referencedColumnName = "id_proyecto",
+                        nullable = false, updatable = false)})
+    private Set<Proyecto> proyectos = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(joinColumns = {
+            @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario",
+                        nullable = false, updatable = false)},
+        inverseJoinColumns = {
+            @JoinColumn(name = "id_revista", referencedColumnName = "id_revista",
+                        nullable = false, updatable = false)})
+    private Set<Revista> revistas = new HashSet<>();
+
     public boolean hasRole(String roleName) {
         if (roleName == null)
-            return false;        
+            return false;
         return this.perfil.getDescripcion().equals(roleName);
     }
 
@@ -153,5 +183,29 @@ public class Usuario {
 
     public void setInstitucionString(String institucionString) {
         this.institucionString = institucionString;
+    }
+
+    public Set<Articulo> getArticulos() {
+        return this.articulos;
+    }
+
+    public void setArticulos(Set<Articulo> articulos) {
+        this.articulos = articulos;
+    }
+
+    public Set<Proyecto> getProyectos() {
+        return this.proyectos;
+    }
+
+    public void setProyectos(Set<Proyecto> proyectos) {
+        this.proyectos = proyectos;
+    }
+
+    public Set<Revista> getRevistas() {
+        return this.revistas;
+    }
+
+    public void setRevistas(Set<Revista> revistas) {
+        this.revistas = revistas;
     }
 }

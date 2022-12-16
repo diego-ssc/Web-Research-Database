@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
  * determinando el rol del usuario que accedió a la página.
  *
  */
+@Component
 public class AdministradorInicioSesion extends SavedRequestAwareAuthenticationSuccessHandler {
 
     @Override public void onAuthenticationSuccess(HttpServletRequest request,

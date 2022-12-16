@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import de.codecentric.boot.admin.config.AdminServerProperties;
+// import de.codecentric.boot.admin.config.AdminServerProperties;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -26,11 +26,11 @@ public class ConfiguracionSeguridadWeb extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
-    private final AdminServerProperties servidorAdministrador;
+    // private final AdminServerProperties servidorAdministrador;
 
-    public ConfiguracionSeguridadWeb(AdminServerProperties servidorAdministrador) {
-        this.servidorAdministrador = servidorAdministrador;
-    }
+    // public ConfiguracionSeguridadWeb(AdminServerProperties servidorAdministrador) {
+    //     this.servidorAdministrador = servidorAdministrador;
+    // }
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -74,42 +74,42 @@ public class ConfiguracionSeguridadWeb extends WebSecurityConfigurerAdapter {
     @Autowired private AdministradorInicioSesion administradorInicioSesion;
 
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        SavedRequestAwareAuthenticationSuccessHandler successHandler =
-            new SavedRequestAwareAuthenticationSuccessHandler();
-        successHandler.setTargetUrlParameter("redirectTo");
-        successHandler.setDefaultTargetUrl(this.servidorAdministrador.getContextPath() + "/");
+    // @Bean
+    // public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    //     SavedRequestAwareAuthenticationSuccessHandler successHandler =
+    //         new SavedRequestAwareAuthenticationSuccessHandler();
+    //     successHandler.setTargetUrlParameter("redirectTo");
+    //     successHandler.setDefaultTargetUrl(this.servidorAdministrador.getContextPath() + "/");
 
-        http.authorizeRequests()
-            .antMatchers(this.servidorAdministrador.getContextPath() + "/assets/**").permitAll()
-            .antMatchers(this.servidorAdministrador.getContextPath() + "/login").permitAll()
-            .anyRequest().authenticated()
-            .and()
-            .formLogin()
-            .loginPage(this.servidorAdministrador.getContextPath() + "/login")
-            .successHandler(successHandler)
-            .and()
-            .logout()
-            .logoutUrl(this.servidorAdministrador.getContextPath() + "/logout")
-            .and()
-            .httpBasic()
-            .and()
-            .csrf()
-            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-            .ignoringRequestMatchers(new AntPathRequestMatcher
-                                     (this.servidorAdministrador.getContextPath() + 
-                                      "/instances", HttpMethod.POST.toString()), 
-                                     new AntPathRequestMatcher
-                                     (this.servidorAdministrador.getContextPath() + 
-                                      "/instances/*", HttpMethod.DELETE.toString()),
-                                     new AntPathRequestMatcher
-                                     (this.servidorAdministrador.getContextPath() + "/actuator/**"))
-            .and()
-            .rememberMe()
-            .key(UUID.randomUUID().toString())
-            .tokenValiditySeconds(1209600);
-        return http.build();
-    }
+    //     http.authorizeRequests()
+    //         .antMatchers(this.servidorAdministrador.getContextPath() + "/assets/**").permitAll()
+    //         .antMatchers(this.servidorAdministrador.getContextPath() + "/login").permitAll()
+    //         .anyRequest().authenticated()
+    //         .and()
+    //         .formLogin()
+    //         .loginPage(this.servidorAdministrador.getContextPath() + "/login")
+    //         .successHandler(successHandler)
+    //         .and()
+    //         .logout()
+    //         .logoutUrl(this.servidorAdministrador.getContextPath() + "/logout")
+    //         .and()
+    //         .httpBasic()
+    //         .and()
+    //         .csrf()
+    //         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+    //         .ignoringRequestMatchers(new AntPathRequestMatcher
+    //                                  (this.servidorAdministrador.getContextPath() + 
+    //                                   "/instances", HttpMethod.POST.toString()), 
+    //                                  new AntPathRequestMatcher
+    //                                  (this.servidorAdministrador.getContextPath() + 
+    //                                   "/instances/*", HttpMethod.DELETE.toString()),
+    //                                  new AntPathRequestMatcher
+    //                                  (this.servidorAdministrador.getContextPath() + "/actuator/**"))
+    //         .and()
+    //         .rememberMe()
+    //         .key(UUID.randomUUID().toString())
+    //         .tokenValiditySeconds(1209600);
+    //     return http.build();
+    // }
     
 }
