@@ -9,7 +9,4 @@ import mx.unam.ciencias.myp.Articulo;
 
 @Repository("repositorioarticulo")
 public interface RepositorioArticulo extends CrudRepository<Articulo, Serializable> {
-
-    @Query("SELECT u FROM Articulo u WHERE u.id = ?1")
-    public Articulo buscarPorId(int id);
 }
