@@ -27,6 +27,10 @@ public class Articulo implements Serializable {
 
     private String descripcion;
 
+    private String mes;
+
+    private int ano;
+
     public Integer getIdArticulo() {
         return id;
     }
@@ -65,5 +69,20 @@ public class Articulo implements Serializable {
 
     public void setUsuarios(Set<Usuario> usuarios) {
         this.usuarios = usuarios;
+
+    public String getMes() {
+        return mes;
+    }
+
+    public void setMes(String mes) {
+        this.mes = mes;
+    }
+
+    public int getAno() {
+        return ano;
+    }
+
+    public void setAno(int ano) {
+        this.ano = ano;
     }
 }

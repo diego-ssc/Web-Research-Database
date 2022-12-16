@@ -1,4 +1,5 @@
-fetch('http://localhost:8080/article?idArticulo=1')
+fetch('http://localhost:8080/getArticulo?idArticulo=1')
+
 .then(function (respuesta  ){return respuesta.json();})
 .then(function (articulo){
     let elementoHTML=document.querySelector('#tituloArticulo');
@@ -6,8 +7,7 @@ fetch('http://localhost:8080/article?idArticulo=1')
     let salida=`${nombre}`;
     elementoHTML.innerHTML=salida;
     elementoHTML=document.querySelector('.container-md');
-    const  {id, descripcionCadena}=descripcion;
-    salida=`<p class="lead">${descripcionCadena}</p>`;
+    salida=`<p class="lead">${descripcion}</p>`;
     elementoHTML.innerHTML=salida;
     return idArticulo;
 })

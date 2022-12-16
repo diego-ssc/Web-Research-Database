@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.LinkedList;
 import java.util.Optional;
 import java.util.List;
 
@@ -35,6 +36,15 @@ public class ControladorWeb {
         articulo.setUrl(url);
         repositorioArticulo.save(articulo);
         return "";
+    }
+
+    @GetMapping("/article")
+    public String article(@RequestParam(name = "idArticulo", required=false) String idArticulo, Model model){
+        Articulo articulo = (repositorioArticulo.findById(Integer.parseInt(idArticulo))).get();
+        model.addAttribute("nombre", articulo.getNombre() );
+        model.addAttribute("descripcion", articulo.getDescripcion());
+        model.addAttribute("listaAutores", getAutoresArticulo(idArticulo));
+        return "article.html";
     }
 
     @GetMapping(path="/registrarse")
@@ -87,6 +97,11 @@ public class ControladorWeb {
     @GetMapping(path="/allArticles")
     public @ResponseBody Iterable<Articulo> getArticulos() {
         return repositorioArticulo.findAll();
+    }
+
+    @GetMapping(path = "/allInstituciones")
+    public @ResponseBody Iterable<Institucion> getInstituciones(){
+        return repositorioInstitucion.findAll();
     }
 
     @GetMapping(path="/registered/institucion")
@@ -142,8 +157,14 @@ public class ControladorWeb {
         return "students.html";
     }
 
-    public Optional<Articulo> getArticulo(@RequestParam int idArticulo){
-        return repositorioArticulo.findById(idArticulo);
+    @RequestMapping(value = "/instituciones", method = RequestMethod.GET)
+    public String institucionesVista(){
+        return "instituciones.html";
+    }
+
+    @GetMapping(path= "/getArticulo")
+    public Articulo getArticulo(@RequestParam int idArticulo){
+        return repositorioArticulo.buscarPorId(idArticulo);
     }
 
     public Optional<Perfil> getPerfil(@PathVariable Integer id){

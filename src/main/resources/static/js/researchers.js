@@ -5,14 +5,12 @@ fetch("http://localhost:8080/allUsers")
     let salida=``;
     for (usuario of listaUsuarios){
 
-        const {nombre, apellido, perfil, institucion}= usuario;
-        if(perfil.description == "investigador"){
+        const {id, nombre, apellido, perfil, institucion}= usuario;
             salida+=`        <tr>
-                             <td>${nombre}</td>
-                             <td>${apellido}</td>
-                             <td>${institucion.nombre}</td>
+                             <td><a href="http://localhost:8080/user?id_usuario=${id}">${nombre}</a></td>
+                             <td><a href="http://localhost:8080/user?id_usuario=${id}">${apellido}</a></td>
+                             <td><a href="http://localhost:8080/institucion?id_institucion=${institucion.id}">${institucion.nombre}</a></td>
                              </tr>`;
-        }
     }
     elementoHTML.innerHTML=salida;
 })

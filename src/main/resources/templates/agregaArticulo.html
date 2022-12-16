@@ -27,7 +27,7 @@
             </symbol>
         </svg>
 
-        <!-- navbar --> 
+        <!-- navbar -->
         <div class="container-fluid gx-5" >
             <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
                 <a href="./index.html" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
@@ -43,93 +43,60 @@
                     <li><a th:href="@{instituciones}" class="nav-link px-2 link-dark">Instituciones</a></li>
                 </ul>
 
-                <form action="index.html" method="get" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                <form action="busqueda.html" method="get" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
                     <input type="search" name="q" class="form-control " placeholder="Buscar..." aria-label="Search">
                 </form>
 
                 <div class="text-end">
-                    <button onclick="location.href='login.html'" type="button" class="btn btn-outline-primary me-2">Acceder</button>
-                    <button onclick="location.href='register.html'" type="button" class="btn btn-primary">Registrarse</button>
+                    <button onclick="location.href='/login'" th:href="@{/login}" type="button" class="btn btn-outline-primary me-2">Acceder</button> <!-- onclick="location.href='login.html'" -->
+                    <button onclick="location.href='/registrarse'" type="button" class="btn btn-primary">Registrarse</button>
                 </div>
             </header>
         </div>
 
-        <!-- Select type + search -->
+
+        <!-- Formulario  -->
         <div class="container">
-            <form class="row g-3">
-                <div class="col-md-5">
-                    <input type="search" name="q" class="form-control form-control-lg" placeholder="Buscar..." aria-label="Search">
+            <h1>Sube una aportación</h1>
+            <br/>
+            <form id="subirArchivo">
+                <div class="mb-3">
+                    <label for="autores" class="form-label">Autores</label>
+                    <div class="input-group">
+                        <span class="input-group-text" id="inputGroupPrepend2">Yo, </span>
+                        <input type="text" class="form-control" id="autores"  aria-describedby="inputGroupPrepend2" >
+                    </div>
+                    <div id="emailHelp" class="form-text">Separe por una coma y espacio a cada autor.</div>
                 </div>
-                <div class="col-md-3">
+                <div class="row">
+                    <div class="col-md-5 mb-3">
+                        <label for="validationDefault04" class="form-label">Archivo</label>
+                        <input type="file" class="form-control" id="archivoASubir" aria-label="file example" required>
+                        <div class="invalid-feedback">Example invalid form file feedback</div>
+                    </div>
+                    <div class="col-md-5">
+                        <label for="tipoInvestigacion" class="form-label">Tipo de investigación</label>
+                        <select class="form-select" id="tipoInvestigacion" required>
+                            <option value="articulo">Articulo</option>
+                            <option value="revista">Revista</option>
+                            <option value="proyecto">Proyecto</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <select class="form-select form-select-lg" name="op" >
-                        <option value="articulos" selected>Artículos</option>
-                        <option value="investigadores">Investigadores</option>
-                        <option value="estudiantes">Estudiantes</option>
-                    </select>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
+                        <label class="form-check-label" for="invalidCheck2">
+                            Acepto los términos y condiciones
+                        </label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-primary" type="submit">Submit form</button>
                 </div>
             </form>
-        </div>
-
-        <br />
-        <!-- data output -->
-
-        <script src="../js/busqueda.js" th:src="@{/js/busqueda.js}"></script>
-
-        <div class="container">
-            <div class="row row-cols-1 row-cols-md-3 g-4" id="data-output">
-
-                <!-- articulos ejemplo -->
-                <div class="col">
-                    <div class="card border-dark mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">${articulo.nombre}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Autor </h6>
-                            <p class="card-text">Resumen/ Abstract articulo..</p>
-                            <a href="${articulo.url}" class="btn btn-dark">Ir al articulo</a>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Fecha de publicacion: 12/2002</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card border-dark mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">${articulo.nombre}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Autor </h6>
-                            <p class="card-text">Resumen/ Abstract articulo..</p>
-                            <a href="${articulo.url}" class="btn btn-dark">Ir al articulo</a>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Fecha de publicacion: 12/2002</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card border-dark mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">${articulo.nombre}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Autor </h6>
-                            <p class="card-text">Resumen/ Abstract articulo..</p>
-                            <a href="${articulo.url}" class="btn btn-dark">Ir al articulo</a>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Fecha de publicacion: 12/2002</small>
-                        </div>
-                    </div>
-                </div>
-                <!-- articulos ejemplo -->
-
-            </div>
-        </div>
 
         </div>
-        <br />
-
         <!-- footer -->
         <div class="container">
             <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
