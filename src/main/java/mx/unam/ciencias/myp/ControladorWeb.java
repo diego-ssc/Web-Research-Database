@@ -1,4 +1,7 @@
 package mx.unam.ciencias.myp;
+
+import javax.persistence.*;
+    
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -53,38 +56,51 @@ public class ControladorWeb {
         return "register";
     }
 
-    @GetMapping(path="/registered")
+    @GetMapping(path="/user/researcher")
+    public String paginaPrincipalInvestigador() {
+        return "registerSuccess";
+    }
+
+    @GetMapping(path="/user/student")
+    public String paginaPrincipalEstudiante() {
+        return "registerSuccess";
+    }
+
+    @GetMapping(path="/user/general")
     public String paginaPrincipalUsuario() {
         return "registerSuccess";
     }
 
-    @GetMapping(path="/registered/profile")
+    @GetMapping(path="/user/profile")
     public String perfilUsuario() {
         return "perfil";
     }
 
-    @GetMapping(path="/registered/f_Articles")
+    @GetMapping(path="/user/f_Articles")
     public String articulosDestacados() {
         return "featuredArticlesRegistered";
     }
 
-    @GetMapping(path="/registered/researchers")
+    @GetMapping(path="/user/researchers")
     public String investigadores() {
         return "researchers";
     }
 
-    @GetMapping(path="/registered/students")
+    @GetMapping(path="/user/students")
     public String estudiantes() {
         return "students";
     }
 
-    @GetMapping(path="/registered/institutions")
+    @GetMapping(path="/user/institutions")
     public String instituciones() {
         return "instituciones";
     }
 
     @PostMapping(path="/add_user")
     public String agregaNuevoUsuario(Usuario usuario) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("usuarios_asociados");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(usuario.getContrasena());
         usuario.setContrasena(encodedPassword);
@@ -92,14 +108,27 @@ public class ControladorWeb {
         String m = usuario.getMes();
         String a = usuario.getAno();
         usuario.setFechaNacimiento(d + "/" + m + "/" + a);
+
         Perfil perfil = new Perfil();
         Institucion institucion = new Institucion();
         perfil.setId(Integer.parseInt(usuario.getPerfilString()));
         institucion.setId(Integer.parseInt(usuario.getInstitucionString()));
         usuario.setPerfil(perfil);
         usuario.setInstitucion(institucion);
-        // List<Usuario> lista = institucion.getUsuarios();
-        // lista.add(usuario);
+        List<Usuario> lista = institucion.getUsuarios();
+
+        em.persist(usuario);
+        if (lista == null) {
+            lista = new LinkedList<Usuario>();
+        }   
+        lista.add(usuario);
+        institucion.setUsuarios(lista);
+        // em.persist(institucion);
+
+        em.getTransaction().commit();
+        em.close();
+        emf.close();
+        
         repositorioUsuario.save(usuario);
         return "user_added";
     }
@@ -119,7 +148,7 @@ public class ControladorWeb {
         return repositorioInstitucion.findAll();
     }
 
-    @GetMapping(path="/registered/institucion")
+    @GetMapping(path="/user/institucion")
     public @ResponseBody Iterable<Usuario> getArticulos
         (@RequestParam String nombre) {
         Institucion institucion = repositorioInstitucion
