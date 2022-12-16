@@ -4,10 +4,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.multipart.MultipartFile; // subir Archivo
 
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+import java.io.File;
 
 @Controller
 public class ControladorWeb {
@@ -28,24 +32,42 @@ public class ControladorWeb {
         return "index";
     }
 
-    // @GetMapping(value = "/addArticle")
-    // public void agregaNuevoArticulo(@RequestParam("autor") String[] autor,
-    //                     @RequestParam("archivo") MultipartFile archivo) {
+    @GetMapping(value = "/addArticle")
+    public void agrngaNuevoArticulo(@RequestParam("autores") String[] autores,
+                                    @RequestParam("archivo") MultipartFile archivo,
+                                    @RequestParam("ano") int ano,
+                                    @RequestParam("mes") String mes,
+                                    @RequestParam("descripcion") String descripcion,
+                                    @RequestParam("nombre") String nombre) {
 
-    //     String System.getProperty("user.home");
-    //     new File("/path/directory").mkdirs();
+        // add file to filesystem
+        String url;
+        String homeRed =  System.getProperty("user.home");
+        homeRed+= "/redDeInvestigadores";
+        url = homeRed+"/"+nombre+".pdf";
 
-    //     //code to get results from db for those params.
-    // }
+        new File(homeRed).mkdirs();
+        try {
+            archivo.transferTo(new File(url));
+        } catch (Exception e){
+           System.out.println(e);
+        }
 
-    @GetMapping("/addArticle")
-    public String agregaNuevoArticulo(@RequestParam String nombre,
-                                      @RequestParam String url) {
+        // add autors
+        Set<Usuario> usuarios = new HashSet<>();
+        for( String autor : autores ){
+            usuarios.add( repositorioUsuario.buscarPorNombre(autor) );
+        }
+
+        // construct
         Articulo articulo= new Articulo();
         articulo.setNombre(nombre);
+        articulo.setDescripcion(descripcion);
         articulo.setUrl(url);
+        articulo.setUsuarios(usuarios);
+        articulo.setAno(ano);
+        articulo.setMes(mes);
         repositorioArticulo.save(articulo);
-        return "";
     }
 
     @GetMapping("/article")
