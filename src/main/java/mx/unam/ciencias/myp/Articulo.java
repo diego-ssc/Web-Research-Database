@@ -31,6 +31,9 @@ public class Articulo implements Serializable {
 
     private int ano;
 
+    @Transient
+    private String cadenaUsuarios;
+
     public Integer getIdArticulo() {
         return id;
     }
@@ -85,5 +88,13 @@ public class Articulo implements Serializable {
 
     public void setAno(int ano) {
         this.ano = ano;
+    }
+
+    public String getCadenaUsuarios() {
+        return cadenaUsuarios;
+    }
+
+    public void setCadenaUsuarios() {
+        this.cadenaUsuarios = cadenaUsuarios;
     }
 }

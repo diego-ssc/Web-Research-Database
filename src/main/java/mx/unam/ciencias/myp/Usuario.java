@@ -3,7 +3,6 @@ package mx.unam.ciencias.myp;
 import javax.persistence.*;
 import java.util.Set;
 import java.util.HashSet;
-import java.io.Serializable;
 
 /**
  * Clase que representa la tabla de usuarios
@@ -12,11 +11,10 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "usuarios")
-public class Usuario implements Serializable {
+public class Usuario {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_usuario")
-
     private Integer id;
 
     private String nombre;
@@ -209,5 +207,22 @@ public class Usuario implements Serializable {
 
     public void setRevistas(Set<Revista> revistas) {
         this.revistas = revistas;
+    }
+
+    /**
+     * Método que nos dice si el usuario es igual al objeto recibido.
+     * @param objeto el objeto a comparar.
+     * @return true, si el usuario es igual al objeto recibido;
+     *         false, en otro caso.
+     */
+    @Override public boolean equals(Object objeto) {
+        if (objeto == null || getClass() != objeto.getClass())
+            return false;
+
+        Usuario usuario = (Usuario)objeto;
+        boolean a = id == usuario.getId();
+        boolean b = email.equals(usuario.getEmail());
+
+        return a && b;
     }
 }
