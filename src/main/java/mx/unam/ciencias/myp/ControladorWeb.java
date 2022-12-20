@@ -153,9 +153,9 @@ public class ControladorWeb {
 
     @PostMapping(path="/add_user")
     public String agregaNuevoUsuario(Usuario usuario) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("usuarios_asociados");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
+        //EntityManagerFactory emf = Persistence.createEntityManagerFactory("usuarios_asociados");
+        //EntityManager em = emf.createEntityManager();
+        //em.getTransaction().begin();
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(usuario.getContrasena());
         usuario.setContrasena(encodedPassword);
@@ -172,7 +172,7 @@ public class ControladorWeb {
         usuario.setInstitucion(institucion);
         List<Usuario> lista = institucion.getUsuarios();
 
-        em.persist(usuario);
+        //em.persist(usuario);
         if (lista == null) {
             lista = new LinkedList<Usuario>();
         }   
@@ -180,9 +180,9 @@ public class ControladorWeb {
         institucion.setUsuarios(lista);
         // em.persist(institucion);
 
-        em.getTransaction().commit();
-        em.close();
-        emf.close();
+        //em.getTransaction().commit();
+        //em.close();
+        //emf.close();
         
         repositorioUsuario.save(usuario);
         return "user_added";
