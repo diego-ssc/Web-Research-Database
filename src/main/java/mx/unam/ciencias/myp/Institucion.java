@@ -1,6 +1,10 @@
 package mx.unam.ciencias.myp;
 
 import javax.persistence.*;
+
+import java.io.Serializable;
+
+
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -14,12 +18,14 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 public class Institucion {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
+
     @Column(name = "id_institucion")
     private Integer id;
 
     private String nombre;
 
     private String locacion;
+
 
     @OneToMany(targetEntity=Usuario.class)
     @JsonBackReference
@@ -56,6 +62,7 @@ public class Institucion {
     public void setLocacion(String locacion) {
         this.locacion = locacion;
     }
+
 
     public List<Usuario> getUsuarios() {
         return usuarios;

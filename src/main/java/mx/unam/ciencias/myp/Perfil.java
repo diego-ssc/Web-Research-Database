@@ -14,6 +14,7 @@ public class Perfil {
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "id_perfil")
     private Integer id;
+
     
     private String descripcion;
 

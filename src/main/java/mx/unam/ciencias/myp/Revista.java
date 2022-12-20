@@ -1,6 +1,7 @@
 package mx.unam.ciencias.myp;
 
 import javax.persistence.*;
+
 import java.util.Set;
 import java.util.HashSet;
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "revistas")
+
 public class Revista implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -19,6 +21,7 @@ public class Revista implements Serializable {
     private Integer id;
 
     private String nombre;
+
 
     @ManyToMany(mappedBy = "revistas", fetch = FetchType.LAZY)
     private Set<Usuario> usuarios = new HashSet<>();
@@ -41,6 +44,7 @@ public class Revista implements Serializable {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
 
     public Set<Usuario> getUsuarios() {
         return this.usuarios;

@@ -1,6 +1,7 @@
 package mx.unam.ciencias.myp;
 
 import javax.persistence.*;
+
 import java.util.Set;
 import java.util.HashSet;
 
@@ -20,6 +21,7 @@ public class Usuario {
     private String nombre;
 
     private String apellido;
+
 
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "institucion", referencedColumnName = "id_institucion")
@@ -103,9 +105,8 @@ public class Usuario {
         return apellido;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
+
+
 
     public Institucion getInstitucion() {
         return institucion;

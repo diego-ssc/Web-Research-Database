@@ -1,6 +1,7 @@
 package mx.unam.ciencias.myp;
 
 import javax.persistence.*;
+
 import java.util.Set;
 import java.util.HashSet;
 import java.io.Serializable;
@@ -19,6 +20,7 @@ public class Proyecto implements Serializable {
     private Integer id;
 
     private String nombre;
+
 
     @ManyToMany(mappedBy = "proyectos", fetch = FetchType.LAZY)
     private Set<Usuario> usuarios = new HashSet<>();
@@ -41,6 +43,7 @@ public class Proyecto implements Serializable {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
 
     public Set<Usuario> getUsuarios() {
         return this.usuarios;

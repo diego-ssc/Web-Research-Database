@@ -1,6 +1,7 @@
 package mx.unam.ciencias.myp;
 
 import javax.persistence.*;
+
 import java.util.Set;
 import java.util.HashSet;
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "articulos")
+
 public class Articulo implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -21,6 +23,7 @@ public class Articulo implements Serializable {
     private String nombre;
 
     private String url;
+
 
     @ManyToMany(mappedBy = "articulos", fetch = FetchType.LAZY)
     private Set<Usuario> usuarios = new HashSet<>();
@@ -57,6 +60,7 @@ public class Articulo implements Serializable {
     public void setUrl(String url) {
         this.url = url;
     }
+
 
     public String getDescripcion() {
         return descripcion;
