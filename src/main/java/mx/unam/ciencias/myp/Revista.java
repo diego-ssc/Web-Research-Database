@@ -23,6 +23,9 @@ public class Revista implements Serializable {
     @ManyToMany(mappedBy = "revistas", fetch = FetchType.LAZY)
     private Set<Usuario> usuarios = new HashSet<>();
 
+    @Transient
+    private String cadenaUsuarios;    
+
     public Integer getIdRevista() {
         return id;
     }
@@ -45,5 +48,13 @@ public class Revista implements Serializable {
 
     public void setUsuarios(Set<Usuario> usuarios) {
         this.usuarios = usuarios;
+    }
+
+    public String getCadenaUsuarios() {
+        return cadenaUsuarios;
+    }
+
+    public void setCadenaUsuarios(String cadenaUsuarios) {
+        this.cadenaUsuarios = cadenaUsuarios;
     }
 }
