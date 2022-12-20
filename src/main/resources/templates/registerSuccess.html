@@ -64,7 +64,7 @@
             </div>
             <div class="overflow-hidden" style="max-height: 30vh;">
                 <div class="container px-5">
-                    <img src="../static/img/lab1.jpg" th:src="@{img/lab1.jpg}" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
+                    <img th:src="@{../img/lab1.jpg}" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
                 </div>
             </div>
         </div>
@@ -73,7 +73,9 @@
         <div class="container col-xxl-8 px-4 py-5">
             <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
                 <div class="col-10 col-sm-8 col-lg-6">
-                    <img src="../static/img/lab3.jpg" th:src="@{img/lab3.jpg}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+
+                    <img th:src="@{../img/lab3.jpg}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+
                 </div>
                 <div class="col-lg-6">
                     <h1 class="display-5 fw-bold lh-1 mb-3">Investigaciones, artículos, revistas, proyectos.</h1>
@@ -94,7 +96,7 @@
                         </form>
                 </div>
                 <div class="col-10 col-sm-8 col-lg-6">
-                    <img th:src="@{img/report1.jpg}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+                    <img th:src="@{../img/report1.jpg}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
                 </div>
             </div>
         </div>
@@ -151,8 +153,6 @@
 
                 <ul class="nav col-md-4 justify-content-end">
                     <li class="nav-item"><a th:href="@{index.html}" class="nav-link px-2 text-muted">Página principal</a></li>
-                    <li class="nav-item"><a th:href="@{login}" class="nav-link px-2 text-muted">Acceder</a></li>
-                    <li class="nav-item"><a th:href="@{registrarse}" class="nav-link px-2 text-muted">Registrarse</a></li>
                     <li class="nav-item"><a th:href="@{faqs}" class="nav-link px-2 text-muted">FAQs</a></li>
                     <li class="nav-item"><a th:href="@{sobreNosotros}" class="nav-link px-2 text-muted">Sobre nosotros</a></li>
                 </ul>

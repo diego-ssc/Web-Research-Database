@@ -282,6 +282,7 @@ public class ControladorWeb {
 
     @PostMapping(path="/add_user")
     public String agregaNuevoUsuario(Usuario usuario) {
+
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("usuarios_asociados");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
@@ -311,7 +312,7 @@ public class ControladorWeb {
         usuario.setInstitucion(institucion);
         List<Usuario> lista = institucion.getUsuarios();
 
-        em.persist(usuario);
+        //em.persist(usuario);
         if (lista == null) {
             lista = new LinkedList<Usuario>();
         }

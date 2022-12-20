@@ -41,7 +41,6 @@
       <li><a th:href="@{investigadores}" class="nav-link px-2 link-dark">Investigadores</a></li>
       <li><a th:href="@{estudiantes}" class="nav-link px-2 link-dark">Estudiantes</a></li>
       <li><a th:href="@{instituciones}" class="nav-link px-2 link-dark">Instituciones</a></li>
-      <li><a th:href="@{/registered/profile}" class="nav-link px-2 link-dark">Perfil</a></li>
 
     </ul>
 
@@ -50,7 +49,8 @@
     </form>
 
     <div class="text-end">
-      <button onclick="location.href='/logout'" type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Salir</button>
+      <button onclick="location.href='login'" type="button" class="btn btn-outline-primary me-2">Acceder</button>
+      <button onclick="location.href='registrarse'" type="button" class="btn btn-primary">Registrarse</button>
     </div>
   </header>
 </div>
