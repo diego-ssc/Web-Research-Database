@@ -24,7 +24,7 @@ public class Revista implements Serializable {
     private Set<Usuario> usuarios = new HashSet<>();
 
     @Transient
-    private String cadenaUsuarios;
+    private String cadenaUsuarios;    
 
     public Integer getIdRevista() {
         return id;
