@@ -159,7 +159,7 @@ public class ControladorWeb {
      *
      */
     @PostMapping(path="/add_project")
-    public String agregaRevista(Proyecto proyecto) {
+    public String agregaProyecto(Proyecto proyecto) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory
             ("usuarios_proyectos");
         EntityManager em = emf.createEntityManager();
