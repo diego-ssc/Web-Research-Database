@@ -9,6 +9,8 @@
 
     </head>
     <body>
+
+        <script src="../static/js/upload.js" th:src="@{/js/upload.js}"></script>
         <!-- logo  -->
         <svg style="display: none;">
             <symbol id="logo" viewBox="60 10 600 100">
@@ -59,8 +61,8 @@
         <div class="container">
             <h1>Sube una aportación</h1>
             <br/>
-            <form id="subirArchivo">
-                <div class="mb-3">
+            <form class="row g-3 " id="subirArchivo">
+                <div class="col-12 mb-3">
                     <label for="autores" class="form-label">Autores</label>
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">Yo, </span>
@@ -68,22 +70,57 @@
                     </div>
                     <div id="emailHelp" class="form-text">Separe por una coma y espacio a cada autor.</div>
                 </div>
-                <div class="row">
-                    <div class="col-md-5 mb-3">
-                        <label for="validationDefault04" class="form-label">Archivo</label>
-                        <input type="file" class="form-control" id="archivoASubir" aria-label="file example" required>
-                        <div class="invalid-feedback">Example invalid form file feedback</div>
-                    </div>
-                    <div class="col-md-5">
-                        <label for="tipoInvestigacion" class="form-label">Tipo de investigación</label>
-                        <select class="form-select" id="tipoInvestigacion" required>
-                            <option value="articulo">Articulo</option>
-                            <option value="revista">Revista</option>
-                            <option value="proyecto">Proyecto</option>
-                        </select>
-                    </div>
+
+                <div class="col-6">
+                    <label for="nombre" class="form-label">Nombre de la investigación</label>
+                    <input type="text" class="form-control" id="nombre"  aria-describedby="inputGroupPrepend2" >
                 </div>
-                <div class="mb-3">
+
+                <div class="col-6 mb-3">
+                    <label for="validationDefault04" class="form-label">Archivo</label>
+                    <input type="file" class="form-control" id="archivoASubir" aria-label="file example" required>
+                    <div class="invalid-feedback">Example invalid form file feedback</div>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <label for="descripcion" class="form-label">Descripción</label>
+                    <textarea class="form-control" id="descripcion" aria-label="With textarea" required></textarea>
+                </div>
+
+                <div class="col-6">
+                    <label for="tipoInvestigacion" class="form-label">Tipo de investigación</label>
+                    <select class="form-select" id="tipoInvestigacion" required>
+                        <option value="articulo">Articulo</option>
+                        <option value="revista">Revista</option>
+                        <option value="proyecto">Proyecto</option>
+                    </select>
+                </div>
+
+
+                <div class="col-3">
+                    <label for="mes" class="form-label">Mes</label>
+                    <select class="form-select" id="mes" required>
+                        <option>Enero</option>
+                        <option>Febrero</option>
+                        <option>Marzo</option>
+                        <option>Abril</option>
+                        <option>Mayo</option>
+                        <option>Junio</option>
+                        <option>Julio</option>
+                        <option>Agosto</option>
+                        <option>Septiembre</option>
+                        <option>Octubre</option>
+                        <option>Noviembre</option>
+                        <option>Diciembre</option>
+                    </select>
+                </div>
+
+                <div class="col-3 mb-3">
+                    <label for="ano" class="form-label">Año</label>
+                    <input type="number" class="form-control" id="ano"  aria-describedby="inputGroupPrepend2" required>
+                    </select>
+                </div>
+                <div class="col-12 mb-3">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
                         <label class="form-check-label" for="invalidCheck2">
@@ -91,7 +128,8 @@
                         </label>
                     </div>
                 </div>
-                <div class="mb-3">
+
+                <div class="col-12 mb-3">
                     <button class="btn btn-primary" type="submit">Submit form</button>
                 </div>
             </form>

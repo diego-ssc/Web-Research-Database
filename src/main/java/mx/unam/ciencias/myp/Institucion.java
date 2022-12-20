@@ -1,9 +1,12 @@
 package mx.unam.ciencias.myp;
 
 import javax.persistence.*;
+
 import java.io.Serializable;
 
+
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 /**
  * Clase que representa la tabla de instituciones
@@ -12,7 +15,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "instituciones")
-public class Institucion implements Serializable {
+public class Institucion {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 
@@ -25,6 +28,7 @@ public class Institucion implements Serializable {
 
 
     @OneToMany(targetEntity=Usuario.class)
+    @JsonBackReference
     private List<Usuario> usuarios;
 
     public Institucion() {}

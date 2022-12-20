@@ -6,10 +6,12 @@ fetch("http://localhost:8080/allInstituciones")
         for (institucion of listaInstituciones){
 
             const {id, nombre, locacion}= institucion;
-            salida+=`        <tr>
-                             <td><a href="http://localhost:8080/institucion?id_institucion=${id}">${nombre}</a></td>
+            if(nombre != "indefinido") {
+                salida += `        <tr>
+                             <td><a href="http://localhost:8080/institucion?idInstitucion=${id}">${nombre}</a></td>
                              <td>${locacion}</td>
                              </tr>`;
+            }
         }
         elementoHTML.innerHTML=salida;
     })
