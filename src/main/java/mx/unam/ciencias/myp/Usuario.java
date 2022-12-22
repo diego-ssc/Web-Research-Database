@@ -3,7 +3,6 @@ package mx.unam.ciencias.myp;
 import javax.persistence.*;
 import java.util.Set;
 import java.util.HashSet;
-
 /**
  * Clase que representa la tabla de usuarios
  * en la base de datos.

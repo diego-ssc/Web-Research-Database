@@ -1,7 +1,6 @@
 package mx.unam.ciencias.myp;
 
 import javax.persistence.*;
-
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -49,7 +48,7 @@ public class ControladorWeb {
     }
 
     @GetMapping(value = "/addArticle")
-    public void agrngaNuevoArticulo(@RequestParam("autores") String[] autores,
+    public void agregaNuevoArticulo(@RequestParam("autores") String[] autores,
                                     @RequestParam("archivo") MultipartFile archivo,
                                     @RequestParam("ano") int ano,
                                     @RequestParam("mes") String mes,
@@ -281,8 +280,7 @@ public class ControladorWeb {
     }
 
     @PostMapping(path="/add_user")
-    public String agregaNuevoUsuario(Usuario usuario) {
-
+    public String agregaNuevoUsuario( Usuario usuario) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("usuarios_asociados");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
