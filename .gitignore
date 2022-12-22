@@ -32,3 +32,6 @@ GRTAGS
 GTAGS
 
 myp.iml
+
+# projectile
+.projectile
