@@ -6,7 +6,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import mx.unam.ciencias.myp.Articulo;
+import java.util.List;
 
 @Repository("repositorioarticulo")
 public interface RepositorioArticulo extends CrudRepository<Articulo, Serializable> {
+    @Query("SELECT a FROM Usuario a WHERE a.nombre LIKE ?1")
+    public List<Articulo> buscarPorNombre(String nombre);
 }

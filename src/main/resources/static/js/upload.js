@@ -14,15 +14,18 @@ const inputNombre = document.getElementById("nombre");
  * @return url de la API donde se agrega el tipo.
  */
 function lugarDeEnvio(){
-    var seleccion = document.getElementById('tipoInvestigacion');
+    var select = document.getElementById('tipoInvestigacion');
     var valor = select.options[select.selectedIndex].value;
 
     switch(valor){
     case "proyecto":
+        console.log("proyecto");
         return "http://localhost:8080/addProyecto";
     case "revista":
+        console.log("revista");
         return "http://localhost:8080/addJournal";
     default:
+        console.log("Articulo");
         return "http://localhost:8080/addArticle";
     }
 }
@@ -48,7 +51,7 @@ formulario.addEventListener("submit", function(e) {
 
     // agregar al cuerpo de POST
     listaAutores.forEach(function (value, index) {
-        datosAEnviar.append('autores', item);
+        datosAEnviar.append('autores', value);
     });
 
 
@@ -59,6 +62,7 @@ formulario.addEventListener("submit", function(e) {
     datosAEnviar.append("nombre", nombre);
 
 
+    console.log(datosAEnviar);
     fetch(lugarEnvio, {
         method: "POST",
         body: datosAEnviar,
@@ -68,3 +72,6 @@ formulario.addEventListener("submit", function(e) {
     });
 
 });
+
+
+
