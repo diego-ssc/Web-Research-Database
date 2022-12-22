@@ -26,14 +26,10 @@ public class AdministradorInicioSesion extends SavedRequestAwareAuthenticationSu
             (InformacionUsuario) authentication.getPrincipal();
         String url = request.getContextPath();
 
-        if (informacionUsuario.hasRole("investigador")) {
-            url = "/user/researcher";
-        } else if (informacionUsuario.hasRole("estudiante")) {
-            url = "/user/student";
-        } else if (informacionUsuario.hasRole("general")) {
-            url = "/user/general";
-        } else if (informacionUsuario.hasRole("administrador")) {
-            url = "administrator";
+        if (informacionUsuario.hasRole("administrador")) {
+            url = "/admin";
+        } else {
+            url = "/user";
         }
 
         response.sendRedirect(url);
