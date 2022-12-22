@@ -31,12 +31,12 @@ function getAllArticulos(){
                     <div class="card border-dark mb-3">
                         <div class="card-body">
                             <h5 class="card-title">${articulo.nombre}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Autor </h6>
-                            <p class="card-text">Resumen/ Abstract articulo..</p>
-                            <a href="${articulo.url}" class="btn btn-dark">Ir al articulo</a>
+                            <h6 class="card-subtitle mb-2 text-muted">Autor(es): ${articulo.usuarios} </h6>
+                            <p class="card-text">${articulo.descripcion}</p>
+                            <a href="http://localhost:8080/article?idArticulo=${articulo.idArticulo}" class="btn btn-dark">Ir al articulo</a>
                         </div>
                         <div class="card-footer">
-                            <small class="text-muted">Fecha de publicacion: 12/2002</small>
+                            <small class="text-muted">Fecha de publicacion: ${articulo.mes}/${articulo.ano}</small>
                         </div>
                     </div>
                 </div>
@@ -263,5 +263,8 @@ function buscar(){
         getArticulos( query );
     }
 }
+console.log("Hello world!");
+
+//
 
 buscar();

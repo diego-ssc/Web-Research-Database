@@ -333,11 +333,13 @@ public class ControladorWeb {
         return repositorioUsuario.findAll();
     }
 
+    @CrossOrigin
     @GetMapping(path="/allArticles")
     public @ResponseBody Iterable<Articulo> getArticulos() {
         return repositorioArticulo.findAll();
     }
 
+    @CrossOrigin
     @GetMapping(path = "/allInstituciones")
     public @ResponseBody Iterable<Institucion> getInstituciones(){
         return repositorioInstitucion.findAll();
