@@ -241,7 +241,7 @@ public class ControladorWeb {
 
     @GetMapping(path="/user/researcher")
     public String paginaPrincipalInvestigador() {
-        return "registerSuccess";
+        return "index";
     }
 
     @GetMapping(path="/user/student")

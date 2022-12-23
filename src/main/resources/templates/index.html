@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -41,6 +41,7 @@
                     <li><a th:href="@{investigadores}" class="nav-link px-2 link-dark">Investigadores</a></li>
                     <li><a th:href="@{estudiantes}" class="nav-link px-2 link-dark">Estudiantes</a></li>
                     <li><a th:href="@{instituciones}" class="nav-link px-2 link-dark">Instituciones</a></li>
+                    <li sec:authorize="isAuthenticated()"><a th:href="@{/user/profile}" class="nav-link px-2 link-dark">Perfil</a></li>
                 </ul>
 
                 <form action="busqueda.html" method="get" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
@@ -48,8 +49,9 @@
                 </form>
 
                 <div class="text-end">
-                    <button onclick="location.href='/login'" th:href="@{/login}" type="button" class="btn btn-outline-primary me-2">Acceder</button> <!-- onclick="location.href='login.html'" -->
-                    <button onclick="location.href='/registrarse'" type="button" class="btn btn-primary">Registrarse</button>
+                    <button sec:authorize="isAnonymous()" onclick="location.href='/login'" th:href="@{/login}" type="button" class="btn btn-outline-primary me-2">Acceder</button> <!-- onclick="location.href='login.html'" -->
+                    <button sec:authorize="isAnonymous()" onclick="location.href='/registrarse'" type="button" class="btn btn-primary">Registrarse</button>
+                    <button sec:authorize="isAuthenticated()" onclick="location.href='/logout'" type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Salir</button>
                 </div>
             </header>
         </div>
@@ -60,14 +62,15 @@
             <h1 class="display-4 fw-bold">Una red de investigadores</h1>
             <div class="col-lg-6 mx-auto">
                 <p class="lead mb-4">Encuentra artículos y perfiles de investigadores y estudiantes.</p>
-                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+                <div sec:authorize="isAnonymous()" class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
                     <button onclick="location.href='/registrarse'" type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Registrarse</button>
                     <button type="button" onclick="location.href='/login'" th:href="@{/login}" class="btn btn-outline-secondary btn-lg px-4">Acceder</button>
                 </div>
             </div>
             <div class="overflow-hidden" style="max-height: 30vh;">
                 <div class="container px-5">
-                    <img src="../static/img/lab1.jpg" th:src="@{img/lab1.jpg}" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
+                    <img sec:authorize="isAnonymous()" src="../static/img/lab1.jpg" th:src="@{img/lab1.jpg}" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
+                    <img sec:authorize="isAuthenticated()" src="../../static/img/lab1.jpg" th:src="@{../img/lab1.jpg}" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
                 </div>
             </div>
         </div>
@@ -76,12 +79,13 @@
         <div class="container col-xxl-8 px-4 py-5">
             <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
                 <div class="col-10 col-sm-8 col-lg-6">
-                    <img src="../static/img/lab3.jpg" th:src="@{img/lab3.jpg}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+                    <img sec:authorize="isAnonymous()" src="../static/img/lab3.jpg" th:src="@{img/lab3.jpg}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+                    <img sec:authorize="isAuthenticated()" src="../../static/img/lab3.jpg" th:src="@{../img/lab3.jpg}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
                 </div>
                 <div class="col-lg-6">
                     <h1 class="display-5 fw-bold lh-1 mb-3">Investigaciones, artículos, revistas, proyectos.</h1>
                     <p class="lead">Encuentra todo con una búsqueda, puedes conocer también el rol de los autores y generar un reporte de perfiles.</p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                    <div sec:authorize="isAnonymous()" class="d-grid gap-2 d-md-flex justify-content-md-start">
                         <button onclick="location.href='/registrarse'" type="button" class="btn btn-primary btn-lg px-4 me-md-2">Registrarse</button>
                         <button onclick="location.href='/login'" type="button" th:href="@{/login}" class="btn btn-outline-secondary btn-lg px-4">Acceder</button>
                     </div>
@@ -101,7 +105,8 @@
                         </form>
                 </div>
                 <div class="col-10 col-sm-8 col-lg-6">
-                    <img src="../static/img/report1.jpg" th:src="@{img/report1.jpg}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+                    <img sec:authorize="isAnonymous()" src="../static/img/report1.jpg" th:src="@{img/report1.jpg}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+                    <img sec:authorize="isAuthenticated()" src="../../static/img/report1.jpg" th:src="@{../img/report1.jpg}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
                 </div>
             </div>
         </div>
@@ -224,8 +229,8 @@
 
                 <ul class="nav col-md-4 justify-content-end">
                     <li class="nav-item"><a th:href="@{index.html}" class="nav-link px-2 text-muted">Página principal</a></li>
-                    <li class="nav-item"><a th:href="@{login}" class="nav-link px-2 text-muted">Acceder</a></li>
-                    <li class="nav-item"><a th:href="@{registrarse}" class="nav-link px-2 text-muted">Registrarse</a></li>
+                    <li sec:authorize="isAnonymous()" class="nav-item"><a th:href="@{login}" class="nav-link px-2 text-muted">Acceder</a></li>
+                    <li sec:authorize="isAnonymous()" class="nav-item"><a th:href="@{registrarse}" class="nav-link px-2 text-muted">Registrarse</a></li>
                     <li class="nav-item"><a th:href="@{faqs}" class="nav-link px-2 text-muted">FAQs</a></li>
                     <li class="nav-item"><a th:href="@{sobreNosotros}" class="nav-link px-2 text-muted">Sobre nosotros</a></li>
                 </ul>
