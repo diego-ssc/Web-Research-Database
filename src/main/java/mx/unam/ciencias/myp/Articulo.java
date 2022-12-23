@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.Set;
 import java.util.HashSet;
 import java.io.Serializable;
+import org.springframework.web.multipart.MultipartFile; // subir Archivo
 
 /**
  * Clase que representa la tabla de instituciones
@@ -20,8 +21,6 @@ public class Articulo implements Serializable {
 
     private String nombre;
 
-    private String url;
-
     @ManyToMany(mappedBy = "articulos", fetch = FetchType.LAZY)
     private Set<Usuario> usuarios = new HashSet<>();
 
@@ -30,6 +29,10 @@ public class Articulo implements Serializable {
     private String mes;
 
     private int ano;
+
+    @Transient
+    @Lob
+    private byte[] archivo;
 
     @Transient
     private String cadenaUsuarios;
@@ -49,13 +52,12 @@ public class Articulo implements Serializable {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
-    public String getUrl() {
-        return url;
+    public void setArchivo(byte[] archivo){
+        this.archivo = archivo;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public byte[] getArchivo(){
+        return archivo;
     }
 
     public String getDescripcion() {

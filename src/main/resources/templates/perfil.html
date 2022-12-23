@@ -50,12 +50,13 @@
             </form>
 
             <div class="text-end">
-              <button onclick="location.href='/logout'" type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Salir</button>
+                <button onclick="location.href='/user/addContribution'" type="button" class="btn btn-outline-secondary btn-lg px-4 me-sm-3">Subir</button>
+                <button onclick="location.href='/logout'" type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Salir</button>
             </div>
         </header>
     </div>
 
-    
+    <!-- datos -->
     <div class="container-lg">
       <h2 id="nombreUsuario">[[${#request.userPrincipal.principal.fullName}]]</h2>
       <h5>Artículos:</h5>

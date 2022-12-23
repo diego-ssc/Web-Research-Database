@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile; // subir Archivo
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 import java.io.File;
@@ -47,7 +48,9 @@ public class ControladorWeb {
         return "index";
     }
 
-    @GetMapping(value = "/addArticle")
+
+    @CrossOrigin
+    @PostMapping (value = "/addArticle")
     public void agregaNuevoArticulo(@RequestParam("autores") String[] autores,
                                     @RequestParam("archivo") MultipartFile archivo,
                                     @RequestParam("ano") int ano,
@@ -78,7 +81,7 @@ public class ControladorWeb {
         Articulo articulo= new Articulo();
         articulo.setNombre(nombre);
         articulo.setDescripcion(descripcion);
-        articulo.setUrl(url);
+        // articulo.setUrl(url);
         articulo.setUsuarios(usuarios);
         articulo.setAno(ano);
         articulo.setMes(mes);
@@ -99,9 +102,28 @@ public class ControladorWeb {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
 
+
+
+        // add file to filesystem
+        // MultipartFile archivo = (MultipartFile) articulo.getArchivo();
+        // String nombre = articulo.getNombre();
+        // String url;
+        // String homeRed =  System.getProperty("user.home");
+        // homeRed+= "/redDeInvestigadores";
+        // url = homeRed+"/"+nombre+".pdf";
+
+        // new File(homeRed).mkdirs();
+        // try {
+        //     archivo.transferTo(new File(url));
+        // } catch (Exception e){
+        //     System.out.println(e);
+        // }
+
+        // Parse users
         String cadenaUsuarios = articulo.getCadenaUsuarios();
         articulo.setUsuarios(parseUsers(cadenaUsuarios));
 
+        //
         em.persist(articulo);
         em.getTransaction().commit();
         em.close();
@@ -331,11 +353,13 @@ public class ControladorWeb {
         return repositorioUsuario.findAll();
     }
 
+    @CrossOrigin
     @GetMapping(path="/allArticles")
     public @ResponseBody Iterable<Articulo> getArticulos() {
         return repositorioArticulo.findAll();
     }
 
+    @CrossOrigin
     @GetMapping(path = "/allInstituciones")
     public @ResponseBody Iterable<Institucion> getInstituciones(){
         return repositorioInstitucion.findAll();
@@ -349,6 +373,12 @@ public class ControladorWeb {
         return institucion.getUsuarios();
     }
 
+    @GetMapping(path="/user/addContribution")
+    public String addArticle(Model model) {
+        model.addAttribute("articulo", new Articulo());
+        return "addContribution";
+    }
+
     @GetMapping(path="/autores_articulos")
     public @ResponseBody Iterable<Usuario> getAutoresArticulo
         (@RequestParam String idArticulo) {
@@ -360,6 +390,7 @@ public class ControladorWeb {
         return null;
     }
 
+    //TODO: Determin
     @GetMapping(path="/articulos_usuario")
     public @ResponseBody Iterable<Articulo> getArticulosUsuario
         (@RequestParam String idUsuario){
@@ -369,6 +400,14 @@ public class ControladorWeb {
             return usuario.get().getArticulos();
         }
         return null;
+    }
+
+    @GetMapping(path="/articulos_query")
+    public @ResponseBody Iterable<Articulo> getArticulosQuery (@RequestParam String query){
+
+        List<Articulo> articulos = new ArrayList<>();
+        articulos = repositorioArticulo.buscarPorNombre(query);
+        return articulos;
     }
 
     public Articulo inserta(Articulo articulo) {
