@@ -36,6 +36,9 @@ public class ControladorWeb {
     @Autowired
     private RepositorioProyecto repositorioProyecto;
 
+    @Autowired
+    private RepositorioAreaTrabajo repositorioAreaTrabajo;
+
     /**
      * Método que se encarga de devolver la plantilla
      * de la página principal de la página.
@@ -250,11 +253,6 @@ public class ControladorWeb {
         return "registerSuccess";
     }
 
-    @GetMapping(path="/user/general")
-    public String paginaPrincipalUsuario() {
-        return "registerSuccess";
-    }
-
     @GetMapping(path="/user/profile")
     public String perfilUsuario() {
         return "perfil";
@@ -280,9 +278,16 @@ public class ControladorWeb {
         return "instituciones";
     }
 
+    /**
+     * Método que se encarga de agregar un nuevo usuario
+     * a la base de datos.
+     * @param usuario El usuario que se agregará a la
+     * base de datos
+     * @return la plantilla de respuesta
+     *
+     */
     @PostMapping(path="/add_user")
     public String agregaNuevoUsuario(Usuario usuario) {
-
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("usuarios_asociados");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
@@ -295,16 +300,11 @@ public class ControladorWeb {
         String a = usuario.getAno();
         usuario.setFechaNacimiento(d + "/" + m + "/" + a);
 
-        // Perfil perfil = new Perfil();
-        // Institucion institucion = new Institucion();
-
         Optional<Perfil> perfilOpt = repositorioPerfil.findById
             (Integer.parseInt(usuario.getPerfilString()));
         Optional<Institucion> institucionOpt = repositorioInstitucion.findById
             (Integer.parseInt(usuario.getInstitucionString()));
 
-        // perfil.setId(Integer.parseInt(usuario.getPerfilString()));
-        // institucion.setId(Integer.parseInt(usuario.getInstitucionString()));
         Perfil perfil = perfilOpt.get();
         Institucion institucion = institucionOpt.get();
 
@@ -312,7 +312,7 @@ public class ControladorWeb {
         usuario.setInstitucion(institucion);
         List<Usuario> lista = institucion.getUsuarios();
 
-        //em.persist(usuario);
+        em.persist(usuario);
         if (lista == null) {
             lista = new LinkedList<Usuario>();
         }
@@ -436,13 +436,183 @@ public class ControladorWeb {
         return "estudiante";
     }
 
-    @GetMapping(path="/general_user")
-    public String generalView() {
-        return "general";
-    }
-
+    // Métodos de administrador
+    /**
+     * Método que devuelve la plantilla de la página
+     * principal del administrador
+     *
+     */
     @GetMapping(path="/administrator")
     public String adminView() {
         return "administrador";
+    }
+
+    /**
+     * Método que se encarga de agregar un nuevo usuario
+     * a la base de datos.
+     * @param usuario El usuario que se agregará a la
+     * base de datos
+     * @return la plantilla de respuesta
+     *
+     */
+    @PostMapping(path="/administrator/add_user")
+    public String agregaNuevoUsuarioAdmin(Usuario usuario) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("usuarios_asociados");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(usuario.getContrasena());
+        usuario.setContrasena(encodedPassword);
+        String d = usuario.getDia();
+        String m = usuario.getMes();
+        String a = usuario.getAno();
+        usuario.setFechaNacimiento(d + "/" + m + "/" + a);
+
+        Optional<Perfil> perfilOpt = repositorioPerfil.findById
+            (Integer.parseInt(usuario.getPerfilString()));
+        Optional<Institucion> institucionOpt = repositorioInstitucion.findById
+            (Integer.parseInt(usuario.getInstitucionString()));
+
+        Perfil perfil = perfilOpt.get();
+        Institucion institucion = institucionOpt.get();
+
+        usuario.setPerfil(perfil);
+        usuario.setInstitucion(institucion);
+        List<Usuario> lista = institucion.getUsuarios();
+
+        em.persist(usuario);
+        if (lista == null) {
+            lista = new LinkedList<Usuario>();
+        }
+
+        lista.add(usuario);
+        institucion.setUsuarios(lista);
+
+        em.getTransaction().commit();
+        em.close();
+        emf.close();
+
+        repositorioUsuario.save(usuario);
+        return "user_added";
+    }
+
+    /**
+     * Método que se encarga de agregar un
+     * artículo a la base de datos.
+     * @param articulo El artículo que se agregará
+     * @return la plantilla de respuesta
+     *
+     */
+    @PostMapping(path="/administrator/add_article")
+    public String agregaArticuloAdmin(Articulo articulo) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory
+            ("usuarios_articulos");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        String cadenaUsuarios = articulo.getCadenaUsuarios();
+        articulo.setUsuarios(parseUsers(cadenaUsuarios));
+
+        em.persist(articulo);
+        em.getTransaction().commit();
+        em.close();
+        emf.close();
+
+        repositorioArticulo.save(articulo);
+        return "article_added";
+    }
+
+    /**
+     * Método que se encarga de agregar una
+     * revista a la base de datos.
+     * @param revista La revista que se agregará
+     * @return la plantilla de respuesta
+     *
+     */
+    @PostMapping(path="/administrator/add_journal")
+    public String agregaRevistaAdmin(Revista revista) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory
+            ("usuarios_revistas");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        String cadenaUsuarios = revista.getCadenaUsuarios();
+        revista.setUsuarios(parseUsers(cadenaUsuarios));
+
+        em.persist(revista);
+        em.getTransaction().commit();
+        em.close();
+        emf.close();
+
+        repositorioRevista.save(revista);
+
+        return "journal_added";
+    }
+
+    /**
+     * Método que se encarga de agregar un
+     * proyecto a la base de datos.
+     * @param proyecto El proyecto que se agregará
+     * @return la plantilla de respuesta
+     *
+     */
+    @PostMapping(path="/administrator/add_project")
+    public String agregaProyectoAdmin(Proyecto proyecto) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory
+            ("usuarios_proyectos");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        String cadenaUsuarios = proyecto.getCadenaUsuarios();
+        proyecto.setUsuarios(parseUsers(cadenaUsuarios));
+
+        em.persist(proyecto);
+        em.getTransaction().commit();
+        em.close();
+        emf.close();
+
+        repositorioProyecto.save(proyecto);
+
+        return "project_added";
+    }
+
+    /**
+     * Método que se encarga de agregar un
+     * perfil a la base de datos.
+     * @param perfil El perfil que se agregará
+     * @return la plantilla de respuesta
+     *
+     */
+    @PostMapping(path="/administrator/add_profile")
+    public String agregaPerfilAdmin(Perfil perfil) {
+        repositorioPerfil.save(perfil);
+        return "profile_added";
+    }
+
+    /**
+     * Método que se encarga de agregar una
+     * institución a la base de datos.
+     * @param institucion La institución que se agregará
+     * @return la plantilla de respuesta
+     *
+     */
+    @PostMapping(path="/administrator/add_institution")
+    public String agregaInstitucionAdmin(Institucion institucion) {
+        repositorioInstitucion.save(institucion);
+        return "institution_added";
+    }
+
+    /**
+     * Método que se encarga de agregar un
+     * área de trabajo a la base de datos.
+     * @param area El área que se agregará
+     * @return la plantilla de respuesta
+     *
+     */
+    @PostMapping(path="/administrator/add_work_field")
+    public String agregaAreaTrabajoAdmin(AreaTrabajo area) {
+        repositorioAreaTrabajo.save(area);
+        return "work_field_added";
     }
 }

@@ -5,6 +5,8 @@ import java.util.Set;
 import java.util.HashSet;
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 /**
  * Clase que representa la tabla de instituciones
  * en la base de datos.
@@ -23,6 +25,7 @@ public class Articulo implements Serializable {
     private String url;
 
     @ManyToMany(mappedBy = "articulos", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Set<Usuario> usuarios = new HashSet<>();
 
     private String descripcion;
