@@ -5,6 +5,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import static org.junit.Assert.assertTrue;
 
 
 @DataJpaTest
@@ -15,14 +16,24 @@ class MypApplicationTests {
 
     @Autowired
     RepositorioUsuario repositorio;
-    Usuario usuario = new Usuario();
 
     @Test
     void testSave() {
-        repositorio.save(new Usuario());
-        Iterable<Usuario> i = repositorio.findAll();
-        for (Usuario u : i) {
+        Iterable<Usuario> usuarios = repositorio.findAll();
+        int i = 0;
+        for (Usuario u : usuarios) {
+            i++;
         }
+        assertTrue(i == 0);
+
+        Usuario usuario = new Usuario();
+        repositorio.save(usuario);
+        usuarios = repositorio.findAll();
+        for (Usuario u : usuarios) {
+            assertTrue(u == usuario);
+            return;
+        }
+        assertTrue(false);
     }
 
 
