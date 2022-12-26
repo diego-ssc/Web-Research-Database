@@ -19,7 +19,7 @@ class MypApplicationTests {
 
     @Test
     void testSave() {
-
+        repositorio.save(new Usuario());
         Iterable<Usuario> i = repositorio.findAll();
         for (Usuario u : i) {
         }
