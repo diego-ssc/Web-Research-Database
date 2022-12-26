@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 import java.io.File;
+import java.lang.NumberFormatException;
 
 @Controller
 public class ControladorWeb {
@@ -84,7 +85,7 @@ public class ControladorWeb {
         articulo.setDescripcion(descripcion);
         articulo.setUrl(url);
         articulo.setUsuarios(usuarios);
-        articulo.setAno(ano);
+        // articulo.setAno(ano);
         articulo.setMes(mes);
         repositorioArticulo.save(articulo);
     }
@@ -98,6 +99,9 @@ public class ControladorWeb {
      */
     @PostMapping(path="/add_article")
     public String agregaArticulo(Articulo articulo) {
+        String url = verificaArticulo(articulo);
+        if (url != null)
+            return url;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory
             ("usuarios_articulos");
         EntityManager em = emf.createEntityManager();
@@ -115,7 +119,52 @@ public class ControladorWeb {
         return "article_added";
     }
 
+    private String verificaArticulo(Articulo articulo) {
+        if (articulo == null)
+            return "object_not_valid";
+        boolean n = articulo.getNombre() != null;
+        boolean u = articulo.getUrl() != null;
+        boolean d = articulo.getDescripcion() != null;
+        boolean f = verificaFecha(null, articulo.getMes(),
+                                  articulo.getAno());
+        if (n && u && d && f)
+            return null;
+        return "object_not_valid";
+    }
+
+    private boolean verificaEmail(String email) {
+        if (email == null)
+            return false;
+        if (!email.contains("@"))
+            return false;
+        return true;
+    }
+
+    private boolean verificaFecha(String d, String m, String a) {
+        if (m == null || a == null)
+            return false;
+        try {
+            if (d != null) {
+                int dia = Integer.parseInt(d);
+                if (dia < 0 || dia > 31)
+                    return false;
+            }
+            int mes = Integer.parseInt(m);
+            int ano = Integer.parseInt(a);
+
+            if (mes < 0 || mes > 12)
+                return false;
+            if (ano < 0)
+                return false;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+
     private Set<Usuario> parseUsers(String cadenaUsuarios) {
+        if (cadenaUsuarios == null)
+            return null;
         String[] emails = cadenaUsuarios.split(",");
         Set<Usuario> usuarios = new HashSet<>();
         Usuario usuario;
@@ -136,6 +185,9 @@ public class ControladorWeb {
      */
     @PostMapping(path="/add_journal")
     public String agregaRevista(Revista revista) {
+        String url = verificaRevista(revista);
+        if (url != null)
+            return url;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory
             ("usuarios_revistas");
         EntityManager em = emf.createEntityManager();
@@ -143,6 +195,9 @@ public class ControladorWeb {
 
         String cadenaUsuarios = revista.getCadenaUsuarios();
         revista.setUsuarios(parseUsers(cadenaUsuarios));
+
+        String cadenaArticulos = revista.getCadenaArticulos();
+        revista.setArticulos(parseArticles(cadenaArticulos));
 
         em.persist(revista);
         em.getTransaction().commit();
@@ -154,6 +209,31 @@ public class ControladorWeb {
         return "journal_added";
     }
 
+    private Set<Articulo> parseArticles(String cadenaArticulos) {
+        if (cadenaArticulos == null)
+            return null;
+        String[] urls = cadenaArticulos.split(",");
+        Set<Articulo> articulos = new HashSet<>();
+        Articulo articulo;
+        for (int i = 0; i < urls.length; i++) {
+            articulo = repositorioArticulo.buscarPorUrl(urls[i]);
+            articulos.add(articulo);
+        }
+
+        return articulos;
+    }
+
+    private String verificaRevista(Revista revista) {
+        if (revista == null)
+            return "object_not_valid";
+        boolean n = revista.getNombre() != null;
+        boolean f = verificaFecha(null, revista.getMes(),
+                                  revista.getAno());
+        if (n && f)
+            return null;
+        return "object_not_valid";
+    }
+
     /**
      * Método que se encarga de agregar un
      * proyecto a la base de datos.
@@ -163,6 +243,9 @@ public class ControladorWeb {
      */
     @PostMapping(path="/add_project")
     public String agregaProyecto(Proyecto proyecto) {
+        String url = verificaProyecto(proyecto);
+        if (url != null)
+            return url;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory
             ("usuarios_proyectos");
         EntityManager em = emf.createEntityManager();
@@ -179,6 +262,17 @@ public class ControladorWeb {
         repositorioProyecto.save(proyecto);
 
         return "project_added";
+    }
+
+    private String verificaProyecto(Proyecto proyecto) {
+        if (proyecto == null)
+            return "object_not_valid";
+        boolean n = proyecto.getNombre() != null;
+        boolean f = verificaFecha(null, proyecto.getMes(),
+                                  proyecto.getAno());
+        if (n && f)
+            return null;
+        return "object_not_valid";
     }
 
     /**
@@ -288,6 +382,9 @@ public class ControladorWeb {
      */
     @PostMapping(path="/add_user")
     public String agregaNuevoUsuario(Usuario usuario) {
+        String url = verificaUsuario(usuario);
+        if (url != null)
+            return url;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("usuarios_asociados");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
@@ -326,6 +423,34 @@ public class ControladorWeb {
 
         repositorioUsuario.save(usuario);
         return "user_added";
+    }
+
+    private String verificaUsuario(Usuario usuario) {
+        if (usuario == null)
+            return "object_not_valid";
+        boolean n = usuario.getNombre() != null;
+        boolean a = usuario.getApellido() != null;
+        boolean e = verificaEmail(usuario.getEmail());
+        boolean f = verificaFecha(usuario.getDia(), usuario.getMes(),
+                                  usuario.getAno());
+        boolean t = verificaTelefono(usuario.getTelefono());
+        if (n && a && e && f && t)
+            return null;
+        return "object_not_valid";
+    }
+
+    private boolean verificaTelefono(String telefono) {
+        if (telefono == null)
+            return false;
+        if (telefono.length() < 10)
+            return false;
+        try {
+            Integer.parseInt(telefono);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+        return true;
     }
 
     @GetMapping(path="/allUsers")
@@ -445,174 +570,5 @@ public class ControladorWeb {
     @GetMapping(path="/administrator")
     public String adminView() {
         return "administrador";
-    }
-
-    /**
-     * Método que se encarga de agregar un nuevo usuario
-     * a la base de datos.
-     * @param usuario El usuario que se agregará a la
-     * base de datos
-     * @return la plantilla de respuesta
-     *
-     */
-    @PostMapping(path="/administrator/add_user")
-    public String agregaNuevoUsuarioAdmin(Usuario usuario) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("usuarios_asociados");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(usuario.getContrasena());
-        usuario.setContrasena(encodedPassword);
-        String d = usuario.getDia();
-        String m = usuario.getMes();
-        String a = usuario.getAno();
-        usuario.setFechaNacimiento(d + "/" + m + "/" + a);
-
-        Optional<Perfil> perfilOpt = repositorioPerfil.findById
-            (Integer.parseInt(usuario.getPerfilString()));
-        Optional<Institucion> institucionOpt = repositorioInstitucion.findById
-            (Integer.parseInt(usuario.getInstitucionString()));
-
-        Perfil perfil = perfilOpt.get();
-        Institucion institucion = institucionOpt.get();
-
-        usuario.setPerfil(perfil);
-        usuario.setInstitucion(institucion);
-        List<Usuario> lista = institucion.getUsuarios();
-
-        em.persist(usuario);
-        if (lista == null) {
-            lista = new LinkedList<Usuario>();
-        }
-
-        lista.add(usuario);
-        institucion.setUsuarios(lista);
-
-        em.getTransaction().commit();
-        em.close();
-        emf.close();
-
-        repositorioUsuario.save(usuario);
-        return "user_added";
-    }
-
-    /**
-     * Método que se encarga de agregar un
-     * artículo a la base de datos.
-     * @param articulo El artículo que se agregará
-     * @return la plantilla de respuesta
-     *
-     */
-    @PostMapping(path="/administrator/add_article")
-    public String agregaArticuloAdmin(Articulo articulo) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory
-            ("usuarios_articulos");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-
-        String cadenaUsuarios = articulo.getCadenaUsuarios();
-        articulo.setUsuarios(parseUsers(cadenaUsuarios));
-
-        em.persist(articulo);
-        em.getTransaction().commit();
-        em.close();
-        emf.close();
-
-        repositorioArticulo.save(articulo);
-        return "article_added";
-    }
-
-    /**
-     * Método que se encarga de agregar una
-     * revista a la base de datos.
-     * @param revista La revista que se agregará
-     * @return la plantilla de respuesta
-     *
-     */
-    @PostMapping(path="/administrator/add_journal")
-    public String agregaRevistaAdmin(Revista revista) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory
-            ("usuarios_revistas");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-
-        String cadenaUsuarios = revista.getCadenaUsuarios();
-        revista.setUsuarios(parseUsers(cadenaUsuarios));
-
-        em.persist(revista);
-        em.getTransaction().commit();
-        em.close();
-        emf.close();
-
-        repositorioRevista.save(revista);
-
-        return "journal_added";
-    }
-
-    /**
-     * Método que se encarga de agregar un
-     * proyecto a la base de datos.
-     * @param proyecto El proyecto que se agregará
-     * @return la plantilla de respuesta
-     *
-     */
-    @PostMapping(path="/administrator/add_project")
-    public String agregaProyectoAdmin(Proyecto proyecto) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory
-            ("usuarios_proyectos");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-
-        String cadenaUsuarios = proyecto.getCadenaUsuarios();
-        proyecto.setUsuarios(parseUsers(cadenaUsuarios));
-
-        em.persist(proyecto);
-        em.getTransaction().commit();
-        em.close();
-        emf.close();
-
-        repositorioProyecto.save(proyecto);
-
-        return "project_added";
-    }
-
-    /**
-     * Método que se encarga de agregar un
-     * perfil a la base de datos.
-     * @param perfil El perfil que se agregará
-     * @return la plantilla de respuesta
-     *
-     */
-    @PostMapping(path="/administrator/add_profile")
-    public String agregaPerfilAdmin(Perfil perfil) {
-        repositorioPerfil.save(perfil);
-        return "profile_added";
-    }
-
-    /**
-     * Método que se encarga de agregar una
-     * institución a la base de datos.
-     * @param institucion La institución que se agregará
-     * @return la plantilla de respuesta
-     *
-     */
-    @PostMapping(path="/administrator/add_institution")
-    public String agregaInstitucionAdmin(Institucion institucion) {
-        repositorioInstitucion.save(institucion);
-        return "institution_added";
-    }
-
-    /**
-     * Método que se encarga de agregar un
-     * área de trabajo a la base de datos.
-     * @param area El área que se agregará
-     * @return la plantilla de respuesta
-     *
-     */
-    @PostMapping(path="/administrator/add_work_field")
-    public String agregaAreaTrabajoAdmin(AreaTrabajo area) {
-        repositorioAreaTrabajo.save(area);
-        return "work_field_added";
     }
 }

@@ -9,4 +9,6 @@ import mx.unam.ciencias.myp.Articulo;
 
 @Repository("repositorioarticulo")
 public interface RepositorioArticulo extends CrudRepository<Articulo, Serializable> {
+    @Query("SELECT a FROM Articulo a WHERE a.url = ?1")
+    public Articulo buscarPorUrl(String url);
 }

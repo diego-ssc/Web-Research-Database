@@ -26,6 +26,10 @@ public class Proyecto implements Serializable {
     @JsonManagedReference
     private Set<Usuario> usuarios = new HashSet<>();
 
+    private String mes;
+
+    private String ano;
+
     @Transient
     private String cadenaUsuarios;
 
@@ -59,5 +63,21 @@ public class Proyecto implements Serializable {
 
     public void setCadenaUsuarios(String cadenaUsuarios) {
         this.cadenaUsuarios = cadenaUsuarios;
+    }
+
+    public String getMes() {
+        return mes;
+    }
+
+    public void setMes(String mes) {
+        this.mes = mes;
+    }
+
+    public String getAno() {
+        return ano;
+    }
+
+    public void setAno(String ano) {
+        this.ano = ano;
     }
 }
