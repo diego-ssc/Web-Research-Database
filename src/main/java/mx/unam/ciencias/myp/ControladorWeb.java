@@ -258,22 +258,7 @@ public class ControladorWeb {
 
     @GetMapping(path="/user")
     public String paginaPrincipal() {
-        return "registerSuccess";
-    }
-
-    @GetMapping(path="/user/researcher")
-    public String paginaPrincipalInvestigador() {
         return "index";
-    }
-
-    @GetMapping(path="/user/student")
-    public String paginaPrincipalEstudiante() {
-        return "registerSuccess";
-    }
-
-    @GetMapping(path="/user/general")
-    public String paginaPrincipalUsuario() {
-        return "registerSuccess";
     }
 
     @GetMapping(path="/user/profile")
@@ -283,7 +268,7 @@ public class ControladorWeb {
 
     @GetMapping(path="/user/f_Articles")
     public String articulosDestacados() {
-        return "featuredArticlesRegistered";
+        return "featuredArticles";
     }
 
     @GetMapping(path="/user/researchers")
