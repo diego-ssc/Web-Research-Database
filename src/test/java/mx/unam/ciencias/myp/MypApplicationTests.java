@@ -16,6 +16,7 @@ class MypApplicationTests {
 
     @Autowired
     RepositorioUsuario repositorio;
+    
 
     @Test
     void testSave() {
@@ -34,6 +35,28 @@ class MypApplicationTests {
             return;
         }
         assertTrue(false);
+    }
+
+    @Test
+    void testFindAll() {
+        Iterable<Usuario> usuarios = repositorio.findAll();
+        int i = 0;
+        for (Usuario u : usuarios) {
+            i++;
+        }
+        assertTrue(i == 0);
+
+        Usuario[] arreglo = new Usuario[100];
+        for (int e = 0; e < 100; e++) {
+            arreglo[e] = new Usuario();
+            repositorio.save(arreglo[e]);
+        }
+        usuarios = repositorio.findAll();
+        for (Usuario u : usuarios) {
+            assertTrue(u == arreglo[i]);
+            i++;
+        }
+        assertTrue(i == 100);
     }
 
 
