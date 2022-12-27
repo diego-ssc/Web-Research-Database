@@ -60,12 +60,12 @@
         <div class="container">
             <h1>Sube un Articulo</h1>
             <hr/>
-            <form class="row g-3 " id="subirArchivo" th:action="@{/add_article}" th:object="${articulo}" method="post">
+            <form class="row g-3 " id="subirArchivo" th:action="@{/add_article}" th:object="${articulo}"  enctype="multipart/form-data" method="post">
                 <div class="col-12 mb-3">
-                    <label for="autores" class="form-label">Autores</label>
+                    <label for="autores" class="form-label">Email de Autores</label>
                     <div class="input-group">
-                        <span class="input-group-text" id="inputGroupPrepend2">[[${#request.userPrincipal.principal.fullName}]]</span>
-                        <input type="text" class="form-control" id="autores"  aria-describedby="inputGroupPrepend2" th:field="*{cadenaUsuarios}">
+                        <span class="input-group-text" id="inputGroupPrepend2">[[${#request.userPrincipal.principal.email}]]</span>
+                        <input type="text" class="form-control" id="autores"  aria-describedby="inputGroupPrepend2" th:field="*{cadenaUsuarios}" required>
                     </div>
                     <div id="emailHelp" class="form-text">Separe por una coma y espacio a cada autor.</div>
                 </div>
@@ -77,7 +77,7 @@
 
                 <div class="col-6 mb-3">
                     <label for="validationDefault04" class="form-label">Archivo</label>
-                    <input type="file" class="form-control" id="archivoASubir" aria-label="file example" th:field="*{archivo}" required>
+                    <input type="file" class="form-control" name="archivo" id="archivoASubir" aria-label="file example" th:field="*{archivo}" required>
                     <div class="invalid-feedback">Example invalid form file feedback</div>
                 </div>
 

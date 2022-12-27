@@ -9,7 +9,7 @@ import mx.unam.ciencias.myp.Articulo;
 import java.util.List;
 
 @Repository("repositorioarticulo")
-public interface RepositorioArticulo extends CrudRepository<Articulo, Serializable> {
-    @Query("SELECT a FROM Usuario a WHERE a.nombre LIKE ?1")
+public interface RepositorioArticulo extends CrudRepository<Articulo, Integer> {
+    @Query("SELECT a FROM Articulo a WHERE a.nombre LIKE %?1%")
     public List<Articulo> buscarPorNombre(String nombre);
 }

@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 @Controller
 public class ControladorWeb {
@@ -48,46 +50,6 @@ public class ControladorWeb {
         return "index";
     }
 
-
-    @CrossOrigin
-    @PostMapping (value = "/addArticle")
-    public void agregaNuevoArticulo(@RequestParam("autores") String[] autores,
-                                    @RequestParam("archivo") MultipartFile archivo,
-                                    @RequestParam("ano") int ano,
-                                    @RequestParam("mes") String mes,
-                                    @RequestParam("descripcion") String descripcion,
-                                    @RequestParam("nombre") String nombre) {
-
-        // add file to filesystem
-        String url;
-        String homeRed =  System.getProperty("user.home");
-        homeRed+= "/redDeInvestigadores";
-        url = homeRed+"/"+nombre+".pdf";
-
-        new File(homeRed).mkdirs();
-        try {
-            archivo.transferTo(new File(url));
-        } catch (Exception e){
-           System.out.println(e);
-        }
-
-        // add autors
-        Set<Usuario> usuarios = new HashSet<>();
-        for( String autor : autores ){
-            usuarios.add( repositorioUsuario.buscarPorNombre(autor) );
-        }
-
-        // construct
-        Articulo articulo= new Articulo();
-        articulo.setNombre(nombre);
-        articulo.setDescripcion(descripcion);
-        // articulo.setUrl(url);
-        articulo.setUsuarios(usuarios);
-        articulo.setAno(ano);
-        articulo.setMes(mes);
-        repositorioArticulo.save(articulo);
-    }
-
     /**
      * Método que se encarga de agregar un
      * artículo a la base de datos.
@@ -95,6 +57,8 @@ public class ControladorWeb {
      * @return la plantilla de respuesta
      *
      */
+    
+    @CrossOrigin
     @PostMapping(path="/add_article")
     public String agregaArticulo(Articulo articulo) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory
@@ -102,29 +66,14 @@ public class ControladorWeb {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
 
-
-
         // add file to filesystem
-        // MultipartFile archivo = (MultipartFile) articulo.getArchivo();
-        // String nombre = articulo.getNombre();
-        // String url;
-        // String homeRed =  System.getProperty("user.home");
-        // homeRed+= "/redDeInvestigadores";
-        // url = homeRed+"/"+nombre+".pdf";
-
-        // new File(homeRed).mkdirs();
-        // try {
-        //     archivo.transferTo(new File(url));
-        // } catch (Exception e){
-        //     System.out.println(e);
-        // }
+        storeFile(articulo.getArchivo(), articulo.getNombre());
 
         // Parse users
         String cadenaUsuarios = articulo.getCadenaUsuarios();
         articulo.setUsuarios(parseUsers(cadenaUsuarios));
 
         //
-        em.persist(articulo);
         em.getTransaction().commit();
         em.close();
         emf.close();
@@ -143,6 +92,19 @@ public class ControladorWeb {
         }
 
         return usuarios;
+    }
+
+    private void storeFile(MultipartFile file, String fileName){
+        String filePath =  System.getProperty("user.home");
+        filePath+= "/redDeInvestigadores";
+
+        try {
+            File uploadedFile = new File(filePath, fileName+".pdf");
+            file.transferTo(uploadedFile);
+        } catch (Exception e) {
+            System.out.println(e);
+
+        }
     }
 
     /**
@@ -379,6 +341,7 @@ public class ControladorWeb {
         return "addContribution";
     }
 
+    @CrossOrigin
     @GetMapping(path="/autores_articulos")
     public @ResponseBody Iterable<Usuario> getAutoresArticulo
         (@RequestParam String idArticulo) {
@@ -390,7 +353,6 @@ public class ControladorWeb {
         return null;
     }
 
-    //TODO: Determin
     @GetMapping(path="/articulos_usuario")
     public @ResponseBody Iterable<Articulo> getArticulosUsuario
         (@RequestParam String idUsuario){
@@ -402,9 +364,9 @@ public class ControladorWeb {
         return null;
     }
 
+    //TODO: Determin
     @GetMapping(path="/articulos_query")
     public @ResponseBody Iterable<Articulo> getArticulosQuery (@RequestParam String query){
-
         List<Articulo> articulos = new ArrayList<>();
         articulos = repositorioArticulo.buscarPorNombre(query);
         return articulos;

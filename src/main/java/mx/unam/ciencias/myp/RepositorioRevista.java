@@ -9,4 +9,6 @@ import mx.unam.ciencias.myp.Articulo;
 
 @Repository("repositoriorevista")
 public interface RepositorioRevista extends CrudRepository<Revista, Serializable> {
+    // @Query("SELECT r FROM Articulo r WHERE r.nombre LIKE %?1%")
+    // public List<Revista> buscarPorNombre(String nombre);
 }

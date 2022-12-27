@@ -13,9 +13,9 @@ import org.springframework.web.multipart.MultipartFile; // subir Archivo
  */
 @Entity
 @Table(name = "articulos")
-public class Articulo implements Serializable {
+public class Articulo {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_articulo")
     private Integer id;
 
@@ -32,16 +32,16 @@ public class Articulo implements Serializable {
 
     @Transient
     @Lob
-    private byte[] archivo;
+    private MultipartFile archivo;
 
     @Transient
     private String cadenaUsuarios;
 
-    public Integer getIdArticulo() {
+    public Integer getId() {
         return id;
     }
 
-    public void setIdArticulo(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -52,11 +52,12 @@ public class Articulo implements Serializable {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    public void setArchivo(byte[] archivo){
+
+    public void setArchivo(MultipartFile archivo){
         this.archivo = archivo;
     }
 
-    public byte[] getArchivo(){
+    public MultipartFile getArchivo(){
         return archivo;
     }
 
@@ -96,7 +97,7 @@ public class Articulo implements Serializable {
         return cadenaUsuarios;
     }
 
-    public void setCadenaUsuarios() {
+    public void setCadenaUsuarios(String cadenaUsuarios) {
         this.cadenaUsuarios = cadenaUsuarios;
     }
 }
