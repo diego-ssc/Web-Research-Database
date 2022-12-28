@@ -18,6 +18,7 @@
   <properties>
     <java.version>11</java.version>
     <spring-boot-admin.version>2.7.4</spring-boot-admin.version>
+    <lightadmin.version>1.2.0.RC1</lightadmin.version>
   </properties>
 
   <dependencies>
@@ -118,13 +119,28 @@
       <groupId>de.codecentric</groupId>
       <artifactId>spring-boot-admin-starter-client</artifactId>
     </dependency>
+    
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-validation</artifactId>
     </dependency>
+
     <!-- <dependency> -->
-    <!--   <groupId>de.codecentric</groupId> -->
-    <!--   <artifactId>spring-boot-admin-starter-server</artifactId> -->
+    <!--   <groupId>org.lightadmin</groupId> -->
+    <!--   <artifactId>lightadmin</artifactId> -->
+    <!--   <version>${lightadmin.version}</version> -->
+    <!-- </dependency> -->
+    
+    <!-- <dependency> -->
+    <!--   <groupId>org.springframework.boot</groupId> -->
+    <!--   <artifactId>spring-boot-starter-tomcat</artifactId> -->
+    <!--   <scope>provided</scope> -->
+    <!-- </dependency> -->
+    
+    <!-- <dependency> -->
+    <!--   <groupId>org.apache.tomcat.embed</groupId> -->
+    <!--   <artifactId>tomcat-embed-jasper</artifactId> -->
+    <!--   <scope>provided</scope> -->
     <!-- </dependency> -->
 
   </dependencies>

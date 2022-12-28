@@ -5,6 +5,8 @@ import java.util.Set;
 import java.util.HashSet;
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 /**
  * Clase que representa la tabla de proyectos
  * en la base de datos.
@@ -21,7 +23,12 @@ public class Proyecto implements Serializable {
     private String nombre;
 
     @ManyToMany(mappedBy = "proyectos", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Set<Usuario> usuarios = new HashSet<>();
+
+    private String mes;
+
+    private String ano;
 
     @Transient
     private String cadenaUsuarios;
@@ -56,5 +63,21 @@ public class Proyecto implements Serializable {
 
     public void setCadenaUsuarios(String cadenaUsuarios) {
         this.cadenaUsuarios = cadenaUsuarios;
+    }
+
+    public String getMes() {
+        return mes;
+    }
+
+    public void setMes(String mes) {
+        this.mes = mes;
+    }
+
+    public String getAno() {
+        return ano;
+    }
+
+    public void setAno(String ano) {
+        this.ano = ano;
     }
 }

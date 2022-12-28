@@ -3,6 +3,17 @@ package mx.unam.ciencias.myp;
 import javax.persistence.*;
 import java.util.Set;
 import java.util.HashSet;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  * Clase que representa la tabla de usuarios
  * en la base de datos.
@@ -56,6 +67,7 @@ public class Usuario {
         inverseJoinColumns = {
             @JoinColumn(name = "id_articulo", referencedColumnName = "id_articulo",
                         nullable = false, updatable = false)})
+    @JsonBackReference
     private Set<Articulo> articulos = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
@@ -65,6 +77,7 @@ public class Usuario {
         inverseJoinColumns = {
             @JoinColumn(name = "id_proyecto", referencedColumnName = "id_proyecto",
                         nullable = false, updatable = false)})
+    @JsonBackReference
     private Set<Proyecto> proyectos = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
@@ -74,6 +87,7 @@ public class Usuario {
         inverseJoinColumns = {
             @JoinColumn(name = "id_revista", referencedColumnName = "id_revista",
                         nullable = false, updatable = false)})
+    @JsonBackReference
     private Set<Revista> revistas = new HashSet<>();
 
     public boolean hasRole(String roleName) {

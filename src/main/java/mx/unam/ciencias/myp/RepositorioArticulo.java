@@ -10,6 +10,9 @@ import java.util.List;
 
 @Repository("repositorioarticulo")
 public interface RepositorioArticulo extends CrudRepository<Articulo, Integer> {
+    @Query("SELECT a FROM Articulo a WHERE a.url = ?1")
+    public Articulo buscarPorUrl(String url);
+
     @Query("SELECT a FROM Articulo a WHERE a.nombre LIKE %?1%")
     public List<Articulo> buscarArticulosPorNombre(String nombre);
 }

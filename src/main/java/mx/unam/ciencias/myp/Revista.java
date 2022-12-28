@@ -5,6 +5,9 @@ import java.util.Set;
 import java.util.HashSet;
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  * Clase que representa la tabla de revistas
  * en la base de datos.
@@ -22,10 +25,28 @@ public class Revista implements Serializable {
 
     // TODO: Set de Articulos
     @ManyToMany(mappedBy = "revistas", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Set<Usuario> usuarios = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(joinColumns = {
+            @JoinColumn(name = "id_revista", referencedColumnName = "id_revista",
+                        nullable = false, updatable = false)},
+        inverseJoinColumns = {
+            @JoinColumn(name = "id_articulo", referencedColumnName = "id_articulo",
+                        nullable = false, updatable = false)})
+    @JsonBackReference
+    private Set<Articulo> articulos = new HashSet<>();
+
     @Transient
-    private String cadenaUsuarios;    
+    private String cadenaUsuarios;
+
+    @Transient
+    private String cadenaArticulos;
+
+    private String mes;
+
+    private String ano;
 
     public Integer getIdRevista() {
         return id;
@@ -51,11 +72,43 @@ public class Revista implements Serializable {
         this.usuarios = usuarios;
     }
 
+    public Set<Articulo> getArticulos() {
+        return this.articulos;
+    }
+
+    public void setArticulos(Set<Articulo> articulos) {
+        this.articulos = articulos;
+    }
+
     public String getCadenaUsuarios() {
         return cadenaUsuarios;
     }
 
     public void setCadenaUsuarios(String cadenaUsuarios) {
         this.cadenaUsuarios = cadenaUsuarios;
+    }
+
+    public String getCadenaArticulos() {
+        return cadenaArticulos;
+    }
+
+    public void setCadenaArticulos(String cadenaArticulos) {
+        this.cadenaArticulos = cadenaArticulos;
+    }
+
+    public String getMes() {
+        return mes;
+    }
+
+    public void setMes(String mes) {
+        this.mes = mes;
+    }
+
+    public String getAno() {
+        return ano;
+    }
+
+    public void setAno(String ano) {
+        this.ano = ano;
     }
 }

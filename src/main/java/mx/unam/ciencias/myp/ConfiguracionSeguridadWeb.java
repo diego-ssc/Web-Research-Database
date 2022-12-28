@@ -26,6 +26,9 @@ public class ConfiguracionSeguridadWeb extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
+    @Autowired
+    private AdministradorInicioSesion administradorInicioSesion;
+
     @Bean
     public UserDetailsService userDetailsService() {
         return new ServicioInformacionUsuario();
@@ -54,6 +57,7 @@ public class ConfiguracionSeguridadWeb extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/actuator/**").permitAll();
         http.authorizeRequests()
+            .antMatchers("/administrator").hasRole("administrador")
             .antMatchers("/user").authenticated()
             .anyRequest().permitAll()
             .and()
@@ -64,5 +68,14 @@ public class ConfiguracionSeguridadWeb extends WebSecurityConfigurerAdapter {
             .and()
             .logout().logoutSuccessUrl("/").permitAll();
     }
-    @Autowired private AdministradorInicioSesion administradorInicioSesion;    
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+            .withUser("user").password("{noop}pass").roles("investigador")
+            .and()
+            .withUser("user").password("{noop}pass").roles("estudiante")
+            .and()
+            .withUser("admin").password("{noop}pass").roles("administrador");
+    }
 }

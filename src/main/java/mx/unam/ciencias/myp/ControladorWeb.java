@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 import java.io.File;
+import java.lang.NumberFormatException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -37,6 +38,9 @@ public class ControladorWeb {
 
     @Autowired
     private RepositorioProyecto repositorioProyecto;
+
+    @Autowired
+    private RepositorioAreaTrabajo repositorioAreaTrabajo;
 
     /**
      * Método que se encarga de devolver la plantilla
@@ -61,6 +65,9 @@ public class ControladorWeb {
     @CrossOrigin
     @PostMapping(path="/add_article")
     public String agregaArticulo(Articulo articulo) {
+        String url = verificaArticulo(articulo);
+        if (url != null)
+            return url;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory
             ("usuarios_articulos");
         EntityManager em = emf.createEntityManager();
@@ -82,7 +89,52 @@ public class ControladorWeb {
         return "article_added";
     }
 
+    private String verificaArticulo(Articulo articulo) {
+        if (articulo == null)
+            return "object_not_valid";
+        boolean n = articulo.getNombre() != null;
+        boolean u = articulo.getUrl() != null;
+        boolean d = articulo.getDescripcion() != null;
+        boolean f = verificaFecha(null, articulo.getMes(),
+                                  articulo.getAno());
+        if (n && u && d && f)
+            return null;
+        return "object_not_valid";
+    }
+
+    private boolean verificaEmail(String email) {
+        if (email == null)
+            return false;
+        if (!email.contains("@"))
+            return false;
+        return true;
+    }
+
+    private boolean verificaFecha(String d, String m, String a) {
+        if (m == null || a == null)
+            return false;
+        try {
+            if (d != null) {
+                int dia = Integer.parseInt(d);
+                if (dia < 0 || dia > 31)
+                    return false;
+            }
+            int mes = Integer.parseInt(m);
+            int ano = Integer.parseInt(a);
+
+            if (mes < 0 || mes > 12)
+                return false;
+            if (ano < 0)
+                return false;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+
     private Set<Usuario> parseUsers(String cadenaUsuarios) {
+        if (cadenaUsuarios == null)
+            return null;
         String[] emails = cadenaUsuarios.split(",");
         Set<Usuario> usuarios = new HashSet<>();
         Usuario usuario;
@@ -114,25 +166,53 @@ public class ControladorWeb {
      * @return la plantilla de respuesta
      *
      */
-    // @PostMapping(path="/add_journal")
-    // public String agregaRevista(Revista revista) {
-    //     EntityManagerFactory emf = Persistence.createEntityManagerFactory
-    //         ("usuarios_revistas");
-    //     EntityManager em = emf.createEntityManager();
-    //     em.getTransaction().begin();
+    @PostMapping(path="/add_journal")
+    public String agregaRevista(Revista revista) {
+        String url = verificaRevista(revista);
+        if (url != null)
+            return url;
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory
+            ("usuarios_revistas");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
 
-    //     // String cadenaUsuarios = revista.getCadenaRevista();
-    //     // revista.setUsuarios(parseUsers(cadenaUsuarios));
+        String cadenaArticulos = revista.getCadenaArticulos();
+        revista.setArticulos(parseArticles(cadenaArticulos));
 
-    //     em.persist(revista);
-    //     em.getTransaction().commit();
-    //     em.close();
-    //     emf.close();
+        em.persist(revista);
+        em.getTransaction().commit();
+        em.close();
+        emf.close();
 
-    //     repositorioRevista.save(revista);
+        repositorioRevista.save(revista);
 
-    //     return "journal_added";
-    // }
+        return "journal_added";
+     }
+
+    private Set<Articulo> parseArticles(String cadenaArticulos) {
+        if (cadenaArticulos == null)
+            return null;
+        String[] urls = cadenaArticulos.split(",");
+        Set<Articulo> articulos = new HashSet<>();
+        Articulo articulo;
+        for (int i = 0; i < urls.length; i++) {
+            articulo = repositorioArticulo.buscarPorUrl(urls[i]);
+            articulos.add(articulo);
+        }
+
+        return articulos;
+    }
+
+    private String verificaRevista(Revista revista) {
+        if (revista == null)
+            return "object_not_valid";
+        boolean n = revista.getNombre() != null;
+        boolean f = verificaFecha(null, revista.getMes(),
+                                  revista.getAno());
+        if (n && f)
+            return null;
+        return "object_not_valid";
+    }
 
     /**
      * Método que se encarga de agregar un
@@ -143,6 +223,9 @@ public class ControladorWeb {
      */
     @PostMapping(path="/add_project")
     public String agregaProyecto(Proyecto proyecto) {
+        String url = verificaProyecto(proyecto);
+        if (url != null)
+            return url;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory
             ("usuarios_proyectos");
         EntityManager em = emf.createEntityManager();
@@ -159,6 +242,17 @@ public class ControladorWeb {
         repositorioProyecto.save(proyecto);
 
         return "project_added";
+    }
+
+    private String verificaProyecto(Proyecto proyecto) {
+        if (proyecto == null)
+            return "object_not_valid";
+        boolean n = proyecto.getNombre() != null;
+        boolean f = verificaFecha(null, proyecto.getMes(),
+                                  proyecto.getAno());
+        if (n && f)
+            return null;
+        return "object_not_valid";
     }
 
     /**
@@ -248,8 +342,19 @@ public class ControladorWeb {
         return "instituciones";
     }
 
+    /**
+     * Método que se encarga de agregar un nuevo usuario
+     * a la base de datos.
+     * @param usuario El usuario que se agregará a la
+     * base de datos
+     * @return la plantilla de respuesta
+     *
+     */
     @PostMapping(path="/add_user")
-    public String agregaNuevoUsuario( Usuario usuario) {
+    public String agregaNuevoUsuario(Usuario usuario) {
+        String url = verificaUsuario(usuario);
+        if (url != null)
+            return url;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("usuarios_asociados");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
@@ -262,16 +367,11 @@ public class ControladorWeb {
         String a = usuario.getAno();
         usuario.setFechaNacimiento(d + "/" + m + "/" + a);
 
-        // Perfil perfil = new Perfil();
-        // Institucion institucion = new Institucion();
-
         Optional<Perfil> perfilOpt = repositorioPerfil.findById
             (Integer.parseInt(usuario.getPerfilString()));
         Optional<Institucion> institucionOpt = repositorioInstitucion.findById
             (Integer.parseInt(usuario.getInstitucionString()));
 
-        // perfil.setId(Integer.parseInt(usuario.getPerfilString()));
-        // institucion.setId(Integer.parseInt(usuario.getInstitucionString()));
         Perfil perfil = perfilOpt.get();
         Institucion institucion = institucionOpt.get();
 
@@ -279,7 +379,7 @@ public class ControladorWeb {
         usuario.setInstitucion(institucion);
         List<Usuario> lista = institucion.getUsuarios();
 
-        //em.persist(usuario);
+        em.persist(usuario);
         if (lista == null) {
             lista = new LinkedList<Usuario>();
         }
@@ -293,6 +393,34 @@ public class ControladorWeb {
 
         repositorioUsuario.save(usuario);
         return "user_added";
+    }
+
+    private String verificaUsuario(Usuario usuario) {
+        if (usuario == null)
+            return "object_not_valid";
+        boolean n = usuario.getNombre() != null;
+        boolean a = usuario.getApellido() != null;
+        boolean e = verificaEmail(usuario.getEmail());
+        boolean f = verificaFecha(usuario.getDia(), usuario.getMes(),
+                                  usuario.getAno());
+        boolean t = verificaTelefono(usuario.getTelefono());
+        if (n && a && e && f && t)
+            return null;
+        return "object_not_valid";
+    }
+
+    private boolean verificaTelefono(String telefono) {
+        if (telefono == null)
+            return false;
+        if (telefono.length() < 10)
+            return false;
+        try {
+            Integer.parseInt(telefono);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+        return true;
     }
 
     @CrossOrigin
@@ -457,11 +585,12 @@ public class ControladorWeb {
         return "estudiante";
     }
 
-    @GetMapping(path="/general_user")
-    public String generalView() {
-        return "general";
-    }
-
+    // Métodos de administrador
+    /**
+     * Método que devuelve la plantilla de la página
+     * principal del administrador
+     *
+     */
     @GetMapping(path="/administrator")
     public String adminView() {
         return "administrador";

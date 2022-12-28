@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.io.Serializable;
 import org.springframework.web.multipart.MultipartFile; // subir Archivo
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 /**
  * Clase que representa la tabla de instituciones
  * en la base de datos.
@@ -22,13 +24,18 @@ public class Articulo {
     private String nombre;
 
     @ManyToMany(mappedBy = "articulos", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Set<Usuario> usuarios = new HashSet<>();
+
+    @ManyToMany(mappedBy = "articulos", fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private Set<Revista> revistas = new HashSet<>();
 
     private String descripcion;
 
     private String mes;
 
-    private int ano;
+    private String ano;
 
     @Transient
     @Lob
@@ -77,6 +84,14 @@ public class Articulo {
         this.usuarios = usuarios;
     }
 
+    public Set<Revista> getRevistas() {
+        return this.revistas;
+    }
+
+    public void setRevistas(Set<Revista> revistas) {
+        this.revistas = revistas;
+    }
+
     public String getMes() {
         return mes;
     }
@@ -85,11 +100,11 @@ public class Articulo {
         this.mes = mes;
     }
 
-    public int getAno() {
+    public String getAno() {
         return ano;
     }
 
-    public void setAno(int ano) {
+    public void setAno(String ano) {
         this.ano = ano;
     }
 
