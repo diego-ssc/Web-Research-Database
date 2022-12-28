@@ -64,16 +64,17 @@
         <!-- Select type + search -->
         <div class="container">
             <form class="row g-3">
-                <div class="col-md-5">
+                <div class="col-6">
                     <input type="search" name="q" class="form-control form-control-lg" placeholder="Buscar..." aria-label="Search">
                 </div>
-                <div class="col-md-3">
-                </div>
-                <div class="col-md-3">
-                    <select class="form-select form-select-lg" name="op" >
-                        <option value="articulos" selected>Artículos</option>
-                        <option value="investigadores">Investigadores</option>
-                        <option value="estudiantes">Estudiantes</option>
+                <div class="col-3"> </div>
+                <div class="col-3">
+                    <select class="form-select form-select-lg" name="op" id="operation">
+                        <option value="articulos" id="articulos">Artículos</option>
+                        <option id="investigadores" value="investigadores">Investigadores</option>
+                        <option id="estudiantes" value="estudiantes">Estudiantes</option>
+                        <option id="revistas" value="revistas">Revistas</option>
+                        <option id="proyectos" value="proyectos">Proyectos</option>
                     </select>
                 </div>
             </form>
@@ -82,54 +83,26 @@
         <br />
         <!-- data output -->
 
-        <script src="../static/js/busqueda.js" th:src="@{/js/busqueda.js}"></script>
 
+        <!-- table  -->
+        <div class="container-lg">
+            <table id="tablaOutput" class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellido</th>
+                        <th scope="col">Institucion</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpoTabla">
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Cartas -->
         <div class="container">
             <div class="row row-cols-1 row-cols-md-3 g-4" id="data-output">
 
-                <!-- articulos ejemplo -->
-                <div class="col">
-                    <div class="card border-dark mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">${articulo.nombre}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Autor </h6>
-                            <p class="card-text">Resumen/ Abstract articulo..</p>
-                            <a href="${articulo.url}" class="btn btn-dark">Ir al articulo</a>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Fecha de publicacion: 12/2002</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card border-dark mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">${articulo.nombre}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Autor </h6>
-                            <p class="card-text">Resumen/ Abstract articulo..</p>
-                            <a href="${articulo.url}" class="btn btn-dark">Ir al articulo</a>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Fecha de publicacion: 12/2002</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card border-dark mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">${articulo.nombre}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Autor </h6>
-                            <p class="card-text">Resumen/ Abstract articulo..</p>
-                            <a href="${articulo.url}" class="btn btn-dark">Ir al articulo</a>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Fecha de publicacion: 12/2002</small>
-                        </div>
-                    </div>
-                </div>
-                <!-- articulos ejemplo -->
 
             </div>
         </div>
@@ -137,6 +110,7 @@
         </div>
         <br />
 
+        <script src="../static/js/busqueda.js" th:src="@{/js/busqueda.js}"></script>
         <!-- footer -->
         <div class="container">
             <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">

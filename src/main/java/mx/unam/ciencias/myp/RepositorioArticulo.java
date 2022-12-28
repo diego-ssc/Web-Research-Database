@@ -11,5 +11,5 @@ import java.util.List;
 @Repository("repositorioarticulo")
 public interface RepositorioArticulo extends CrudRepository<Articulo, Integer> {
     @Query("SELECT a FROM Articulo a WHERE a.nombre LIKE %?1%")
-    public List<Articulo> buscarPorNombre(String nombre);
+    public List<Articulo> buscarArticulosPorNombre(String nombre);
 }

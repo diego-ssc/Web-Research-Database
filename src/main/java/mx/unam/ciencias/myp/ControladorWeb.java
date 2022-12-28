@@ -114,25 +114,25 @@ public class ControladorWeb {
      * @return la plantilla de respuesta
      *
      */
-    @PostMapping(path="/add_journal")
-    public String agregaRevista(Revista revista) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory
-            ("usuarios_revistas");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
+    // @PostMapping(path="/add_journal")
+    // public String agregaRevista(Revista revista) {
+    //     EntityManagerFactory emf = Persistence.createEntityManagerFactory
+    //         ("usuarios_revistas");
+    //     EntityManager em = emf.createEntityManager();
+    //     em.getTransaction().begin();
 
-        String cadenaUsuarios = revista.getCadenaUsuarios();
-        revista.setUsuarios(parseUsers(cadenaUsuarios));
+    //     // String cadenaUsuarios = revista.getCadenaRevista();
+    //     // revista.setUsuarios(parseUsers(cadenaUsuarios));
 
-        em.persist(revista);
-        em.getTransaction().commit();
-        em.close();
-        emf.close();
+    //     em.persist(revista);
+    //     em.getTransaction().commit();
+    //     em.close();
+    //     emf.close();
 
-        repositorioRevista.save(revista);
+    //     repositorioRevista.save(revista);
 
-        return "journal_added";
-    }
+    //     return "journal_added";
+    // }
 
     /**
      * Método que se encarga de agregar un
@@ -295,6 +295,7 @@ public class ControladorWeb {
         return "user_added";
     }
 
+    @CrossOrigin
     @GetMapping(path="/allUsers")
     public @ResponseBody Iterable<Usuario> getUsuarios() {
         return repositorioUsuario.findAll();
@@ -310,6 +311,18 @@ public class ControladorWeb {
     @GetMapping(path = "/allInstituciones")
     public @ResponseBody Iterable<Institucion> getInstituciones(){
         return repositorioInstitucion.findAll();
+    }
+
+    @CrossOrigin
+    @GetMapping(path = "/allRevistas")
+    public @ResponseBody Iterable<Revista> getRevistas(){
+        return repositorioRevista.findAll();
+    }
+
+    @CrossOrigin
+    @GetMapping(path = "/allProyectos")
+    public @ResponseBody Iterable<Proyecto> getProyectos(){
+        return repositorioProyecto.findAll();
     }
 
     @GetMapping(path="/user/institucion")
@@ -349,12 +362,36 @@ public class ControladorWeb {
         return null;
     }
 
-    //TODO: Determin
+    @CrossOrigin
     @GetMapping(path="/articulos_query")
     public @ResponseBody Iterable<Articulo> getArticulosQuery (@RequestParam String query){
         List<Articulo> articulos = new ArrayList<>();
-        articulos = repositorioArticulo.buscarPorNombre(query);
+        articulos = repositorioArticulo.buscarArticulosPorNombre(query);
         return articulos;
+    }
+
+    @CrossOrigin
+    @GetMapping(path="/usuarios_query")
+    public @ResponseBody Iterable<Usuario> getUsuariosQuery (@RequestParam String query){
+        List<Usuario> usuarios = new ArrayList<>();
+        usuarios = repositorioUsuario.buscarUsuariosPorNombre(query);
+        return usuarios;
+    }
+
+    @CrossOrigin
+    @GetMapping(path="/instituciones_query")
+    public @ResponseBody Iterable<Institucion> getInstitucionQuery (@RequestParam String query){
+        List<Institucion> instituciones = new ArrayList<>();
+        instituciones = repositorioInstitucion.buscarInstitucionesPorNombre(query);
+        return instituciones;
+    }
+
+    @CrossOrigin
+    @GetMapping(path="/proyectos_query")
+    public @ResponseBody Iterable<Proyecto> getProyectosQuery (@RequestParam String query){
+        List<Proyecto> proyectos = new ArrayList<>();
+        proyectos = repositorioProyecto.buscarProyectosPorNombre(query);
+        return proyectos;
     }
 
     public Articulo inserta(Articulo articulo) {
