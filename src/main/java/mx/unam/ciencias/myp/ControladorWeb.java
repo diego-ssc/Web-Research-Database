@@ -1,7 +1,6 @@
 package mx.unam.ciencias.myp;
 
 import javax.persistence.*;
-
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +11,13 @@ import org.springframework.web.multipart.MultipartFile; // subir Archivo
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 import java.io.File;
 import java.lang.NumberFormatException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 @Controller
 public class ControladorWeb {
@@ -52,44 +54,6 @@ public class ControladorWeb {
         return "index";
     }
 
-    @GetMapping(value = "/addArticle")
-    public void agrngaNuevoArticulo(@RequestParam("autores") String[] autores,
-                                    @RequestParam("archivo") MultipartFile archivo,
-                                    @RequestParam("ano") int ano,
-                                    @RequestParam("mes") String mes,
-                                    @RequestParam("descripcion") String descripcion,
-                                    @RequestParam("nombre") String nombre) {
-
-        // add file to filesystem
-        String url;
-        String homeRed =  System.getProperty("user.home");
-        homeRed+= "/redDeInvestigadores";
-        url = homeRed+"/"+nombre+".pdf";
-
-        new File(homeRed).mkdirs();
-        try {
-            archivo.transferTo(new File(url));
-        } catch (Exception e){
-           System.out.println(e);
-        }
-
-        // add autors
-        Set<Usuario> usuarios = new HashSet<>();
-        for( String autor : autores ){
-            usuarios.add( repositorioUsuario.buscarPorNombre(autor) );
-        }
-
-        // construct
-        Articulo articulo= new Articulo();
-        articulo.setNombre(nombre);
-        articulo.setDescripcion(descripcion);
-        articulo.setUrl(url);
-        articulo.setUsuarios(usuarios);
-        // articulo.setAno(ano);
-        articulo.setMes(mes);
-        repositorioArticulo.save(articulo);
-    }
-
     /**
      * Método que se encarga de agregar un
      * artículo a la base de datos.
@@ -97,6 +61,8 @@ public class ControladorWeb {
      * @return la plantilla de respuesta
      *
      */
+    
+    @CrossOrigin
     @PostMapping(path="/add_article")
     public String agregaArticulo(Articulo articulo) {
         String url = verificaArticulo(articulo);
@@ -107,10 +73,14 @@ public class ControladorWeb {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
 
+        // add file to filesystem
+        storeFile(articulo.getArchivo(), articulo.getNombre());
+
+        // Parse users
         String cadenaUsuarios = articulo.getCadenaUsuarios();
         articulo.setUsuarios(parseUsers(cadenaUsuarios));
 
-        em.persist(articulo);
+        //
         em.getTransaction().commit();
         em.close();
         emf.close();
@@ -176,6 +146,19 @@ public class ControladorWeb {
         return usuarios;
     }
 
+    private void storeFile(MultipartFile file, String fileName){
+        String filePath =  System.getProperty("user.home");
+        filePath+= "/redDeInvestigadores";
+
+        try {
+            File uploadedFile = new File(filePath, fileName+".pdf");
+            file.transferTo(uploadedFile);
+        } catch (Exception e) {
+            System.out.println(e);
+
+        }
+    }
+
     /**
      * Método que se encarga de agregar una
      * revista a la base de datos.
@@ -193,9 +176,6 @@ public class ControladorWeb {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
 
-        String cadenaUsuarios = revista.getCadenaUsuarios();
-        revista.setUsuarios(parseUsers(cadenaUsuarios));
-
         String cadenaArticulos = revista.getCadenaArticulos();
         revista.setArticulos(parseArticles(cadenaArticulos));
 
@@ -207,7 +187,7 @@ public class ControladorWeb {
         repositorioRevista.save(revista);
 
         return "journal_added";
-    }
+     }
 
     private Set<Articulo> parseArticles(String cadenaArticulos) {
         if (cadenaArticulos == null)
@@ -334,17 +314,7 @@ public class ControladorWeb {
 
     @GetMapping(path="/user")
     public String paginaPrincipal() {
-        return "registerSuccess";
-    }
-
-    @GetMapping(path="/user/researcher")
-    public String paginaPrincipalInvestigador() {
-        return "registerSuccess";
-    }
-
-    @GetMapping(path="/user/student")
-    public String paginaPrincipalEstudiante() {
-        return "registerSuccess";
+        return "index";
     }
 
     @GetMapping(path="/user/profile")
@@ -354,7 +324,7 @@ public class ControladorWeb {
 
     @GetMapping(path="/user/f_Articles")
     public String articulosDestacados() {
-        return "featuredArticlesRegistered";
+        return "featuredArticles";
     }
 
     @GetMapping(path="/user/researchers")
@@ -453,19 +423,34 @@ public class ControladorWeb {
         return true;
     }
 
+    @CrossOrigin
     @GetMapping(path="/allUsers")
     public @ResponseBody Iterable<Usuario> getUsuarios() {
         return repositorioUsuario.findAll();
     }
 
+    @CrossOrigin
     @GetMapping(path="/allArticles")
     public @ResponseBody Iterable<Articulo> getArticulos() {
         return repositorioArticulo.findAll();
     }
 
+    @CrossOrigin
     @GetMapping(path = "/allInstituciones")
     public @ResponseBody Iterable<Institucion> getInstituciones(){
         return repositorioInstitucion.findAll();
+    }
+
+    @CrossOrigin
+    @GetMapping(path = "/allRevistas")
+    public @ResponseBody Iterable<Revista> getRevistas(){
+        return repositorioRevista.findAll();
+    }
+
+    @CrossOrigin
+    @GetMapping(path = "/allProyectos")
+    public @ResponseBody Iterable<Proyecto> getProyectos(){
+        return repositorioProyecto.findAll();
     }
 
     @GetMapping(path="/user/institucion")
@@ -476,6 +461,13 @@ public class ControladorWeb {
         return institucion.getUsuarios();
     }
 
+    @GetMapping(path="/user/addContribution")
+    public String addArticle(Model model) {
+        model.addAttribute("articulo", new Articulo());
+        return "addContribution";
+    }
+
+    @CrossOrigin
     @GetMapping(path="/autores_articulos")
     public @ResponseBody Iterable<Usuario> getAutoresArticulo
         (@RequestParam String idArticulo) {
@@ -496,6 +488,38 @@ public class ControladorWeb {
             return usuario.get().getArticulos();
         }
         return null;
+    }
+
+    @CrossOrigin
+    @GetMapping(path="/articulos_query")
+    public @ResponseBody Iterable<Articulo> getArticulosQuery (@RequestParam String query){
+        List<Articulo> articulos = new ArrayList<>();
+        articulos = repositorioArticulo.buscarArticulosPorNombre(query);
+        return articulos;
+    }
+
+    @CrossOrigin
+    @GetMapping(path="/usuarios_query")
+    public @ResponseBody Iterable<Usuario> getUsuariosQuery (@RequestParam String query){
+        List<Usuario> usuarios = new ArrayList<>();
+        usuarios = repositorioUsuario.buscarUsuariosPorNombre(query);
+        return usuarios;
+    }
+
+    @CrossOrigin
+    @GetMapping(path="/instituciones_query")
+    public @ResponseBody Iterable<Institucion> getInstitucionQuery (@RequestParam String query){
+        List<Institucion> instituciones = new ArrayList<>();
+        instituciones = repositorioInstitucion.buscarInstitucionesPorNombre(query);
+        return instituciones;
+    }
+
+    @CrossOrigin
+    @GetMapping(path="/proyectos_query")
+    public @ResponseBody Iterable<Proyecto> getProyectosQuery (@RequestParam String query){
+        List<Proyecto> proyectos = new ArrayList<>();
+        proyectos = repositorioProyecto.buscarProyectosPorNombre(query);
+        return proyectos;
     }
 
     public Articulo inserta(Articulo articulo) {

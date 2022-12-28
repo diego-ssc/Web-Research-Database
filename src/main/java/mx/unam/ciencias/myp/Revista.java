@@ -23,6 +23,7 @@ public class Revista implements Serializable {
 
     private String nombre;
 
+    // TODO: Set de Articulos
     @ManyToMany(mappedBy = "revistas", fetch = FetchType.LAZY)
     @JsonManagedReference
     private Set<Usuario> usuarios = new HashSet<>();
