@@ -37,8 +37,8 @@
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a th:href="@{/user/}" class="nav-link px-2 link-secondary">Página Principal</a></li>
-                <li><a th:href="@{/user/f_articles}" class="nav-link px-2 link-dark">Artículos Destacados</a></li>
-                <li><a th:href="@{user/researchers}" class="nav-link px-2 link-dark">Investigadores</a></li>
+                <li><a th:href="@{/user/featuredArticles}" class="nav-link px-2 link-dark">Artículos Destacados</a></li>
+                <li><a th:href="@{/user/researchers}" class="nav-link px-2 link-dark">Investigadores</a></li>
                 <li><a th:href="@{/user/students}" class="nav-link px-2 link-dark">Estudiantes</a></li>
                 <li><a th:href="@{/user/institutions}" class="nav-link px-2 link-dark">Instituciones</a></li>
             </ul>
@@ -58,12 +58,6 @@
     <div class="container-lg">
       <h2 id="nombreUsuario">[[${#request.userPrincipal.principal.fullName}]]</h2>
       <h5>Artículos:</h5>
-      <div class="container m-1">
-        <div class="row">
-          <div class="col-6 col-sm-3"><a href="">Artículo 1</a></div>
-          <div class="col-6 col-sm-3"><a href="">Artículo 2</a></div>
-          <hr>
-        </div>
 
         <div class="container-md">
           <p class="lead">Datos Personales:</p>

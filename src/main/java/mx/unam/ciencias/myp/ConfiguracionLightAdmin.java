@@ -20,7 +20,6 @@
 
 
 // @Configuration
-// // @Import(ConfiguracionLightAdmin.class)
 // public class ConfiguracionLightAdmin {
 //     @Autowired
 //     private ServletContext servletContext;

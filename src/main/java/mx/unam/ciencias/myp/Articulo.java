@@ -39,6 +39,8 @@ public class Articulo {
 
     private String ano;
 
+    private String url;
+
     @Transient
     @Lob
     private MultipartFile archivo;
@@ -124,5 +126,13 @@ public class Articulo {
 
     public void setCadenaUsuarios(String cadenaUsuarios) {
         this.cadenaUsuarios = cadenaUsuarios;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
     }
 }

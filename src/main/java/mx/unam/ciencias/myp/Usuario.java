@@ -45,8 +45,6 @@ public class Usuario {
 
     private String ano;
 
-    private String telefono;
-
     @Transient
     private String perfilString;
 
@@ -222,14 +220,6 @@ public class Usuario {
 
     public void setRevistas(Set<Revista> revistas) {
         this.revistas = revistas;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono() {
-        this.telefono = telefono;
     }
 
     /**

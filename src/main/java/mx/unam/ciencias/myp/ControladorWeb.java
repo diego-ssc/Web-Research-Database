@@ -61,7 +61,6 @@ public class ControladorWeb {
      * @return la plantilla de respuesta
      *
      */
-    
     @CrossOrigin
     @PostMapping(path="/add_article")
     public String agregaArticulo(Articulo articulo) {
@@ -75,6 +74,7 @@ public class ControladorWeb {
 
         // add file to filesystem
         storeFile(articulo.getArchivo(), articulo.getNombre());
+        articulo.setUrl(articulo.getNombre() + articulo.getId());
 
         // Parse users
         String cadenaUsuarios = articulo.getCadenaUsuarios();
@@ -91,15 +91,14 @@ public class ControladorWeb {
 
     private String verificaArticulo(Articulo articulo) {
         if (articulo == null)
-            return "object_not_valid";
+            return "index";
         boolean n = articulo.getNombre() != null;
-        boolean u = articulo.getUrl() != null;
         boolean d = articulo.getDescripcion() != null;
         boolean f = verificaFecha(null, articulo.getMes(),
                                   articulo.getAno());
-        if (n && u && d && f)
+        if (n && d && f)
             return null;
-        return "object_not_valid";
+        return "index";
     }
 
     private boolean verificaEmail(String email) {
@@ -205,13 +204,13 @@ public class ControladorWeb {
 
     private String verificaRevista(Revista revista) {
         if (revista == null)
-            return "object_not_valid";
+            return "index";
         boolean n = revista.getNombre() != null;
         boolean f = verificaFecha(null, revista.getMes(),
                                   revista.getAno());
         if (n && f)
             return null;
-        return "object_not_valid";
+        return "index";
     }
 
     /**
@@ -246,13 +245,13 @@ public class ControladorWeb {
 
     private String verificaProyecto(Proyecto proyecto) {
         if (proyecto == null)
-            return "object_not_valid";
+            return "index";
         boolean n = proyecto.getNombre() != null;
         boolean f = verificaFecha(null, proyecto.getMes(),
                                   proyecto.getAno());
         if (n && f)
             return null;
-        return "object_not_valid";
+        return "index";
     }
 
     /**
@@ -397,16 +396,15 @@ public class ControladorWeb {
 
     private String verificaUsuario(Usuario usuario) {
         if (usuario == null)
-            return "object_not_valid";
+            return "index";
         boolean n = usuario.getNombre() != null;
         boolean a = usuario.getApellido() != null;
         boolean e = verificaEmail(usuario.getEmail());
         boolean f = verificaFecha(usuario.getDia(), usuario.getMes(),
                                   usuario.getAno());
-        boolean t = verificaTelefono(usuario.getTelefono());
-        if (n && a && e && f && t)
+        if (n && a && e && f)
             return null;
-        return "object_not_valid";
+        return "index";
     }
 
     private boolean verificaTelefono(String telefono) {
