@@ -35,8 +35,6 @@ public class Articulo {
 
     private String mes;
 
-    private String url;
-
     private String ano;
 
     private String url;
@@ -128,11 +126,4 @@ public class Articulo {
         this.cadenaUsuarios = cadenaUsuarios;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getUrl() {
-        return url;
-    }
 }
