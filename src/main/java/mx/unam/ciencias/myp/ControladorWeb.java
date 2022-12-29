@@ -64,9 +64,9 @@ public class ControladorWeb {
     // @CrossOrigin
     @PostMapping(path="/add_article")
     public String agregaArticulo(Articulo articulo) {
-        String url = verificaArticulo(articulo);
-        if (url != null)
-            return url;
+        // String url = verificaArticulo(articulo);
+        // if (url != null)
+            // return url;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory
             ("usuarios_articulos");
         EntityManager em = emf.createEntityManager();

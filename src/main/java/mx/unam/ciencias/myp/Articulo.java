@@ -35,8 +35,6 @@ public class Articulo {
 
     private String mes;
 
-    private String url;
-
     private String ano;
 
     @Transient
