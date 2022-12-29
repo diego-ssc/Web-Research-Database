@@ -43,11 +43,12 @@
                 <li><a th:href="@{/user/institutions}" class="nav-link px-2 link-dark">Instituciones</a></li>
             </ul>
 
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+            <form action="#" th:action="@{/busqueda}" method="get" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
                 <input type="search" class="form-control " placeholder="Buscar..." aria-label="Search">
             </form>
 
             <div class="text-end">
+                <button sec:authorize="isAuthenticated()" onclick="location.href='/user/addContribution'"  type="button" class="btn btn-outline-secondary btn-lg px-4 me-sm-3">Añadir</button>
                 <button onclick="location.href='/logout'" type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Salir</button>
             </div>
         </header>

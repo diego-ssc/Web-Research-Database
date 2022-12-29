@@ -389,22 +389,25 @@ function selectValue(){
  * @function buscar
  */
 function buscar(){
-    selectValue();
     var query = getParameter("q");
 
     // si no hay búsqueda
     if (getParameter("q") == null){
         switch( getParameter("op") ){
         case "investigadores":
+            selectValue();
             getAllInvestigadores();
             break;
         case "estudiantes":
+            selectValue();
             getAllEstudiantes();
             break;
         case "revistas":
+            selectValue();
             getAllRevistas();
             break;
         case "proyectos":
+            selectValue();
             getAllProyectos();
             break;
         default:
@@ -415,15 +418,19 @@ function buscar(){
 
     switch( getParameter("op") ){
     case "investigadores":
+        selectValue();
         getInvestigadores( query );
         break;
     case "estudiantes":
+        selectValue();
         getEstudiantes( query );
         break;
     case "revistas":
+        selectValue();
         getRevistas( query );
         break;
     case "proyectos":
+        selectValue();
         getProyectos( query );
         break;
     default:
