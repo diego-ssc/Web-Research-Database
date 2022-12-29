@@ -35,6 +35,8 @@ public class Articulo {
 
     private String mes;
 
+    private String url;
+
     private String ano;
 
     @Transient
@@ -108,6 +110,14 @@ public class Articulo {
         this.ano = ano;
     }
 
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
     public String getCadenaUsuarios() {
         return cadenaUsuarios;
     }

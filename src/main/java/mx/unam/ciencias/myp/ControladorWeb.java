@@ -585,6 +585,11 @@ public class ControladorWeb {
         return "estudiante";
     }
 
+    @GetMapping("/busqueda")
+    public String searchView() {
+        return "busqueda.html";
+    }
+
     // Métodos de administrador
     /**
      * Método que devuelve la plantilla de la página

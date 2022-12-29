@@ -43,9 +43,9 @@
                     <li><a th:href="@{/user/students}" class="nav-link px-2 link-dark">Estudiantes</a></li>
                     <li><a th:href="@{/user/institutions}" class="nav-link px-2 link-dark">Instituciones</a></li>
                     <li><a th:href="@{/user/profile}" class="nav-link px-2 link-dark">Perfil</a></li>
-                </ul>>
+                </ul>
 
-                <form action="busqueda.html" method="get" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                <form action="#" th:action="@{/busqueda}" method="get" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
                     <input type="search" name="q" class="form-control " placeholder="Buscar..." aria-label="Search">
                 </form>
 
