@@ -61,7 +61,7 @@ public class ControladorWeb {
      * @return la plantilla de respuesta
      *
      */
-    @CrossOrigin
+    // @CrossOrigin
     @PostMapping(path="/add_article")
     public String agregaArticulo(Articulo articulo) {
         // String url = verificaArticulo(articulo);
@@ -80,7 +80,7 @@ public class ControladorWeb {
         String cadenaUsuarios = articulo.getCadenaUsuarios();
         articulo.setUsuarios(parseUsers(cadenaUsuarios));
 
-        //
+        em.persist(articulo);
         em.getTransaction().commit();
         em.close();
         emf.close();
@@ -118,11 +118,11 @@ public class ControladorWeb {
                 if (dia < 0 || dia > 31)
                     return false;
             }
-            int mes = Integer.parseInt(m);
+            // int mes = Integer.parseInt(m); // Cambiar por enum de meses
             int ano = Integer.parseInt(a);
 
-            if (mes < 0 || mes > 12)
-                return false;
+            // if (mes < 0 || mes > 12)
+            //     return false;
             if (ano < 0)
                 return false;
         } catch (NumberFormatException e) {
@@ -377,19 +377,16 @@ public class ControladorWeb {
         usuario.setPerfil(perfil);
         usuario.setInstitucion(institucion);
         List<Usuario> lista = institucion.getUsuarios();
-
+        
         em.persist(usuario);
         if (lista == null) {
             lista = new LinkedList<Usuario>();
         }
-
         lista.add(usuario);
         institucion.setUsuarios(lista);
-
         em.getTransaction().commit();
         em.close();
         emf.close();
-
         repositorioUsuario.save(usuario);
         return "user_added";
     }
@@ -560,7 +557,6 @@ public class ControladorWeb {
     }
 
     public Optional<Perfil> getPerfil(@PathVariable Integer id){
-        System.out.println(repositorioPerfil);
         return repositorioPerfil.findById(id);
     }
 

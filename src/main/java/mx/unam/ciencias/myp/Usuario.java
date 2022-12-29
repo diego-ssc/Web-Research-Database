@@ -238,4 +238,9 @@ public class Usuario {
 
         return a && b;
     }
+
+    @Override
+    public String toString() {
+        return this.id + "::" + this.nombre;
+    }
 }

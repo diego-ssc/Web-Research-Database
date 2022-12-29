@@ -37,10 +37,8 @@ public class Articulo {
 
     private String ano;
 
-    private String url;
-
     @Transient
-    @Lob
+    // @Lob
     private MultipartFile archivo;
 
     @Transient
@@ -126,4 +124,8 @@ public class Articulo {
         this.cadenaUsuarios = cadenaUsuarios;
     }
 
+    @Override
+    public String toString() {
+        return this.id + "::" + this.nombre;
+    }
 }
