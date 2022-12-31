@@ -321,7 +321,7 @@ public class ControladorWeb {
         return "perfil";
     }
 
-    @GetMapping(path="/user/f_Articles")
+    @GetMapping(path="/user/f_articles")
     public String articulosDestacados() {
         return "featuredArticles";
     }
