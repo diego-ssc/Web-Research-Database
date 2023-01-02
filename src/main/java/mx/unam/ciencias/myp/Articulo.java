@@ -46,8 +46,6 @@ public class Articulo {
     @Transient
     private String cadenaUsuarios;
 
-    private String url;
-
     public Integer getId() {
         return id;
     }
