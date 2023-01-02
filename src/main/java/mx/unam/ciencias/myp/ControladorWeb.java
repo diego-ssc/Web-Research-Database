@@ -633,23 +633,24 @@ public class ControladorWeb {
     /* Tabla Artículos */
     @GetMapping("/administrator/articulos")
     public String muestraArticulos(Model model) {
+        model.addAttribute("articulo", new Articulo());
         model.addAttribute("articulos", repositorioArticulo.findAll());
         return "admin_articles";
     }
     
     @GetMapping("/administrator/registra_articulo")
     public String administradorMuestraFormularioArticulo(Articulo articulo) {
-        return "add_article_admin";
+        return "admin_articles";
     }
 
     @PostMapping("/administrator/agrega_articulo")
     public String administradorAgregaArticulo(@Valid Articulo articulo, BindingResult result,
                                              Model modelo) {
         if (result.hasErrors())
-            return "add_article_admin";
+            return "admin_articles";
 
         repositorioArticulo.save(articulo);
-        return "redirect:/administrator";
+        return "redirect:/admin_articles";
     }
 
     @GetMapping("/administrator/editar_articulo/{id}")
