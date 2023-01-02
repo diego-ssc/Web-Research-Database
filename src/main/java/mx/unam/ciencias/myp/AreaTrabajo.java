@@ -12,16 +12,16 @@ import javax.persistence.*;
 public class AreaTrabajo {
     @Id
     @Column(name = "id_area")
-    private Integer area;
+    private Integer id;
 
     private String descripcion;
 
-    public Integer getIdArea() {
-        return area;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdArea(Integer area) {
-        this.area = area;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getDescripcion() {

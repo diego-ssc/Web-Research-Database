@@ -48,11 +48,11 @@ public class Revista implements Serializable {
 
     private String ano;
 
-    public Integer getIdRevista() {
+    public Integer getId() {
         return id;
     }
 
-    public void setIdRevista(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
