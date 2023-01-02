@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Table(name = "articulos")
 public class Articulo {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="articulo_id_generator")
     @Column(name = "id_articulo")
     private Integer id;
 
@@ -45,9 +45,7 @@ public class Articulo {
 
     @Transient
     private String cadenaUsuarios;
-
-    private String url;
-
+    
     public Integer getId() {
         return id;
     }
