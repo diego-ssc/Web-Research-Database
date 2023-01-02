@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Table(name = "articulos")
 public class Articulo {
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="articulo_id_generator")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     @Column(name = "id_articulo")
     private Integer id;
 
