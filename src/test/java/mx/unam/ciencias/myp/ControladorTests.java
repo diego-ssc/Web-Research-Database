@@ -28,6 +28,11 @@ import org.springframework.test.context.ContextConfiguration;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
+import java.util.Optional;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import java.util.LinkedList;
+
+
 
  @SpringBootTest
 @ContextConfiguration(classes=MypApplication.class)
@@ -38,6 +43,12 @@ public class ControladorTests {
 
     @MockBean
     RepositorioUsuario repositorio;
+
+    @MockBean
+    RepositorioPerfil repoPerfil;
+
+    @MockBean
+    RepositorioInstitucion repoInst;
 
     @Test
      public void testGetUsuarios() {
@@ -62,5 +73,60 @@ public class ControladorTests {
             i++;
         }
         assertTrue(i == 100);
+    }
+
+    @Test
+    public void testAgregaNuevoUsuario() {
+        ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+
+        org.mockito.Mockito.when(repositorio.save(any())).then(invocation -> {
+            Usuario usuario = invocation.getArgument(0);
+            usuarios.add(usuario);
+            return usuario;
+        });
+
+        Perfil perfil = new Perfil();
+        Optional<Perfil> perfilOpt = Optional.of(perfil);
+        org.mockito.Mockito.when(repoPerfil.findById(any())).thenReturn(perfilOpt);
+
+        Institucion institucion = new Institucion();
+        Optional<Institucion> institucionOpt = Optional.of(institucion);
+        org.mockito.Mockito.when(repoInst.findById(any())).thenReturn(institucionOpt);
+
+        int i = 0;
+        Usuario[] arreglo = new Usuario[50];
+        for (int e = 0; e < 50; e++) {
+            arreglo[e] = creaUsuario();
+            controlador.agregaNuevoUsuario(arreglo[e]);
+        }
+        for (Usuario u : usuarios) {
+            assertTrue(u == arreglo[i]);
+            i++;
+        }
+        assertTrue(i == 50);
+
+
+        assertTrue(arreglo[0].getPerfil() == perfil);
+        assertTrue(arreglo[0].getInstitucion() == institucion);
+
+        i = 0;
+        for (Usuario u : institucion.getUsuarios()) {
+            assertTrue(arreglo[i] == u);
+            i++;
+        }
+        assertTrue(i == 50);
+
+    }
+
+    private Usuario creaUsuario() {
+        Usuario usuario = new Usuario();
+        usuario.setPerfilString("999");
+        usuario.setInstitucionString("888");
+        usuario.setContrasena("contrasena");
+        usuario.setDia("18");
+        usuario.setMes("03");
+        usuario.setAno("2003");
+
+        return usuario;
     }
 }
