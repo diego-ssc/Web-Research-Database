@@ -18,6 +18,7 @@ import java.io.File;
 import java.lang.NumberFormatException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.math.BigInteger;
 
 @Controller
 @RequestMapping("/")
@@ -68,8 +69,7 @@ public class ControladorWeb {
         // String url = verificaArticulo(articulo);
         // if (url != null)
             // return url;
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory
-            ("usuarios_articulos");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("usuarios_articulos");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
 
@@ -81,21 +81,11 @@ public class ControladorWeb {
         String cadenaUsuarios = articulo.getCadenaUsuarios();
         articulo.setUsuarios(parseUsers(cadenaUsuarios));
 
-        System.out.println();
-        System.out.println(articulo);
-        System.out.println();
-        
         em.persist(articulo);
-        
-        System.out.println();
-        System.out.println(articulo);
-        System.out.println();
-        
         em.getTransaction().commit();
         em.close();
         emf.close();
 
-        repositorioArticulo.save(articulo);
         return "article_added";
     }
 
