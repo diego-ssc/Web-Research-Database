@@ -19,9 +19,8 @@
   </persistence-unit>
 
   <persistence-unit name="usuarios_articulos">
-    <!-- transaction-type="RESOURCE_LOCAL" -->
+    <class>mx.unam.ciencias.myp.Articulo</class>    
     <class>mx.unam.ciencias.myp.Usuario</class>
-    <class>mx.unam.ciencias.myp.Articulo</class>
 
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/db_researchers"/>

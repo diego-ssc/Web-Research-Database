@@ -37,6 +37,8 @@ public class Articulo {
 
     private String ano;
 
+    private String url;
+
     @Transient
     // @Lob
     private MultipartFile archivo;
@@ -109,7 +111,6 @@ public class Articulo {
     public void setAno(String ano) {
         this.ano = ano;
     }
-
 
     public String getUrl() {
         return url;

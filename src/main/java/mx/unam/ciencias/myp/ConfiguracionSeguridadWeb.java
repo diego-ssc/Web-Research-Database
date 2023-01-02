@@ -57,7 +57,7 @@ public class ConfiguracionSeguridadWeb extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/actuator/**").permitAll();
         http.authorizeRequests()
-            .antMatchers("/administrator").hasRole("administrador")
+            // .antMatchers("/administrator").hasRole("administrador")
             .antMatchers("/user").authenticated()
             .anyRequest().permitAll()
             .and()
