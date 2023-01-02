@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 @Controller
+@RequestMapping("/")
 public class ControladorWeb {
     @Autowired
     private RepositorioUsuario repositorioUsuario;
@@ -80,7 +81,16 @@ public class ControladorWeb {
         String cadenaUsuarios = articulo.getCadenaUsuarios();
         articulo.setUsuarios(parseUsers(cadenaUsuarios));
 
+        System.out.println();
+        System.out.println(articulo);
+        System.out.println();
+        
         em.persist(articulo);
+        
+        System.out.println();
+        System.out.println(articulo);
+        System.out.println();
+        
         em.getTransaction().commit();
         em.close();
         emf.close();
@@ -582,16 +592,5 @@ public class ControladorWeb {
     @GetMapping("/busqueda")
     public String searchView() {
         return "busqueda.html";
-    }
-
-    // Métodos de administrador
-    /**
-     * Método que devuelve la plantilla de la página
-     * principal del administrador
-     *
-     */
-    @GetMapping(path="/administrator")
-    public String adminView() {
-        return "administrador";
     }
 }
