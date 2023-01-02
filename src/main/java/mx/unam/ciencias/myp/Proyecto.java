@@ -33,11 +33,11 @@ public class Proyecto implements Serializable {
     @Transient
     private String cadenaUsuarios;
 
-    public Integer getIdProyecto() {
+    public Integer getId() {
         return id;
     }
 
-    public void setIdProyecto(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
