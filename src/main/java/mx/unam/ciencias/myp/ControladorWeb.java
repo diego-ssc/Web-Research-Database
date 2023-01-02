@@ -1,12 +1,14 @@
 package mx.unam.ciencias.myp;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.multipart.MultipartFile; // subir Archivo
+import org.springframework.validation.BindingResult;
 
 import java.util.LinkedList;
 import java.util.Optional;
@@ -389,7 +391,7 @@ public class ControladorWeb {
         usuario.setPerfil(perfil);
         usuario.setInstitucion(institucion);
         List<Usuario> lista = institucion.getUsuarios();
-        
+
         em.persist(usuario);
         if (lista == null) {
             lista = new LinkedList<Usuario>();
@@ -594,5 +596,307 @@ public class ControladorWeb {
     @GetMapping("/busqueda")
     public String searchView() {
         return "busqueda.html";
+    }
+
+    /* Administrador */
+    @GetMapping("/administrator")
+    public String showTables(Model model) {
+        model.addAttribute("usuarios", repositorioUsuario.findAll());
+        return "main_view_admin";
+    }
+
+    /* Tabla Usuarios */
+    @GetMapping("/administrator/registra_usuario")
+    public String administradorMuestraFormularioUsuario(Usuario usuario) {
+        return "add_user_admin";
+    }
+
+    @PostMapping("/administrator/agrega_usuario")
+    public String administradorAgregaUsuario(@Valid Usuario usuario, BindingResult result,
+                                             Model modelo) {
+        if (result.hasErrors())
+            return "add_user_admin";
+
+        repositorioUsuario.save(usuario);
+        return "redirect:/administrator";
+    }
+
+    @GetMapping("/administrator/editar_usuario/{id}")
+    public String muestraFormularoActualizacionUsuario(@PathVariable("id") Integer id, Model model) {
+        Usuario usuario = repositorioUsuario.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Id de usuario inválido: " + id));
+
+        model.addAttribute("usuario", usuario);
+        return "actualiza_usuario";
+    }
+
+    @PostMapping("/administrator/actualizar_usuario/{id}")
+    public String administradorActualizaUsuario(@PathVariable("id") Integer id, @Valid Usuario usuario,
+                                                BindingResult resultado, Model modelo) {
+        if (resultado.hasErrors()) {
+            usuario.setId(id);
+            return "actualiza_usuario";
+        }
+
+        repositorioUsuario.save(usuario);
+        return "redirect:/administrator";
+    }
+
+    /* Tabla Artículos */
+    @GetMapping("/administrator/articulos")
+    public String muestraArticulos(Model model) {
+        model.addAttribute("articulos", repositorioArticulo.findAll());
+        return "admin_articles";
+    }
+    
+    @GetMapping("/administrator/registra_articulo")
+    public String administradorMuestraFormularioArticulo(Articulo articulo) {
+        return "add_article_admin";
+    }
+
+    @PostMapping("/administrator/agrega_articulo")
+    public String administradorAgregaArticulo(@Valid Articulo articulo, BindingResult result,
+                                             Model modelo) {
+        if (result.hasErrors())
+            return "add_article_admin";
+
+        repositorioArticulo.save(articulo);
+        return "redirect:/administrator";
+    }
+
+    @GetMapping("/administrator/editar_articulo/{id}")
+    public String muestraFormulariooActualizacionArticulo(@PathVariable("id") Integer id, Model model) {
+        Articulo articulo = repositorioArticulo.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Id de artículo inválido: " + id));
+
+        model.addAttribute("articulo", articulo);
+        return "actualiza_articulo";
+    }
+
+    @PostMapping("/administrator/actualizar_articulo/{id}")
+    public String administradorActualizaArticulo(@PathVariable("id") Integer id, @Valid Articulo articulo,
+                                                BindingResult resultado, Model modelo) {
+        if (resultado.hasErrors()) {
+            articulo.setId(id);
+            return "actualiza_articulo";
+        }
+
+        repositorioArticulo.save(articulo);
+        return "redirect:/administrator";
+    }
+
+    /* Tabla Revistas */
+    @GetMapping("/administrator/revistas")
+    public String muestraRevistas(Model model) {
+        model.addAttribute("revistas", repositorioRevista.findAll());
+        return "admin_journals";
+    }
+    
+    @GetMapping("/administrator/registra_revista")
+    public String administradorMuestraFormularioRevista(Revista revista) {
+        return "add_journal_admin";
+    }
+
+    @PostMapping("/administrator/agrega_revista")
+    public String administradorAgregaRevista(@Valid Revista revista, BindingResult result,
+                                             Model modelo) {
+        if (result.hasErrors())
+            return "add_journal_admin";
+
+        repositorioRevista.save(revista);
+        return "redirect:/administrator";
+    }
+
+    @GetMapping("/administrator/editar_revista/{id}")
+    public String muestraFormulariooActualizacionRevista(@PathVariable("id") Integer id, Model model) {
+        Revista revista = repositorioRevista.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Id de revista inválido: " + id));
+
+        model.addAttribute("revista", revista);
+        return "actualiza_revista";
+    }
+
+    @PostMapping("/administrator/actualizar_revista/{id}")
+    public String administradorActualizaRevista(@PathVariable("id") Integer id, @Valid Revista revista,
+                                                BindingResult resultado, Model modelo) {
+        if (resultado.hasErrors()) {
+            revista.setId(id);
+            return "actualiza_revista";
+        }
+
+        repositorioRevista.save(revista);
+        return "redirect:/administrator";
+    }
+
+    /* Tabla Proyectos */
+    @GetMapping("/administrator/proyectos")
+    public String muestraProyectos(Model model) {
+        model.addAttribute("proyectos", repositorioProyecto.findAll());
+        return "admin_projects";
+    }
+    
+    @GetMapping("/administrator/registra_proyecto")
+    public String administradorMuestraFormularioProyecto(Proyecto proyecto) {
+        return "add_project_admin";
+    }
+
+    @PostMapping("/administrator/agrega_proyecto")
+    public String administradorAgregaProyecto(@Valid Proyecto proyecto, BindingResult result,
+                                             Model modelo) {
+        if (result.hasErrors())
+            return "add_project_admin";
+
+        repositorioProyecto.save(proyecto);
+        return "redirect:/administrator";
+    }
+
+    @GetMapping("/administrator/editar_proyecto/{id}")
+    public String muestraFormulariooActualizacionProyecto(@PathVariable("id") Integer id, Model model) {
+        Proyecto proyecto = repositorioProyecto.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Id de proyecto inválido: " + id));
+
+        model.addAttribute("proyecto", proyecto);
+        return "actualiza_proyecto";
+    }
+
+    @PostMapping("/administrator/actualizar_proyecto/{id}")
+    public String administradorActualizaProyecto(@PathVariable("id") Integer id, @Valid Proyecto proyecto,
+                                                BindingResult resultado, Model modelo) {
+        if (resultado.hasErrors()) {
+            proyecto.setId(id);
+            return "actualiza_proyecto";
+        }
+
+        repositorioProyecto.save(proyecto);
+        return "redirect:/administrator";
+    }
+
+    /* Tabla Perfiles */
+    @GetMapping("/administrator/perfiles")
+    public String muestraPerfiles(Model model) {
+        model.addAttribute("perfiles", repositorioPerfil.findAll());
+        return "admin_roles";
+    }
+    
+    @GetMapping("/administrator/registra_perfil")
+    public String administradorMuestraFormularioPerfil(Perfil perfil) {
+        return "add_role_admin";
+    }
+
+    @PostMapping("/administrator/agrega_perfil")
+    public String administradorAgregaPerfil(@Valid Perfil perfil, BindingResult result,
+                                            Model modelo) {
+        if (result.hasErrors())
+            return "add_role_admin";
+
+        repositorioPerfil.save(perfil);
+        return "redirect:/administrator";
+    }
+
+    @GetMapping("/administrator/editar_perfil/{id}")
+    public String muestraFormulariooActualizacionPerfil(@PathVariable("id") Integer id, Model model) {
+        Perfil perfil = repositorioPerfil.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Id de perfil inválido: " + id));
+
+        model.addAttribute("perfil", perfil);
+        return "actualiza_perfil";
+    }
+
+    @PostMapping("/administrator/actualizar_perfil/{id}")
+    public String administradorActualizaPerfil(@PathVariable("id") Integer id, @Valid Perfil perfil,
+                                                 BindingResult resultado, Model modelo) {
+        if (resultado.hasErrors()) {
+            perfil.setId(id);
+            return "actualiza_perfil";
+        }
+
+        repositorioPerfil.save(perfil);
+        return "redirect:/administrator";
+    }
+
+    /* Tabla Instituciones */
+    @GetMapping("/administrator/instituciones")
+    public String muestraInstituciones(Model model) {
+        model.addAttribute("instituciones", repositorioInstitucion.findAll());
+        return "admin_institutions";
+    }
+    
+    @GetMapping("/administrator/registra_institucion")
+    public String administradorMuestraFormularioInstitucion(Institucion institucion) {
+        return "add_institution_admin";
+    }
+
+    @PostMapping("/administrator/agrega_institucion")
+    public String administradorAgregaInstitucion(@Valid Institucion institucion, BindingResult result,
+                                            Model modelo) {
+        if (result.hasErrors())
+            return "add_institution_admin";
+
+        repositorioInstitucion.save(institucion);
+        return "redirect:/administrator";
+    }
+
+    @GetMapping("/administrator/editar_institucion/{id}")
+    public String muestraFormulariooActualizacionInstitucion(@PathVariable("id") Integer id, Model model) {
+        Institucion institucion = repositorioInstitucion.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Id de institución inválido: " + id));
+
+        model.addAttribute("institucion", institucion);
+        return "actualiza_institucion";
+    }
+
+    @PostMapping("/administrator/actualizar_institucion/{id}")
+    public String administradorActualizaInstitucion(@PathVariable("id") Integer id, @Valid Institucion institucion,
+                                                 BindingResult resultado, Model modelo) {
+        if (resultado.hasErrors()) {
+            institucion.setId(id);
+            return "actualiza_institucion";
+        }
+
+        repositorioInstitucion.save(institucion);
+        return "redirect:/administrator";
+    }
+
+    /* Tabla AreaTrabajo */
+    @GetMapping("/administrator/areasTrabajo")
+    public String muestraAreasTrabajo(Model model) {
+        model.addAttribute("areasTrabajo", repositorioAreaTrabajo.findAll());
+        return "admin_fields";
+    }
+    
+    @GetMapping("/administrator/registra_areaTrabajo")
+    public String administradorMuestraFormularioAreaTrabajo(AreaTrabajo areaTrabajo) {
+        return "add_field_admin";
+    }
+
+    @PostMapping("/administrator/agrega_areaTrabajo")
+    public String administradorAgregaAreaTrabajo(@Valid AreaTrabajo areaTrabajo, BindingResult result,
+                                                 Model modelo) {
+        if (result.hasErrors())
+            return "add_field_admin";
+
+        repositorioAreaTrabajo.save(areaTrabajo);
+        return "redirect:/administrator";
+    }
+
+    @GetMapping("/administrator/editar_areaTrabajo/{id}")
+    public String muestraFormulariooActualizacionAreaTrabajo(@PathVariable("id") Integer id, Model model) {
+        AreaTrabajo areaTrabajo = repositorioAreaTrabajo.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Id de área de trabajo inválido: " + id));
+
+        model.addAttribute("areaTrabajo", areaTrabajo);
+        return "actualiza_areaTrabajo";
+    }
+
+    @PostMapping("/administrator/actualizar_areaTrabajo/{id}")
+    public String administradorActualizaAreaTrabajo(@PathVariable("id") Integer id, @Valid AreaTrabajo areaTrabajo,
+                                                    BindingResult resultado, Model modelo) {
+        if (resultado.hasErrors()) {
+            areaTrabajo.setId(id);
+            return "actualiza_areaTrabajo";
+        }
+
+        repositorioAreaTrabajo.save(areaTrabajo);
+        return "redirect:/administrator";
     }
 }
