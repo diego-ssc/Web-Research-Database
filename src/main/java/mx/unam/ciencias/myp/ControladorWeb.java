@@ -65,16 +65,27 @@ public class ControladorWeb {
      */
     // @CrossOrigin
     @PostMapping(path="/add_article")
-    public String agregaArticulo(Articulo articulo) {
+    public String agregaArticulo(Articulo articuloFalso) {
         // String url = verificaArticulo(articulo);
         // if (url != null)
-            // return url;
+        // return url;
+        Articulo articulo = new Articulo();
+        articulo.setNombre(articuloFalso.getNombre());
+        articulo.setArchivo(articuloFalso.getArchivo());
+        articulo.setDescripcion(articuloFalso.getDescripcion());
+        articulo.setMes(articuloFalso.getMes());
+        articulo.setAno(articuloFalso.getAno());
+        articulo.setCadenaUsuarios(articuloFalso.getCadenaUsuarios());
+
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("usuarios_articulos");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
 
+        // Set the id field to null to allow the database to generate a unique value using the auto-increment column
+        articulo.setId(null);
+
         // add file to filesystem
-        storeFile(articulo.getArchivo(), articulo.getNombre());
+        storeFile(articulo.getArchivo(), articulo.getNombre() + articulo.getId());
         articulo.setUrl(articulo.getNombre() + articulo.getId());
 
         // Parse users
@@ -88,6 +99,7 @@ public class ControladorWeb {
 
         return "article_added";
     }
+
 
     private String verificaArticulo(Articulo articulo) {
         if (articulo == null)
