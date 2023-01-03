@@ -43,6 +43,15 @@ public class Usuario {
     @Transient
     private String institucionString;
 
+    @Transient
+    private String cadenaArticulos;
+
+    @Transient
+    private String cadenaProyectos;
+
+    @Transient
+    private String cadenaRevistas;
+
     @Column(name = "fecha_nacimiento")
     private String fechaNacimiento;
 
@@ -212,6 +221,30 @@ public class Usuario {
 
     public void setRevistas(Set<Revista> revistas) {
         this.revistas = revistas;
+    }
+
+    public String getCadenaArticulos() {
+        return cadenaArticulos;
+    }
+
+    public void setCadenaArticulos(String cadenaArticulos) {
+        this.cadenaArticulos = cadenaArticulos;
+    }
+
+    public String getCadenaRevistas() {
+        return cadenaRevistas;
+    }
+
+    public void setCadenaRevistas(String cadenaRevistas) {
+        this.cadenaRevistas = cadenaRevistas;
+    }
+
+    public String getCadenaProyectos() {
+        return cadenaProyectos;
+    }
+
+    public void setCadenaProyectos(String cadenaProyecto) {
+        this.cadenaProyectos = cadenaProyectos;
     }
 
     /**
