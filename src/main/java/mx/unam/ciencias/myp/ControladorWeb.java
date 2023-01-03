@@ -170,8 +170,14 @@ public class ControladorWeb {
         Set<Revista> revistas = new HashSet<>();
         Revista revista;
         for (int i = 0; i < id.length; i++) {
-            revista = repositorioRevista.findById(id[i]).get();
+            try {
+            revista = repositorioRevista.findById(Integer.parseInt(id[i])).get();
             revistas.add(revista);
+            } catch (NumberFormatException e) {
+                System.out.println(e);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
         }
 
         return revistas;
