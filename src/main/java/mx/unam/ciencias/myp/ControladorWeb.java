@@ -695,6 +695,14 @@ public class ControladorWeb {
         return "redirect:/administrator";
     }
 
+    @GetMapping("/administrator/eliminar_usuario/{id}")
+    public String administradorEliminarUsuario(@PathVariable("id") Integer id, Model model) {
+        Usuario usuario = repositorioUsuario.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Id de usuario inválido:" + id));
+        repositorioUsuario.delete(usuario);
+        return "redirect:/administrator";
+    }
+
     /* Tabla Artículos */
     @GetMapping("/administrator/articulos")
     public String muestraArticulos(Model model) {
@@ -736,6 +744,14 @@ public class ControladorWeb {
         }
 
         agregaArticulo(articulo);
+        return "redirect:/administrator";
+    }
+
+    @GetMapping("/administrator/eliminar_articulo/{id}")
+    public String administradorEliminarArticulo(@PathVariable("id") Integer id, Model model) {
+        Articulo articulo = repositorioArticulo.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Id de artículo inválido:" + id));
+        repositorioArticulo.delete(articulo);
         return "redirect:/administrator";
     }
 
@@ -782,6 +798,14 @@ public class ControladorWeb {
         return "redirect:/administrator";
     }
 
+    @GetMapping("/administrator/eliminar_revista/{id}")
+    public String administradorEliminarRevista(@PathVariable("id") Integer id, Model model) {
+        Revista revista = repositorioRevista.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Id de revista inválido:" + id));
+        repositorioRevista.delete(revista);
+        return "redirect:/administrator";
+    }
+
     /* Tabla Proyectos */
     @GetMapping("/administrator/proyectos")
     public String muestraProyectos(Model model) {
@@ -822,6 +846,14 @@ public class ControladorWeb {
         }
 
         agregaProyecto(proyecto);
+        return "redirect:/administrator";
+    }
+
+    @GetMapping("/administrator/eliminar_proyecto/{id}")
+    public String administradorEliminarProyecto(@PathVariable("id") Integer id, Model model) {
+        Proyecto proyecto = repositorioProyecto.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Id de proyecto inválido:" + id));
+        repositorioProyecto.delete(proyecto);
         return "redirect:/administrator";
     }
 
@@ -868,6 +900,14 @@ public class ControladorWeb {
         return "redirect:/administrator";
     }
 
+    @GetMapping("/administrator/eliminar_perfil/{id}")
+    public String administradorEliminarPerfil(@PathVariable("id") Integer id, Model model) {
+        Perfil perfil = repositorioPerfil.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Id de perfil inválido:" + id));
+        repositorioPerfil.delete(perfil);
+        return "redirect:/administrator";
+    }
+
     /* Tabla Instituciones */
     @GetMapping("/administrator/instituciones")
     public String muestraInstituciones(Model model) {
@@ -911,6 +951,14 @@ public class ControladorWeb {
         return "redirect:/administrator";
     }
 
+    @GetMapping("/administrator/eliminar_institucion/{id}")
+    public String administradorEliminarInstitucion(@PathVariable("id") Integer id, Model model) {
+        Institucion institucion = repositorioInstitucion.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Id de institución inválido:" + id));
+        repositorioInstitucion.delete(institucion);
+        return "redirect:/administrator";
+    }
+
     /* Tabla AreaTrabajo */
     @GetMapping("/administrator/areasTrabajo")
     public String muestraAreasTrabajo(Model model) {
@@ -951,6 +999,14 @@ public class ControladorWeb {
         }
 
         repositorioAreaTrabajo.save(areaTrabajo);
+        return "redirect:/administrator";
+    }
+
+    @GetMapping("/administrator/eliminar_areaTrabajo/{id}")
+    public String administradorEliminarAreaTrabajo(@PathVariable("id") Integer id, Model model) {
+        AreaTrabajo areaTrabajo = repositorioAreaTrabajo.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Id de área de trabajo inválido:" + id));
+        repositorioAreaTrabajo.delete(areaTrabajo);
         return "redirect:/administrator";
     }
 }
