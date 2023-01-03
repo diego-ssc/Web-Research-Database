@@ -33,9 +33,9 @@
     <span th:if="${#fields.hasErrors('archivo')}" th:errors="*{archivo}"></span>
     <input type="submit" value="Agregar articulo">
   </form>
-  <h3>Modifica articulo</h3>
+  <h3>Modifica usuario</h3>
   <form action="#"
-        th:action="@{/administrator/actualizar_articulo/{id}(id=${articulo.id})}"
+        th:action="@{/administrator/editar_usuario/{id}(id=${articulo.id})}"
         th:object="${articulo}"
         method="post">
     <label for="nombre">Nombre</label>
@@ -48,8 +48,8 @@
     <input type="text" th:field="*{cadenaUsuarios}" id="usuarios" placeholder="Separa los email con comas-">
     <span th:if="${#fields.hasErrors('cadenaUsuarios')}" th:errors="*{cadenaUsuarios}"></span>
     <label for="revistas">Revistas</label>
-    <input type="text" th:field="*{revistas}" id="revistas" placeholder="Separa las revistas con comas">
-    <span th:if="${#fields.hasErrors('revistas')}" th:errors="*{revistas}"></span>
+    <input type="text" th:field="*{cadenaRevistas}" id="revistas" placeholder="Separa las revistas con comas">
+    <span th:if="${#fields.hasErrors('cadenaRevistas')}" th:errors="*{cadenaRevistas}"></span>
     <label for="mes">Mes</label>
     <input type="number" th:field="*{mes}" id="mes" placeholder="1" min="1" max="12">
     <span th:if="${#fields.hasErrors('mes')}" th:errors="*{mes}"></span>
@@ -64,7 +64,7 @@
     <span th:if="${#fields.hasErrors('archivo')}" th:errors="*{archivo}"></span>
     <input type="submit" value="Actualizar articulo">
   </form>
-  <h3>Datos Articulos</h3>
+  <h3>Tabla Articulos</h3>
   <div th:switch="${articulos}">
     <h2 th:case="null">No users yet!</h2>
     <div th:case="*">
@@ -94,8 +94,8 @@
           <td th:text="${articulo.mes}"></td>
           <td th:text="${articulo.ano}"></td>
           <td th:text="${articulo.url}"></td>
-          <td><a th:href="@{/edit/{id}(id=${articulo.id})}">Edit</a></td>
-          <td><a th:href="@{/delete/{id}(id=${articulo.id})}">Delete</a></td>
+          <td><a th:href="@{/edit/{id}(id=${articulo.id})}">Editar</a></td>
+          <td><a th:href="@{/delete/{id}(id=${articulo.id})}">Eliminar</a></td>
         </tr>
         </tbody>
       </table>
