@@ -94,6 +94,10 @@ public class ControladorWeb {
         String cadenaUsuarios = articulo.getCadenaUsuarios();
         articulo.setUsuarios(parseUsers(cadenaUsuarios));
 
+        // Parse journals
+        String cadenaRevistas = articulo.getCadenaRevistas();
+        articulo.setRevistas(parseJournals(cadenaRevistas));
+
         em.persist(articulo);
         em.getTransaction().commit();
         em.close();
@@ -159,6 +163,26 @@ public class ControladorWeb {
         return usuarios;
     }
 
+    private Set<Revista> parseJournals(String cadenaRevistas) {
+        if (cadenaRevistas == null)
+            return null;
+        String[] id = cadenaRevistas.split(",");
+        Set<Revista> revistas = new HashSet<>();
+        Revista revista;
+        for (int i = 0; i < id.length; i++) {
+            try {
+            revista = repositorioRevista.findById(Integer.parseInt(id[i])).get();
+            revistas.add(revista);
+            } catch (NumberFormatException e) {
+                System.out.println(e);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+
+        return revistas;
+    }
+
     private void storeFile(MultipartFile file, String fileName){
         String filePath =  System.getProperty("user.home");
         filePath+= "/redDeInvestigadores";
@@ -200,17 +224,23 @@ public class ControladorWeb {
         repositorioRevista.save(revista);
 
         return "journal_added";
-     }
+    }
 
     private Set<Articulo> parseArticles(String cadenaArticulos) {
         if (cadenaArticulos == null)
             return null;
-        String[] urls = cadenaArticulos.split(",");
+        String[] id = cadenaArticulos.split(",");
         Set<Articulo> articulos = new HashSet<>();
         Articulo articulo;
-        for (int i = 0; i < urls.length; i++) {
-            articulo = repositorioArticulo.buscarPorUrl(urls[i]);
-            articulos.add(articulo);
+        for (int i = 0; i < id.length; i++) {
+            try {
+                articulo = repositorioArticulo.findById(Integer.parseInt(id[i])).get();
+                articulos.add(articulo);
+            } catch (NumberFormatException e) {
+                System.out.println(e);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
         }
 
         return articulos;
@@ -225,6 +255,26 @@ public class ControladorWeb {
         if (n && f)
             return null;
         return "index";
+    }
+
+    private Set<Proyecto> parseProjects(String cadenaProyectos) {
+        if (cadenaProyectos == null)
+            return null;
+        String[] id = cadenaProyectos.split(",");
+        Set<Proyecto> proyectos = new HashSet<>();
+        Proyecto proyecto;
+        for (int i = 0; i < id.length; i++) {
+            try {
+                proyecto = repositorioProyecto.findById(Integer.parseInt(id[i])).get();
+                proyectos.add(proyecto);
+            } catch (NumberFormatException e) {
+                System.out.println(e);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+
+        return proyectos;
     }
 
     /**
@@ -617,6 +667,9 @@ public class ControladorWeb {
         if (result.hasErrors())
             return "add_user_admin";
 
+        usuario.setArticulos(parseArticles(usuario.getCadenaArticulos()));
+        usuario.setProyectos(parseProjects(usuario.getCadenaProyectos()));
+        usuario.setRevistas(parseJournals(usuario.getCadenaRevistas()));
         agregaNuevoUsuario(usuario);
         return "redirect:/administrator";
     }
@@ -642,6 +695,14 @@ public class ControladorWeb {
         return "redirect:/administrator";
     }
 
+    @GetMapping("/administrator/eliminar_usuario/{id}")
+    public String administradorEliminarUsuario(@PathVariable("id") Integer id, Model model) {
+        Usuario usuario = repositorioUsuario.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Id de usuario inválido:" + id));
+        repositorioUsuario.delete(usuario);
+        return "redirect:/administrator";
+    }
+
     /* Tabla Artículos */
     @GetMapping("/administrator/articulos")
     public String muestraArticulos(Model model) {
@@ -649,7 +710,7 @@ public class ControladorWeb {
         model.addAttribute("articulos", repositorioArticulo.findAll());
         return "admin_articles";
     }
-    
+
     @GetMapping("/administrator/registra_articulo")
     public String administradorMuestraFormularioArticulo(Articulo articulo) {
         return "admin_articles";
@@ -686,13 +747,21 @@ public class ControladorWeb {
         return "redirect:/administrator";
     }
 
+    @GetMapping("/administrator/eliminar_articulo/{id}")
+    public String administradorEliminarArticulo(@PathVariable("id") Integer id, Model model) {
+        Articulo articulo = repositorioArticulo.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Id de artículo inválido:" + id));
+        repositorioArticulo.delete(articulo);
+        return "redirect:/administrator";
+    }
+
     /* Tabla Revistas */
     @GetMapping("/administrator/revistas")
     public String muestraRevistas(Model model) {
         model.addAttribute("revistas", repositorioRevista.findAll());
         return "admin_journals";
     }
-    
+
     @GetMapping("/administrator/registra_revista")
     public String administradorMuestraFormularioRevista(Revista revista) {
         return "add_journal_admin";
@@ -729,13 +798,21 @@ public class ControladorWeb {
         return "redirect:/administrator";
     }
 
+    @GetMapping("/administrator/eliminar_revista/{id}")
+    public String administradorEliminarRevista(@PathVariable("id") Integer id, Model model) {
+        Revista revista = repositorioRevista.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Id de revista inválido:" + id));
+        repositorioRevista.delete(revista);
+        return "redirect:/administrator";
+    }
+
     /* Tabla Proyectos */
     @GetMapping("/administrator/proyectos")
     public String muestraProyectos(Model model) {
         model.addAttribute("proyectos", repositorioProyecto.findAll());
         return "admin_projects";
     }
-    
+
     @GetMapping("/administrator/registra_proyecto")
     public String administradorMuestraFormularioProyecto(Proyecto proyecto) {
         return "add_project_admin";
@@ -772,13 +849,21 @@ public class ControladorWeb {
         return "redirect:/administrator";
     }
 
+    @GetMapping("/administrator/eliminar_proyecto/{id}")
+    public String administradorEliminarProyecto(@PathVariable("id") Integer id, Model model) {
+        Proyecto proyecto = repositorioProyecto.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Id de proyecto inválido:" + id));
+        repositorioProyecto.delete(proyecto);
+        return "redirect:/administrator";
+    }
+
     /* Tabla Perfiles */
     @GetMapping("/administrator/perfiles")
     public String muestraPerfiles(Model model) {
         model.addAttribute("perfiles", repositorioPerfil.findAll());
         return "admin_roles";
     }
-    
+
     @GetMapping("/administrator/registra_perfil")
     public String administradorMuestraFormularioPerfil(Perfil perfil) {
         return "add_role_admin";
@@ -815,13 +900,21 @@ public class ControladorWeb {
         return "redirect:/administrator";
     }
 
+    @GetMapping("/administrator/eliminar_perfil/{id}")
+    public String administradorEliminarPerfil(@PathVariable("id") Integer id, Model model) {
+        Perfil perfil = repositorioPerfil.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Id de perfil inválido:" + id));
+        repositorioPerfil.delete(perfil);
+        return "redirect:/administrator";
+    }
+
     /* Tabla Instituciones */
     @GetMapping("/administrator/instituciones")
     public String muestraInstituciones(Model model) {
         model.addAttribute("instituciones", repositorioInstitucion.findAll());
         return "admin_institutions";
     }
-    
+
     @GetMapping("/administrator/registra_institucion")
     public String administradorMuestraFormularioInstitucion(Institucion institucion) {
         return "add_institution_admin";
@@ -858,13 +951,21 @@ public class ControladorWeb {
         return "redirect:/administrator";
     }
 
+    @GetMapping("/administrator/eliminar_institucion/{id}")
+    public String administradorEliminarInstitucion(@PathVariable("id") Integer id, Model model) {
+        Institucion institucion = repositorioInstitucion.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Id de institución inválido:" + id));
+        repositorioInstitucion.delete(institucion);
+        return "redirect:/administrator";
+    }
+
     /* Tabla AreaTrabajo */
     @GetMapping("/administrator/areasTrabajo")
     public String muestraAreasTrabajo(Model model) {
         model.addAttribute("areasTrabajo", repositorioAreaTrabajo.findAll());
         return "admin_fields";
     }
-    
+
     @GetMapping("/administrator/registra_areaTrabajo")
     public String administradorMuestraFormularioAreaTrabajo(AreaTrabajo areaTrabajo) {
         return "add_field_admin";
@@ -898,6 +999,14 @@ public class ControladorWeb {
         }
 
         repositorioAreaTrabajo.save(areaTrabajo);
+        return "redirect:/administrator";
+    }
+
+    @GetMapping("/administrator/eliminar_areaTrabajo/{id}")
+    public String administradorEliminarAreaTrabajo(@PathVariable("id") Integer id, Model model) {
+        AreaTrabajo areaTrabajo = repositorioAreaTrabajo.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Id de área de trabajo inválido:" + id));
+        repositorioAreaTrabajo.delete(areaTrabajo);
         return "redirect:/administrator";
     }
 }

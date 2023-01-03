@@ -45,6 +45,9 @@ public class Articulo {
 
     @Transient
     private String cadenaUsuarios;
+
+    @Transient
+    private String cadenaRevistas;
     
     public Integer getId() {
         return id;
@@ -117,12 +120,21 @@ public class Articulo {
     public void setUrl(String url) {
         this.url = url;
     }
+
     public String getCadenaUsuarios() {
         return cadenaUsuarios;
     }
 
     public void setCadenaUsuarios(String cadenaUsuarios) {
         this.cadenaUsuarios = cadenaUsuarios;
+    }
+
+    public String getCadenaRevistas() {
+        return cadenaRevistas;
+    }
+
+    public void setCadenaRevistas(String cadenaRevistas) {
+        this.cadenaRevistas = cadenaRevistas;
     }
 
     @Override
