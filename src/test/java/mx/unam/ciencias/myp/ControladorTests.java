@@ -33,7 +33,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.LinkedList;
 
 
-
  @SpringBootTest
 @ContextConfiguration(classes=MypApplication.class)
 public class ControladorTests {
@@ -42,7 +41,7 @@ public class ControladorTests {
     ControladorWeb controlador;
 
     @MockBean
-    RepositorioUsuario repositorio;
+    RepositorioUsuario repoUsuario;
 
     @MockBean
     RepositorioPerfil repoPerfil;
@@ -55,7 +54,7 @@ public class ControladorTests {
 
         ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
 
-        org.mockito.Mockito.when(repositorio.findAll()).thenReturn(usuarios);
+        org.mockito.Mockito.when(repoUsuario.findAll()).thenReturn(usuarios);
 
         int i = 0;
         for (Usuario u : controlador.getUsuarios()) {
@@ -79,7 +78,7 @@ public class ControladorTests {
     public void testAgregaNuevoUsuario() {
         ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
 
-        org.mockito.Mockito.when(repositorio.save(any())).then(invocation -> {
+        org.mockito.Mockito.when(repoUsuario.save(any())).then(invocation -> {
             Usuario usuario = invocation.getArgument(0);
             usuarios.add(usuario);
             return usuario;
@@ -129,4 +128,5 @@ public class ControladorTests {
 
         return usuario;
     }
+
 }
