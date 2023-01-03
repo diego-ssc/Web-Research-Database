@@ -224,17 +224,23 @@ public class ControladorWeb {
         repositorioRevista.save(revista);
 
         return "journal_added";
-     }
+    }
 
     private Set<Articulo> parseArticles(String cadenaArticulos) {
         if (cadenaArticulos == null)
             return null;
-        String[] urls = cadenaArticulos.split(",");
+        String[] id = cadenaArticulos.split(",");
         Set<Articulo> articulos = new HashSet<>();
         Articulo articulo;
-        for (int i = 0; i < urls.length; i++) {
-            articulo = repositorioArticulo.buscarPorUrl(urls[i]);
-            articulos.add(articulo);
+        for (int i = 0; i < id.length; i++) {
+            try {
+                articulo = repositorioArticulo.findById(Integer.parseInt(id[i])).get();
+                articulos.add(articulo);
+            } catch (NumberFormatException e) {
+                System.out.println(e);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
         }
 
         return articulos;
@@ -249,6 +255,26 @@ public class ControladorWeb {
         if (n && f)
             return null;
         return "index";
+    }
+
+    private Set<Proyecto> parseProjects(String cadenaProyectos) {
+        if (cadenaProyectos == null)
+            return null;
+        String[] id = cadenaProyectos.split(",");
+        Set<Proyecto> proyectos = new HashSet<>();
+        Proyecto proyecto;
+        for (int i = 0; i < id.length; i++) {
+            try {
+                proyecto = repositorioProyecto.findById(Integer.parseInt(id[i])).get();
+                proyectos.add(proyecto);
+            } catch (NumberFormatException e) {
+                System.out.println(e);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+
+        return proyectos;
     }
 
     /**
@@ -641,6 +667,9 @@ public class ControladorWeb {
         if (result.hasErrors())
             return "add_user_admin";
 
+        usuario.setArticulos(parseArticles(usuario.getCadenaArticulos()));
+        usuario.setProyectos(parseProjects(usuario.getCadenaProyectos()));
+        usuario.setRevistas(parseJournals(usuario.getCadenaRevistas()));
         agregaNuevoUsuario(usuario);
         return "redirect:/administrator";
     }
