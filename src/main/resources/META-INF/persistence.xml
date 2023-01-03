@@ -18,9 +18,8 @@
 
   </persistence-unit>
   <persistence-unit name="usuarios_articulos">
-      <class>mx.unam.ciencias.myp.Articulo</class>    
       <class>mx.unam.ciencias.myp.Usuario</class>
-      <sequence-generator name="articulo_id_generator" sequence-name="articulo_id_seq" allocation-size="1"/>
+      <class>mx.unam.ciencias.myp.Articulo</class>    
       <properties>
           <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/db_researchers"/>
           <property name="javax.persistence.jdbc.user" value="springuser"/>

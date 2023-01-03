@@ -605,7 +605,7 @@ public class ControladorWeb {
         if (result.hasErrors())
             return "add_user_admin";
 
-        repositorioUsuario.save(usuario);
+        agregaNuevoUsuario(usuario);
         return "redirect:/administrator";
     }
 
@@ -626,7 +626,7 @@ public class ControladorWeb {
             return "actualiza_usuario";
         }
 
-        repositorioUsuario.save(usuario);
+        agregaNuevoUsuario(usuario);
         return "redirect:/administrator";
     }
 
@@ -648,7 +648,7 @@ public class ControladorWeb {
         if (result.hasErrors())
             return "add_article_admin";
 
-        repositorioArticulo.save(articulo);
+        agregaArticulo(articulo);
         return "redirect:/administrator";
     }
 
@@ -669,7 +669,7 @@ public class ControladorWeb {
             return "actualiza_articulo";
         }
 
-        repositorioArticulo.save(articulo);
+        agregaArticulo(articulo);
         return "redirect:/administrator";
     }
 
@@ -691,7 +691,7 @@ public class ControladorWeb {
         if (result.hasErrors())
             return "add_journal_admin";
 
-        repositorioRevista.save(revista);
+        agregaRevista(revista);
         return "redirect:/administrator";
     }
 
@@ -712,7 +712,7 @@ public class ControladorWeb {
             return "actualiza_revista";
         }
 
-        repositorioRevista.save(revista);
+        agregaRevista(revista);
         return "redirect:/administrator";
     }
 
@@ -734,7 +734,7 @@ public class ControladorWeb {
         if (result.hasErrors())
             return "add_project_admin";
 
-        repositorioProyecto.save(proyecto);
+        agregaProyecto(proyecto);
         return "redirect:/administrator";
     }
 
@@ -755,7 +755,7 @@ public class ControladorWeb {
             return "actualiza_proyecto";
         }
 
-        repositorioProyecto.save(proyecto);
+        agregaProyecto(proyecto);
         return "redirect:/administrator";
     }
 
