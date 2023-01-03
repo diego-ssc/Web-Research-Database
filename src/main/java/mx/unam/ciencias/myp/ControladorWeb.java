@@ -463,7 +463,10 @@ public class ControladorWeb {
         boolean e = verificaEmail(usuario.getEmail());
         boolean f = verificaFecha(usuario.getDia(), usuario.getMes(),
                                   usuario.getAno());
-        if (n && a && e && f)
+        boolean p = usuario.getPerfilString() != null;
+        boolean i = usuario.getInstitucionString() != null;
+        
+        if (n && a && e && f && p && i)
             return null;
         return "index";
     }
