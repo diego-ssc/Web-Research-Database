@@ -49,6 +49,9 @@ public class ControladorTests {
     @MockBean
     RepositorioInstitucion repoInst;
 
+    @MockBean
+    RepositorioArticulo repoArticulo;
+
     @Test
      public void testGetUsuarios() {
 
@@ -129,4 +132,28 @@ public class ControladorTests {
         return usuario;
     }
 
+    @Test
+     public void testGetArticulos() {
+
+        ArrayList<Articulo> articulos = new ArrayList<Articulo>();
+
+        org.mockito.Mockito.when(repoArticulo.findAll()).thenReturn(articulos);
+
+        int i = 0;
+        for (Articulo a : controlador.getArticulos()) {
+            i++;
+        }
+        assertTrue(i == 0);
+
+        Articulo[] arreglo = new Articulo[100];
+        for (int e = 0; e < 100; e++) {
+            arreglo[e] = new Articulo();
+            articulos.add(arreglo[e]);
+        }
+        for (Articulo a : controlador.getArticulos()) {
+            assertTrue(a == arreglo[i]);
+            i++;
+        }
+        assertTrue(i == 100);
+    }
 }
