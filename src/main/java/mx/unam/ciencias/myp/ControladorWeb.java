@@ -649,7 +649,7 @@ public class ControladorWeb {
     }
 
     /* Administrador */
-    @GetMapping("/administrator/Usuarios")
+    @GetMapping("/administrator/usuarios")
     public String administradorUsuarios(Model model) {
         model.addAttribute("usuario", new Usuario());
         model.addAttribute("usuarios", repositorioUsuario.findAll());
@@ -669,9 +669,9 @@ public class ControladorWeb {
         if (result.hasErrors())
             return "add_user_admin";
 
-        usuario.setArticulos(parseArticles(usuario.getCadenaArticulos()));
-        usuario.setProyectos(parseProjects(usuario.getCadenaProyectos()));
-        usuario.setRevistas(parseJournals(usuario.getCadenaRevistas()));
+        //usuario.setArticulos(parseArticles(usuario.getCadenaArticulos()));
+        //usuario.setProyectos(parseProjects(usuario.getCadenaProyectos()));
+        //usuario.setRevistas(parseJournals(usuario.getCadenaRevistas()));
         agregaNuevoUsuario(usuario);
         return "redirect:/admin_users";
     }

@@ -8,11 +8,14 @@
 <h3>Agrega usuarios</h3>
 <form action="#" th:action="@{/administrator/agrega_usuario}" th:object="${usuario}" method="post">
   <label for="nombre">Nombre</label>
-  <input type="text" th:field="*{nombre}" id="nombre" placeholder="Nombre">
+  <input type="text" th:field="*{nombre}" id="nombre" >
   <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
   <label for="apellido">Apellido</label>
-  <input type="text" th:field="*{apellido}" id="apellido" placeholder="Apellido">
+  <input type="text" th:field="*{apellido}" id="apellido" >
   <span th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></span>
+  <label for="institucion">Institucion</label>
+  <input type="number" th:field="*{institucionString}" id="institucion"  min="1">
+  <span th:if="${#fields.hasErrors('institucionString')}" th:errors="*{institucionString}"></span>
   <label for="email">Email</label>
   <input type="email" th:field="*{email}" id="email">
   <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
@@ -45,18 +48,18 @@
 </form>
 <h3>Modifica Usuario</h3>
 <form action="#"
-      th:action="@{/administrator/actualizar_articulo/{id}(id=${articulo.id})}"
-      th:object="${articulo}"
+      th:action="@{/administrator/actualizar_usuario/{id}(id=${usuario.id})}"
+      th:object="${usuario}"
       method="post">
-  <label for="id">ID</label>
-  <input type="number" th:field="*{id}" id="id"  min="0">
-  <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></span>
   <label for="nombre">Nombre</label>
   <input type="text" th:field="*{nombre}" id="nombre" placeholder="Nombre">
   <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
   <label for="apellido">Apellido</label>
   <input type="text" th:field="*{apellido}" id="apellido" placeholder="Apellido">
   <span th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></span>
+  <label for="institucion">Institucion</label>
+  <input type="number" th:field="*{institucionString}" id="institucion"  min="1">
+  <span th:if="${#fields.hasErrors('institucionString')}" th:errors="*{institucionString}"></span>
   <label for="email">Email</label>
   <input type="email" th:field="*{email}" id="email">
   <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
@@ -87,10 +90,10 @@
   <input type="submit" value="Actualizar usuario">
 </form>
 <h3>Tabla Usuarios</h3>
-<div th:switch="${articulos}">
+<div th:switch="${usuarios}">
   <h2 th:case="null">No users yet!</h2>
   <div th:case="*">
-    <h4>Articulos</h4>
+    <h4>Usuarios</h4>
     <table>
       <thead>
       <tr>
