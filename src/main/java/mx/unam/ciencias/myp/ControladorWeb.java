@@ -94,6 +94,10 @@ public class ControladorWeb {
         String cadenaUsuarios = articulo.getCadenaUsuarios();
         articulo.setUsuarios(parseUsers(cadenaUsuarios));
 
+        // Parse journals
+        String cadenaRevistas = articulo.getCadenaRevistas();
+        articulo.setRevistas(parseJournals(cadenaRevistas));
+
         em.persist(articulo);
         em.getTransaction().commit();
         em.close();
@@ -157,6 +161,20 @@ public class ControladorWeb {
         }
 
         return usuarios;
+    }
+
+    private Set<Revista> parseJournals(String cadenaRevistas) {
+        if (cadenaRevistas == null)
+            return null;
+        String[] id = cadenaRevistas.split(",");
+        Set<Revista> revistas = new HashSet<>();
+        Revista revista;
+        for (int i = 0; i < id.length; i++) {
+            revista = repositorioRevista.findById(id[i]).get();
+            revistas.add(revista);
+        }
+
+        return revistas;
     }
 
     private void storeFile(MultipartFile file, String fileName){
@@ -649,7 +667,7 @@ public class ControladorWeb {
         model.addAttribute("articulos", repositorioArticulo.findAll());
         return "admin_articles";
     }
-    
+
     @GetMapping("/administrator/registra_articulo")
     public String administradorMuestraFormularioArticulo(Articulo articulo) {
         return "admin_articles";
@@ -692,7 +710,7 @@ public class ControladorWeb {
         model.addAttribute("revistas", repositorioRevista.findAll());
         return "admin_journals";
     }
-    
+
     @GetMapping("/administrator/registra_revista")
     public String administradorMuestraFormularioRevista(Revista revista) {
         return "add_journal_admin";
@@ -735,7 +753,7 @@ public class ControladorWeb {
         model.addAttribute("proyectos", repositorioProyecto.findAll());
         return "admin_projects";
     }
-    
+
     @GetMapping("/administrator/registra_proyecto")
     public String administradorMuestraFormularioProyecto(Proyecto proyecto) {
         return "add_project_admin";
@@ -778,7 +796,7 @@ public class ControladorWeb {
         model.addAttribute("perfiles", repositorioPerfil.findAll());
         return "admin_roles";
     }
-    
+
     @GetMapping("/administrator/registra_perfil")
     public String administradorMuestraFormularioPerfil(Perfil perfil) {
         return "add_role_admin";
@@ -821,7 +839,7 @@ public class ControladorWeb {
         model.addAttribute("instituciones", repositorioInstitucion.findAll());
         return "admin_institutions";
     }
-    
+
     @GetMapping("/administrator/registra_institucion")
     public String administradorMuestraFormularioInstitucion(Institucion institucion) {
         return "add_institution_admin";
@@ -864,7 +882,7 @@ public class ControladorWeb {
         model.addAttribute("areasTrabajo", repositorioAreaTrabajo.findAll());
         return "admin_fields";
     }
-    
+
     @GetMapping("/administrator/registra_areaTrabajo")
     public String administradorMuestraFormularioAreaTrabajo(AreaTrabajo areaTrabajo) {
         return "add_field_admin";
