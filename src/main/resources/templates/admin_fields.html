@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tabla Area de Trabajo</title>
+</head>
+<body>
+<div>
+  <h3>Agrega Area de Trabajo</h3>
+  <form action="#" th:action="@{/administrator/agrega_areaTrabajo}" th:object="${areaTrabajo}" method="post">
+    <label for="descripcion">Descripciopn</label>
+    <input type="text" th:field="*{descripcion}" id="descripcion">
+    <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
+    <input type="submit" value="Agrega area de trabajo">
+  </form>
+</div>
+<div>
+  <h3>Tabla Area de Trabajo</h3>
+  <div th:switch="${areasTrabajo}">
+    <h2 th:case="null">Aun no hay area de trabajo</h2>
+    <div th:case="*">
+      <table>
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Descripcion</th>
+          <th>Editar</th>
+          <th>Eliminar</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="areaTrabajo : ${areasTrabajo}">
+          <td th:text="${areaTrabajo.id}"></td>
+          <td th:text="${areaTrabajo.descripcion}"></td>
+          <td><a th:href="@{/administrator/editar_areaTrabajo/{id}(id=${perfil.id})}">Editar</a></td>
+          <td><a th:href="@{/administrator/eliminar_areaTrabajo/{id}(id=${perfil.id})}">Eliminar</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -33,37 +33,7 @@
     <span th:if="${#fields.hasErrors('archivo')}" th:errors="*{archivo}"></span>
     <input type="submit" value="Agregar articulo">
   </form>
-  <h3>Modifica usuario</h3>
-  <form action="#"
-        th:action="@{/administrator/editar_usuario/{id}(id=${articulo.id})}"
-        th:object="${articulo}"
-        method="post">
-    <label for="nombre">Nombre</label>
-    <input type="text" th:field="*{nombre}" id="nombre" placeholder="Nombre">
-    <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
-    <label for="descripcion">Descripción</label>
-    <input type="text" th:field="*{descripcion}" id="descripcion" placeholder="Descripción">
-    <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
-    <label for="usuarios">Usuarios</label>
-    <input type="text" th:field="*{cadenaUsuarios}" id="usuarios" placeholder="Separa los email con comas-">
-    <span th:if="${#fields.hasErrors('cadenaUsuarios')}" th:errors="*{cadenaUsuarios}"></span>
-    <label for="revistas">Revistas</label>
-    <input type="text" th:field="*{cadenaRevistas}" id="revistas" placeholder="Separa las revistas con comas">
-    <span th:if="${#fields.hasErrors('cadenaRevistas')}" th:errors="*{cadenaRevistas}"></span>
-    <label for="mes">Mes</label>
-    <input type="number" th:field="*{mes}" id="mes" placeholder="1" min="1" max="12">
-    <span th:if="${#fields.hasErrors('mes')}" th:errors="*{mes}"></span>
-    <label for="ano">Año</label>
-    <input type="number" th:field="*{ano}" id="ano" placeholder="1999" max="2023">
-    <span th:if="${#fields.hasErrors('ano')}" th:errors="*{ano}"></span>
-    <label for="url">URL</label>
-    <input type="text" th:field="*{url}" id="url" >
-    <span th:if="${#fields.hasErrors('url')}" th:errors="*{url}"></span>
-    <label for="archivoASubir" >Archivo</label>
-    <input type="file"  name="archivo" id="archivoASubir" aria-label="file example" th:field="*{archivo}" required>
-    <span th:if="${#fields.hasErrors('archivo')}" th:errors="*{archivo}"></span>
-    <input type="submit" value="Actualizar articulo">
-  </form>
+
   <h3>Tabla Articulos</h3>
   <div th:switch="${articulos}">
     <h2 th:case="null">No users yet!</h2>
@@ -77,7 +47,7 @@
           <th>Usuarios</th>
           <th>Revistas</th>
           <th>Descripcion</th>
-          <th>Mes</th>}
+          <th>Mes</th>
           <th>Ano</th>
           <th>Url</th>
           <th>Editar</th>
@@ -94,8 +64,8 @@
           <td th:text="${articulo.mes}"></td>
           <td th:text="${articulo.ano}"></td>
           <td th:text="${articulo.url}"></td>
-          <td><a th:href="@{/edit/{id}(id=${articulo.id})}">Editar</a></td>
-          <td><a th:href="@{/delete/{id}(id=${articulo.id})}">Eliminar</a></td>
+          <td><a th:href="@{/administrator/editar_articulo/{id}(id=${articulo.id})}">Editar</a></td>
+          <td><a th:href="@{/administrator/eliminar_articulo/{id}(id=${articulo.id})}">Eliminar</a></td>
         </tr>
         </tbody>
       </table>
