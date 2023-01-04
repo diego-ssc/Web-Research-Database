@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Set;
 import java.util.HashSet;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 /**
  * Clase que representa la tabla de usuarios
  * en la base de datos.
@@ -59,40 +59,25 @@ public class Usuario {
     @JoinColumn(name = "perfil", referencedColumnName = "id_perfil")
     private Perfil perfil;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(joinColumns = {
-            @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario",
-                        nullable = false, updatable = false)},
-        inverseJoinColumns = {
-            @JoinColumn(name = "id_articulo", referencedColumnName = "id_articulo",
-                        nullable = false, updatable = false)})
-    @JsonBackReference
+    @ManyToMany(mappedBy = "usuarios", fetch = FetchType.LAZY,
+                cascade = CascadeType.MERGE)
+    @JsonManagedReference
     private Set<Articulo> articulos = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(joinColumns = {
-            @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario",
-                        nullable = false, updatable = false)},
-        inverseJoinColumns = {
-            @JoinColumn(name = "id_proyecto", referencedColumnName = "id_proyecto",
-                        nullable = false, updatable = false)})
-    @JsonBackReference
+    @ManyToMany(mappedBy = "usuarios", fetch = FetchType.LAZY,
+                cascade = CascadeType.MERGE)
+    @JsonManagedReference
     private Set<Proyecto> proyectos = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(joinColumns = {
-            @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario",
-                        nullable = false, updatable = false)},
-        inverseJoinColumns = {
-            @JoinColumn(name = "id_revista", referencedColumnName = "id_revista",
-                        nullable = false, updatable = false)})
-    @JsonBackReference
+    @ManyToMany(mappedBy = "usuarios", fetch = FetchType.LAZY,
+                cascade = CascadeType.MERGE)
+    @JsonManagedReference
     private Set<Revista> revistas = new HashSet<>();
 
     public boolean hasRole(String roleName) {
         if (roleName == null)
             return false;
-        return this.perfil.getDescripcion().equals(roleName);
+        return this.perfil.getDescripcion().equals(roleName.toLowerCase());
     }
 
     public Integer getId() {

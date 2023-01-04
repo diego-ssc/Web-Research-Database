@@ -65,44 +65,30 @@ public class ControladorWeb {
      * @return la plantilla de respuesta
      *
      */
-    // @CrossOrigin
     @PostMapping(path="/add_article")
-    public String agregaArticulo(Articulo articuloFalso) {
-        // String url = verificaArticulo(articulo);
-        // if (url != null)
-        // return url;
-        Articulo articulo = new Articulo();
-        articulo.setNombre(articuloFalso.getNombre());
-        articulo.setArchivo(articuloFalso.getArchivo());
-        articulo.setDescripcion(articuloFalso.getDescripcion());
-        articulo.setMes(articuloFalso.getMes());
-        articulo.setAno(articuloFalso.getAno());
-        articulo.setCadenaUsuarios(articuloFalso.getCadenaUsuarios());
-
+    public String agregaArticulo(Articulo articulo) {
+        String url = verificaArticulo(articulo);
+        if (url != null)
+            return url;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("usuarios_articulos");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
 
-        // Set the id field to null to allow the database to generate a unique value using the auto-increment column
-        articulo.setId(null);
-
-        // add file to filesystem
-        storeFile(articulo.getArchivo(), articulo.getNombre() + articulo.getId());
         articulo.setUrl(articulo.getNombre() + articulo.getId());
 
-        // Parse users
         String cadenaUsuarios = articulo.getCadenaUsuarios();
-        articulo.setUsuarios(parseUsers(cadenaUsuarios));
-
-        // Parse journals
-        String cadenaRevistas = articulo.getCadenaRevistas();
-        articulo.setRevistas(parseJournals(cadenaRevistas));
+        Set<Usuario> usuarios = parseUsers(cadenaUsuarios);
+        for (Usuario u : usuarios)
+            articulo.agregaUsuario(u);
 
         em.persist(articulo);
+        em.flush();
         em.getTransaction().commit();
         em.close();
         emf.close();
 
+        repositorioArticulo.save(articulo);
+        storeFile(articulo.getArchivo(), articulo.getNombre() + articulo.getId());
         return "article_added";
     }
 
@@ -136,7 +122,7 @@ public class ControladorWeb {
                 if (dia < 0 || dia > 31)
                     return false;
             }
-            // int mes = Integer.parseInt(m); // Cambiar por enum de meses
+            // int mes = Integer.parseInt(m);
             int ano = Integer.parseInt(a);
 
             // if (mes < 0 || mes > 12)
@@ -159,7 +145,6 @@ public class ControladorWeb {
             usuario = repositorioUsuario.buscarPorEmail(emails[i]);
             usuarios.add(usuario);
         }
-
         return usuarios;
     }
 
@@ -214,7 +199,14 @@ public class ControladorWeb {
         em.getTransaction().begin();
 
         String cadenaArticulos = revista.getCadenaArticulos();
-        revista.setArticulos(parseArticles(cadenaArticulos));
+        Set<Articulo> articulos = parseArticles(cadenaArticulos);
+        for (Articulo a : articulos)
+            revista.agregaArticulo(a);
+
+        String cadenaUsuarios = revista.getCadenaUsuarios();
+        Set<Usuario> usuarios = parseUsers(cadenaUsuarios);
+        for (Usuario u : usuarios)
+            revista.agregaUsuario(u);
 
         em.persist(revista);
         em.getTransaction().commit();
@@ -222,7 +214,6 @@ public class ControladorWeb {
         emf.close();
 
         repositorioRevista.save(revista);
-
         return "journal_added";
     }
 
@@ -295,7 +286,9 @@ public class ControladorWeb {
         em.getTransaction().begin();
 
         String cadenaUsuarios = proyecto.getCadenaUsuarios();
-        proyecto.setUsuarios(parseUsers(cadenaUsuarios));
+        Set<Usuario> usuarios = parseUsers(cadenaUsuarios);
+        for (Usuario u : usuarios)
+            proyecto.agregaUsuario(u);
 
         em.persist(proyecto);
         em.getTransaction().commit();
@@ -443,11 +436,7 @@ public class ControladorWeb {
         List<Usuario> lista = institucion.getUsuarios();
 
         em.persist(usuario);
-        if (lista == null) {
-            lista = new LinkedList<Usuario>();
-        }
-        lista.add(usuario);
-        institucion.setUsuarios(lista);
+        institucion.agregaUsuario(usuario);
         em.getTransaction().commit();
         em.close();
         emf.close();
@@ -465,7 +454,7 @@ public class ControladorWeb {
                                   usuario.getAno());
         boolean p = usuario.getPerfilString() != null;
         boolean i = usuario.getInstitucionString() != null;
-        
+
         if (n && a && e && f && p && i)
             return null;
         return "index";
@@ -672,10 +661,7 @@ public class ControladorWeb {
         if (result.hasErrors())
             return "add_user_admin";
 
-        //usuario.setArticulos(parseArticles(usuario.getCadenaArticulos()));
-        //usuario.setProyectos(parseProjects(usuario.getCadenaProyectos()));
-        //usuario.setRevistas(parseJournals(usuario.getCadenaRevistas()));
-        agregaNuevoUsuario(usuario);
+        agregaUsuarioAdministrador(usuario);
         return "redirect:/admin_users";
     }
 
@@ -696,8 +682,58 @@ public class ControladorWeb {
             return "actualiza_usuario";
         }
 
-        agregaNuevoUsuario(usuario);
+        agregaUsuarioAdministrador(usuario);
         return "redirect:/administrator";
+    }
+
+    private void agregaUsuarioAdministrador(Usuario usuario) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("usuarios_asociados");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(usuario.getContrasena());
+        usuario.setContrasena(encodedPassword);
+        String d = usuario.getDia();
+        String m = usuario.getMes();
+        String a = usuario.getAno();
+        usuario.setFechaNacimiento(d + "/" + m + "/" + a);
+
+        Optional<Perfil> perfilOpt = repositorioPerfil.findById
+            (Integer.parseInt(usuario.getPerfilString()));
+        Optional<Institucion> institucionOpt = repositorioInstitucion.findById
+            (Integer.parseInt(usuario.getInstitucionString()));
+
+        Perfil perfil = perfilOpt.get();
+        Institucion institucion = institucionOpt.get();
+
+        usuario.setPerfil(perfil);
+        usuario.setInstitucion(institucion);
+        List<Usuario> lista = institucion.getUsuarios();
+
+        em.persist(usuario);
+        institucion.agregaUsuario(usuario);
+        institucion.setUsuarios(lista);
+
+        String cadenaArticulos = usuario.getCadenaArticulos();
+        Set<Articulo> articulos = parseArticles(cadenaArticulos);
+        for (Articulo articulo : articulos)
+            articulo.agregaUsuario(usuario);
+
+        String cadenaProyectos = usuario.getCadenaProyectos();
+        Set<Proyecto> proyectos = parseProjects(cadenaProyectos);
+        for (Proyecto proyecto : proyectos)
+            proyecto.agregaUsuario(usuario);
+
+        String cadenaRevistas = usuario.getCadenaRevistas();
+        Set<Revista> revistas = parseJournals(cadenaRevistas);
+        for (Revista revista : revistas)
+            revista.agregaUsuario(usuario);
+
+        em.getTransaction().commit();
+        em.close();
+        emf.close();
+        repositorioUsuario.save(usuario);
     }
 
     @GetMapping("/administrator/eliminar_usuario/{id}")
@@ -727,7 +763,7 @@ public class ControladorWeb {
         if (result.hasErrors())
             return "admin_articles";
 
-        agregaArticulo(articulo);
+        agregaArticuloAdministrador(articulo);
         return "redirect:/administrator";
     }
 
@@ -748,8 +784,35 @@ public class ControladorWeb {
             return "actualiza_articulo";
         }
 
-        agregaArticulo(articulo);
+        agregaArticuloAdministrador(articulo);
         return "redirect:/administrator";
+    }
+
+    private void agregaArticuloAdministrador(Articulo articulo) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("usuarios_articulos");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        articulo.setUrl(articulo.getNombre() + articulo.getId());
+
+        String cadenaUsuarios = articulo.getCadenaUsuarios();
+        Set<Usuario> usuarios = parseUsers(cadenaUsuarios);
+        for (Usuario usuario : usuarios)
+            articulo.agregaUsuario(usuario);
+
+        String cadenaRevistas = articulo.getCadenaRevistas();
+        Set<Revista> revistas = parseJournals(cadenaRevistas);
+        for (Revista revista : revistas)
+            revista.agregaArticulo(articulo);
+
+        em.persist(articulo);
+        em.flush();
+        em.getTransaction().commit();
+        em.close();
+        emf.close();
+
+        repositorioArticulo.save(articulo);
+        storeFile(articulo.getArchivo(), articulo.getNombre() + articulo.getId());
     }
 
     @GetMapping("/administrator/eliminar_articulo/{id}")
@@ -778,7 +841,7 @@ public class ControladorWeb {
         if (result.hasErrors())
             return "add_journal_admin";
 
-        agregaRevista(revista);
+        agregaRevistaAdministrador(revista);
         return "redirect:/administrator";
     }
 
@@ -799,8 +862,32 @@ public class ControladorWeb {
             return "actualiza_revista";
         }
 
-        agregaRevista(revista);
+        agregaRevistaAdministrador(revista);
         return "redirect:/administrator";
+    }
+
+    private void agregaRevistaAdministrador(Revista revista) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory
+            ("usuarios_revistas");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        String cadenaArticulos = revista.getCadenaArticulos();
+        Set<Articulo> articulos = parseArticles(cadenaArticulos);
+        for (Articulo a : articulos)
+            revista.agregaArticulo(a);
+
+        String cadenaUsuarios = revista.getCadenaUsuarios();
+        Set<Usuario> usuarios = parseUsers(cadenaUsuarios);
+        for (Usuario u : usuarios)
+            revista.agregaUsuario(u);
+
+        em.persist(revista);
+        em.getTransaction().commit();
+        em.close();
+        emf.close();
+
+        repositorioRevista.save(revista);
     }
 
     @GetMapping("/administrator/eliminar_revista/{id}")
@@ -852,6 +939,25 @@ public class ControladorWeb {
 
         agregaProyecto(proyecto);
         return "redirect:/administrator";
+    }
+
+    private void agregaProyectoAdministrador(Proyecto proyecto) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory
+            ("usuarios_proyectos");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        String cadenaUsuarios = proyecto.getCadenaUsuarios();
+        Set<Usuario> usuarios = parseUsers(cadenaUsuarios);
+        for (Usuario u : usuarios)
+            proyecto.agregaUsuario(u);
+
+        em.persist(proyecto);
+        em.getTransaction().commit();
+        em.close();
+        emf.close();
+
+        repositorioProyecto.save(proyecto);
     }
 
     @GetMapping("/administrator/eliminar_proyecto/{id}")
@@ -931,7 +1037,7 @@ public class ControladorWeb {
         if (result.hasErrors())
             return "add_institution_admin";
 
-        repositorioInstitucion.save(institucion);
+        agregaInstitucionAministrador(institucion);
         return "redirect:/administrator";
     }
 
@@ -952,8 +1058,25 @@ public class ControladorWeb {
             return "actualiza_institucion";
         }
 
-        repositorioInstitucion.save(institucion);
+        agregaInstitucionAministrador(institucion);
         return "redirect:/administrator";
+    }
+
+    private void agregaInstitucionAministrador(Institucion institucion) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("usuarios_asociados");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        String cadenaUsuarios = institucion.getCadenaUsuarios();
+        Set<Usuario> usuarios = parseUsers(cadenaUsuarios);
+        for (Usuario usuario : usuarios)
+            institucion.agregaUsuario(usuario);
+
+        em.persist(institucion);
+        em.getTransaction().commit();
+        em.close();
+        emf.close();
+        repositorioInstitucion.save(institucion);
     }
 
     @GetMapping("/administrator/eliminar_institucion/{id}")

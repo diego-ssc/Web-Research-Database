@@ -17,18 +17,23 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Table(name = "revistas")
 public class Revista implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_revista")
     private Integer id;
 
     private String nombre;
 
-    // TODO: Set de Articulos
-    @ManyToMany(mappedBy = "revistas", fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinTable(joinColumns = {
+            @JoinColumn(name = "id_revista", referencedColumnName = "id_revista",
+                        nullable = false, updatable = false)},
+        inverseJoinColumns = {
+            @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario",
+                        nullable = false, updatable = false)})
+    @JsonBackReference
     private Set<Usuario> usuarios = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(joinColumns = {
             @JoinColumn(name = "id_revista", referencedColumnName = "id_revista",
                         nullable = false, updatable = false)},
@@ -110,5 +115,25 @@ public class Revista implements Serializable {
 
     public void setAno(String ano) {
         this.ano = ano;
+    }
+
+    public void agregaUsuario(Usuario usuario) {
+        usuarios.add(usuario);
+        usuario.getRevistas().add(this);
+    }
+
+    public void eliminaUsuario(Usuario usuario) {
+        usuarios.remove(usuario);
+        usuario.getRevistas().remove(this);
+    }
+
+    public void agregaArticulo(Articulo articulo) {
+        articulos.add(articulo);
+        articulo.getRevistas().add(this);
+    }
+
+    public void eliminaArticulo(Articulo articulo) {
+        articulos.remove(articulo);
+        articulo.getRevistas().remove(this);
     }
 }
