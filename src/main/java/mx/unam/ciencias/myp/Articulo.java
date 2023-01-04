@@ -7,7 +7,7 @@ import java.io.Serializable;
 import org.springframework.web.multipart.MultipartFile; // subir Archivo
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 /**
  * Clase que representa la tabla de instituciones
  * en la base de datos.
@@ -23,11 +23,18 @@ public class Articulo {
 
     private String nombre;
 
-    @ManyToMany(mappedBy = "articulos", fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinTable(joinColumns = {
+            @JoinColumn(name = "id_articulo", referencedColumnName = "id_articulo",
+                        nullable = false, updatable = false)},
+        inverseJoinColumns = {
+            @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario",
+                        nullable = false, updatable = false)})
+    @JsonBackReference
     private Set<Usuario> usuarios = new HashSet<>();
 
-    @ManyToMany(mappedBy = "articulos", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "articulos", fetch = FetchType.LAZY,
+                cascade = CascadeType.MERGE)
     @JsonManagedReference
     private Set<Revista> revistas = new HashSet<>();
 
@@ -48,7 +55,7 @@ public class Articulo {
 
     @Transient
     private String cadenaRevistas;
-    
+
     public Integer getId() {
         return id;
     }
@@ -135,6 +142,16 @@ public class Articulo {
 
     public void setCadenaRevistas(String cadenaRevistas) {
         this.cadenaRevistas = cadenaRevistas;
+    }
+
+    public void agregaUsuario(Usuario usuario) {
+        usuarios.add(usuario);
+        usuario.getArticulos().add(this);
+    }
+
+    public void eliminaUsuario(Usuario usuario) {
+        usuarios.remove(usuario);
+        usuario.getArticulos().remove(this);
     }
 
     @Override

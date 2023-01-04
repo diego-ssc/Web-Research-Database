@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Table(name = "areas_trabajo")
 public class AreaTrabajo {
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_area")
     private Integer id;
 
