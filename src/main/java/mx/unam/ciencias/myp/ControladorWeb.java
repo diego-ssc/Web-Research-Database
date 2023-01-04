@@ -751,18 +751,24 @@ public class ControladorWeb {
 
         String cadenaArticulos = usuario.getCadenaArticulos();
         Set<Articulo> articulos = parseArticles(cadenaArticulos);
-        for (Articulo articulo : articulos)
-            articulo.agregaUsuario(usuario);
+        if (articulos != null) {
+            for (Articulo articulo : articulos)
+                articulo.agregaUsuario(usuario);
+        }
 
         String cadenaProyectos = usuario.getCadenaProyectos();
         Set<Proyecto> proyectos = parseProjects(cadenaProyectos);
-        for (Proyecto proyecto : proyectos)
-            proyecto.agregaUsuario(usuario);
+        if (proyectos != null) {
+            for (Proyecto proyecto : proyectos)
+                proyecto.agregaUsuario(usuario);
+        }
 
         String cadenaRevistas = usuario.getCadenaRevistas();
         Set<Revista> revistas = parseJournals(cadenaRevistas);
-        for (Revista revista : revistas)
-            revista.agregaUsuario(usuario);
+        if (revistas != null) {
+            for (Revista revista : revistas)
+                revista.agregaUsuario(usuario);
+        }
 
         em.getTransaction().commit();
         em.close();

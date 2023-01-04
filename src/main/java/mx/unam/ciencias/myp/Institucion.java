@@ -29,9 +29,6 @@ public class Institucion {
     @Transient
     private String cadenaUsuarios;
 
-    @Transient
-    private String cadenaUsuarios;
-
     public Institucion() {}
 
     public Institucion(Integer id, String nombre, String locacion) {

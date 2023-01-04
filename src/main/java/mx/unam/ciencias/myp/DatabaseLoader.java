@@ -25,7 +25,7 @@ public class DatabaseLoader {
             Perfil indefinido = new Perfil(1, "indefinido");
             Perfil investigador = new Perfil(2, "investigador");
             Perfil estudiante = new Perfil(3, "estudiante");
-            Perfil administrador = new Perfil(5, "administrador");
+            Perfil administrador = new Perfil(4, "administrador");
             repositorioPerfil.saveAll(List.of(indefinido, investigador,
                                               estudiante, administrador));
 
