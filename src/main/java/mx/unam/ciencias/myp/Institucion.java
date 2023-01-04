@@ -2,6 +2,7 @@ package mx.unam.ciencias.myp;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 /**
@@ -23,7 +24,10 @@ public class Institucion {
 
     @OneToMany(targetEntity=Usuario.class)
     @JsonBackReference
-    private List<Usuario> usuarios;
+    private List<Usuario> usuarios = new ArrayList<>();
+
+    @Transient
+    private String cadenaUsuarios;
 
     public Institucion() {}
 
@@ -63,5 +67,17 @@ public class Institucion {
 
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
+    }
+
+    public String getCadenaUsuarios() {
+        return cadenaUsuarios;
+    }
+
+    public void setCadenaUsuarios(String cadenaUsuarios) {
+        this.cadenaUsuarios = cadenaUsuarios;
+    }
+
+    public void agregaUsuario(Usuario usuario) {
+        usuarios.add(usuario);
     }
 }
