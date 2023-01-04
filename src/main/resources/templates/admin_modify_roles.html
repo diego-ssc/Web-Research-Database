@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifica Perfil</title>
+</head>
+<body>
+<div>
+  <h3>Modifica perfil</h3>
+  <form action="#" th:action="@{/administrator/actualizar_perfil/{id}(id=${perfil.id})}" th:object="${perfil}" method="post">
+    <label for="descripcion">Descripciopn</label>
+    <input type="text" th:field="*{descripcion}" id="descripcion">
+    <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
+      <input type="submit" value="Modifica perfil">
+  </form>
+</div>
+</body>
+</html>

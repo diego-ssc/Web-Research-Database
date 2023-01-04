@@ -25,6 +25,9 @@ public class Institucion {
     @JsonBackReference
     private List<Usuario> usuarios;
 
+    @Transient
+    private String cadenaUsuarios;
+
     public Institucion() {}
 
     public Institucion(Integer id, String nombre, String locacion) {
@@ -63,5 +66,13 @@ public class Institucion {
 
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
+    }
+
+    public String getCadenaUsuarios() {
+        return cadenaUsuarios;
+    }
+
+    public void setCadenaUsuarios(String cadenaUsuarios) {
+        this.cadenaUsuarios = cadenaUsuarios;
     }
 }

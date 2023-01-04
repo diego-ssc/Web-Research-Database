@@ -45,50 +45,6 @@
   <span th:if="${#fields.hasErrors('cadenaRevistas')}" th:errors="*{cadenaRevistas}"></span>
   <input type="submit" value="Agregar usuario">
 
-</form>
-<h3>Modifica Usuario</h3>
-<form action="#"
-      th:action="@{/administrator/actualizar_usuario/{id}(id=${usuario.id})}"
-      th:object="${usuario}"
-      method="post">
-  <label for="nombre">Nombre</label>
-  <input type="text" th:field="*{nombre}" id="nombre" placeholder="Nombre">
-  <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
-  <label for="apellido">Apellido</label>
-  <input type="text" th:field="*{apellido}" id="apellido" placeholder="Apellido">
-  <span th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></span>
-  <label for="institucion">Institucion</label>
-  <input type="number" th:field="*{institucionString}" id="institucion"  min="1">
-  <span th:if="${#fields.hasErrors('institucionString')}" th:errors="*{institucionString}"></span>
-  <label for="email">Email</label>
-  <input type="email" th:field="*{email}" id="email">
-  <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-  <label for="contrasena">Constraseña</label>
-  <input type="password" th:field="*{contrasena}" id="contrasena" >
-  <span th:if="${#fields.hasErrors('contrasena')}" th:errors="*{contrasena}"></span>
-  <label for="dia">Dia</label>
-  <input type="number" th:field="*{dia}" id="dia" placeholder="1" min="1" max="31">
-  <span th:if="${#fields.hasErrors('mes')}" th:errors="*{mes}"></span>
-  <label for="mes">Mes</label>
-  <input type="number" th:field="*{mes}" id="mes" placeholder="1" min="1" max="12">
-  <span th:if="${#fields.hasErrors('mes')}" th:errors="*{mes}"></span>
-  <label for="ano">Año</label>
-  <input type="number" th:field="*{ano}" id="ano" placeholder="1999" max="2023">
-  <span th:if="${#fields.hasErrors('ano')}" th:errors="*{ano}"></span>
-  <label for="perfil">Perfil</label>
-  <input type="number" th:field="*{perfilString}" id="perfil" min="1" max="5" placeholder="1">
-  <span th:if="${#fields.hasErrors('perfilString')}" th:errors="*{perfilString}"></span>
-  <label for="articulos">Articulos</label>
-  <input type="text" th:field="*{cadenaArticulos}" id="articulos" placeholder="Separa los id por comas" >
-  <span th:if="${#fields.hasErrors('cadenaArticulos')}" th:errors="*{cadenaArticulos}"></span>
-  <label for="proyectos">Proyectos</label>
-  <input type="text" th:field="*{cadenaProyectos}" id="proyectos" placeholder="Separa los id por comas" >
-  <span th:if="${#fields.hasErrors('cadenaProyectos')}" th:errors="*{cadenaProyectos}"></span>
-  <label for="revistas">Revistas</label>
-  <input type="text" th:field="*{cadenaRevistas}" id="revistas" placeholder="Separa los id por comas" >
-  <span th:if="${#fields.hasErrors('cadenaRevistas')}" th:errors="*{cadenaRevistas}"></span>
-  <input type="submit" value="Actualizar usuario">
-</form>
 <h3>Tabla Usuarios</h3>
 <div th:switch="${usuarios}">
   <h2 th:case="null">No users yet!</h2>
@@ -129,8 +85,8 @@
         <td th:text="${usuario.articulos}"></td>
         <td th:text="${usuario.proyectos}"></td>
         <td th:text="${usuario.revistas}"></td>
-        <td><a th:href="@{/edit/{id}(id=${usuario.id})}">Editar</a></td>
-        <td><a th:href="@{/delete/{id}(id=${usuario.id})}">Eliminar</a></td>
+        <td><a th:href="@{/administrator/editar_usuario/{id}(id=${usuario.id})}">Editar</a></td>
+        <td><a th:href="@{/administrator/eliminar_usuario/{id}(id=${usuario.id})}">Eliminar</a></td>
       </tr>
       </tbody>
     </table>

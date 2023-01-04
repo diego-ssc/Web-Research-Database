@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tabla Instituciones</title>
+</head>
+<body>
+<dix>
+    <h3>Agrega Institucion</h3>
+    <form action="#" th:action="@{/administrator/agrega_institucion}" th:object="${institucion}" method="post">
+      <label for="nombre">Nombre</label>
+      <input type="text" th:field="*{nombre}" id="nombre">
+      <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+      <label for="locacion">Locación</label>
+      <input type="text" th:field="*{locacion}" id="locacion" >
+      <span th:if="${#fields.hasErrors('locacion')}" th:errors="*{locacion}"></span>
+      <label for="usuarios">Usuarios</label>
+      <input type="text" th:field="*{cadenaUsuarios}" id="usuarios" placeholder="Separa los email con comas-">
+      <span th:if="${#fields.hasErrors('cadenaUsuarios')}" th:errors="*{cadenaUsuarios}"></span>
+      <input type="submit" value="Agregar institucion">
+    </form>
+</dix>
+<h3>Tabla Institucion</h3>
+<div th:switch="${instituciones}">
+  <h2 th:case="null">Aun no hay instituciones</h2>
+  <div th:case="*">
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Usuarios</th>
+        <th>Editar</th>
+        <th>Eliminar</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="institucion : ${instituciones}">
+        <td th:text="${institucion.id}"></td>
+        <td th:text="${institucion.nombre}"></td>
+        <td th:text="${institucion.usuarios}"></td>
+        <td><a th:href="@{/administrator/editar_institucion/{id}(id=${institucion.id})}">Editar</a></td>
+        <td><a th:href="@{/administrator/eliminar_institucion/{id}(id=${institucion.id})}">Eliminar</a></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

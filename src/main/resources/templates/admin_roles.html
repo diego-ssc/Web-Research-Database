@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tabla Perfiles</title>
+</head>
+<body>
+<div>
+  <h3>Agrega perfiles</h3>
+  <form action="#" th:action="@{/administrator/agrega_perfil}" th:object="${perfil}" method="post">
+    <label for="descripcion">Descripciopn</label>
+    <input type="text" th:field="*{descripcion}" id="descripcion">
+    <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
+    <input type="submit" value="Agrega area de trabajo">
+  </form>
+</div>
+<div>
+  <h3>Tabla perfil</h3>
+  <div th:switch="${perfiles}">
+    <h2 th:case="null">Aun no hay perfiles</h2>
+    <div th:case="*">
+      <table>
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Descripcion</th>
+          <th>Editar</th>
+          <th>Eliminar</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="perfil : ${perfiles}">
+          <td th:text="${perfil.id}"></td>
+          <td th:text="${perfil.descripcion}"></td>
+          <td><a th:href="@{/administrator/editar_perfil/{id}(id=${perfil.id})}">Editar</a></td>
+          <td><a th:href="@{/administrator/eliminar_perfil/{id}(id=${perfil.id})}">Eliminar</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+</html>

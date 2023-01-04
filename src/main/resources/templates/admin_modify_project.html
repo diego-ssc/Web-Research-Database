@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifica proyecto</title>
+</head>
+<body>
+<div>
+    <h3>Modifica proyecto</h3>
+    <form action="#" th:action="@{/administrator/actualizar_proyecto/{id}(id=${proyecto.id})}" th:object="${proyecto}" method="post">
+        <label for="nombre">Nombre</label>
+        <input type="text" th:field="*{nombre}" id="nombre" placeholder="Nombre">
+        <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+        <label for="usuarios">Usuarios</label>
+        <input type="text" th:field="*{cadenaUsuarios}" id="usuarios" placeholder="Separa los email con comas-">
+        <span th:if="${#fields.hasErrors('cadenaUsuarios')}" th:errors="*{cadenaUsuarios}"></span>
+        <label for="mes">Mes</label>
+        <input type="number" th:field="*{mes}" id="mes" placeholder="1" min="1" max="12">
+        <span th:if="${#fields.hasErrors('mes')}" th:errors="*{mes}"></span>
+        <label for="ano">Año</label>
+        <input type="number" th:field="*{ano}" id="ano" placeholder="1999" max="2023">
+        <span th:if="${#fields.hasErrors('ano')}" th:errors="*{ano}"></span>
+        <input type="submit" value="Modifica proyecto">
+    </form>
+</div>
+</body>
+</html>
