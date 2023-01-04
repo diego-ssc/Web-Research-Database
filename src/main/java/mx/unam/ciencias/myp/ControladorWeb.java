@@ -85,17 +85,13 @@ public class ControladorWeb {
             articulo.agregaUsuario(u);
 
         em.persist(articulo);
-
-        // add file to filesystem
-        storeFile(articulo.getArchivo(), articulo.getNombre() + articulo.getId());
-        articulo.setUrl(articulo.getNombre() + articulo.getId());
-
         em.flush();
         em.getTransaction().commit();
         em.close();
         emf.close();
 
         repositorioArticulo.save(articulo);
+        articulo.setUrl(articulo.getNombre() + articulo.getId());
         storeFile(articulo.getArchivo(), articulo.getNombre() + articulo.getId());
         return "article_added";
     }
