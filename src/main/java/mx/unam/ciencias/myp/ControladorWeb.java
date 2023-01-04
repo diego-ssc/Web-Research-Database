@@ -9,6 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.multipart.MultipartFile; // subir Archivo
 import org.springframework.validation.BindingResult;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.FileSystemResource;
 
 import java.util.LinkedList;
 import java.util.Optional;
@@ -83,12 +88,6 @@ public class ControladorWeb {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
 
-        // Set the id field to null to allow the database to generate a unique value using the auto-increment column
-        articulo.setId(null);
-
-        // add file to filesystem
-        storeFile(articulo.getArchivo(), articulo.getNombre() + articulo.getId());
-        articulo.setUrl(articulo.getNombre() + articulo.getId());
 
         // Parse users
         String cadenaUsuarios = articulo.getCadenaUsuarios();
@@ -99,11 +98,17 @@ public class ControladorWeb {
         articulo.setRevistas(parseJournals(cadenaRevistas));
 
         em.persist(articulo);
+
+        // add file to filesystem
+        storeFile(articulo.getArchivo(), articulo.getNombre() + articulo.getId());
+        articulo.setUrl(articulo.getNombre() + articulo.getId());
+
         em.getTransaction().commit();
         em.close();
         emf.close();
 
-        return "article_added";
+
+        return "index";
     }
 
 
@@ -184,11 +189,11 @@ public class ControladorWeb {
     }
 
     private void storeFile(MultipartFile file, String fileName){
-        String filePath =  System.getProperty("user.home");
-        filePath+= "/redDeInvestigadores";
+        String filepath =  System.getProperty("user.home");
+        filepath+= "/redDeInvestigadores/"+fileName+".pdf";
 
         try {
-            File uploadedFile = new File(filePath, fileName+".pdf");
+            File uploadedFile = new File(filepath, fileName+".pdf");
             file.transferTo(uploadedFile);
         } catch (Exception e) {
             System.out.println(e);
@@ -336,6 +341,7 @@ public class ControladorWeb {
         model.addAttribute("listaAutores", getAutoresArticulo(idArticulo));
         model.addAttribute("mes",articulo.getMes() );
         model.addAttribute("ano", articulo.getAno());
+        model.addAttribute("url", articulo.getUrl());
 
         return "article.html";
     }
@@ -575,6 +581,38 @@ public class ControladorWeb {
         instituciones = repositorioInstitucion.buscarInstitucionesPorNombre(query);
         return instituciones;
     }
+
+    @GetMapping("/download/{fileName:.+}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) {
+        // Find file
+        String filePath =  System.getProperty("user.home");
+        filePath+= "/redDeInvestigadores/"+fileName+".pdf";
+
+        File file = new File(filePath);
+        Resource resource = new FileSystemResource(file);
+
+        // Send file
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName+".pdf");
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+
+        try{
+            ResponseEntity<Resource> response = ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(resource.contentLength())
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(resource);
+
+            return response;
+        } catch(Exception e){
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
 
     @CrossOrigin
     @GetMapping(path="/proyectos_query")
