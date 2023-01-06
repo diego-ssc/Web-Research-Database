@@ -44,7 +44,7 @@
                     <li><a th:href="@{instituciones}" class="nav-link px-2 link-dark">Instituciones</a></li>
                 </ul>
 
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                <form action="#" th:action="@{/busqueda}" method="get" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
                     <input type="search" class="form-control " placeholder="Buscar..." aria-label="Search">
                 </form>
 
@@ -54,48 +54,48 @@
                 </div>
             </header>
         </div>
-        
+
         <!-- formulario -->
         <div class="container">
           <h4>Registrate</h4>
           <hr>
-          <form class="row g-3" th:action="@{/add_user}" th:object="${usuario}" method="post">
+          <form class="row g-3 needs-validation" th:action="@{/add_user}" th:object="${usuario}" method="post">
             <div class="col-md-6">
               <label for="entradaNombre" class="form-label">Nombre(s)</label>
-              <input type="text" class="form-control" id="entradaNombre" th:field="*{nombre}" required />
+              <input type="text" class="form-control" id="entradaNombre" th:field="*{nombre}" minlength="1" maxlength="40" required />
+                <p class="alert alert-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">
             </div>
             <div class="col-md-6">
               <label for="entradaApellido" class="form-label">Apellido</label>
-              <input type="text" class="form-control" id="entradaApellido" th:field="*{apellido}" required />
+              <input type="text" class="form-control" id="entradaApellido" th:field="*{apellido}" minlength="1" maxlength="40" required/>
             </div>
             <div class="col-md-6">
               <label for="entradaEmail" class="form-label">Correo Electrónico</label>
-              <input type="email" class="form-control" id="entradaEmail" th:field="*{email}" required />
+              <input type="email" class="form-control" id="entradaEmail" th:field="*{email}" minlength="1" maxlength="40" required />
             </div>
             <div class="col-md-6">
               <label for="entradaPassword" class="form-label">Contraseña</label>
-              <input type="password" class="form-control" id="entradaPassword" th:field="*{contrasena}" required />
+              <input type="password" class="form-control" id="entradaPassword" th:field="*{contrasena}"  required/>
             </div>
             <div class="row">
               <label class="form-label">Fecha de nacimiento</label>
               <div class="col">
-                <input type="text" class="form-control" placeholder="Día" aria-label="dia" th:field="*{dia}" id="dia" required />
-              </div>                                                                           
-              <div class="col">
-                <input type="text" class="form-control" placeholder="Mes" aria-label="mes" th:field="*{mes}" id="mes" required />
+                <input type="number" class="form-control" placeholder="Día" aria-label="dia" th:field="*{dia}" id="dia" min="1" max="31" required/>
               </div>
               <div class="col">
-                <input type="text" class="form-control" placeholder="Año" aria-label="año" th:field="*{ano}" id="ano" required />
+                <input type="number" class="form-control" placeholder="Mes" aria-label="mes" th:field="*{mes}" id="mes" min="1" max="12"  required/>
+              </div>
+              <div class="col">
+                <input type="number" class="form-control" placeholder="Año" aria-label="año" th:field="*{ano}" id="ano" min="1900" max="2015" required/>
               </div>
                 </div>
-                <select th:field="*{perfilString}" class="form-select" aria-label="select Perfil">
-                  <option th:value="${1}" selected>Perfil</option>
+                <select th:field="*{perfilString}" class="form-select" aria-label="select Perfil" required >
+                  <option value="">Perfil</option>
                   <option th:value="${2}" value="1">Investigador</option>
                   <option th:value="${3}" value="2">Estudiante</option>
-                  <option th:value="${4}" value="3">General</option>
                 </select>
-                <select th:field="*{InstitucionString}" class="form-select" aria-label="select instituciones">
-                    <option th:value="${1}" selected>Institución</option>
+                <select th:field="*{InstitucionString}" class="form-select" aria-label="select instituciones" required >
+                    <option value="" selected>Institución</option>
                     <option th:value="${2}">Facultad de Arquitectura</option>
                     <option th:value="${3}">Facultad de Artes y Diseño</option>
                     <option th:value="${4}">Facultad de Ciencias</option>
@@ -119,7 +119,7 @@
                 </select>
                 <div class="col-12">
                   <div id="liveAlertPlaceholder"></div>
-                    <button onclick="window.location.href = '/user';" type="submit" id="register_success" class="btn btn-primary">Registrarse</button>
+                    <button  type="submit" id="register_success" class="btn btn-primary">Registrarse</button>
                 </div>
             </form>
         </div>

@@ -7,5 +7,7 @@ import mx.unam.ciencias.myp.Perfil;
 
 @Repository
 public interface RepositorioPerfil extends CrudRepository<Perfil, Integer> {
+    @Query("SELECT p FROM Usuario p WHERE p.nombre = ?1")
+    public Perfil buscarPorNombre(String nombre);
 }
 

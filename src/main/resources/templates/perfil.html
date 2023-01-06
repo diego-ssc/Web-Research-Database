@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Red de Investigadores | Nombre del Artículo</title>
@@ -8,7 +8,7 @@
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link href="../static/css/article.css" rel="stylesheet">
 </head>
-<body>
+<body sec:authorize="isAuthenticated()">
     <!-- logo  -->
     <svg style="display: none;">
         <symbol id="logo" viewBox="60 10 600 100">
@@ -36,35 +36,28 @@
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a th:href="@{/user}" class="nav-link px-2 link-secondary">Página Principal</a></li>
-                <li><a th:href="@{/user/f_Articles}" class="nav-link px-2 link-dark">Artículos Destacados</a></li>
-                <li><a th:href="@{investigadores}" class="nav-link px-2 link-dark">Investigadores</a></li>
-                <li><a th:href="@{estudiantes}" class="nav-link px-2 link-dark">Estudiantes</a></li>
-                <li><a th:href="@{instituciones}" class="nav-link px-2 link-dark">Instituciones</a></li>
-                <li><a th:href="@{/user/profile}" class="nav-link px-2 link-dark">Perfil</a></li>
-
+                <li><a th:href="@{/user/}" class="nav-link px-2 link-secondary">Página Principal</a></li>
+                <li><a th:href="@{/user/f_articles}" class="nav-link px-2 link-dark">Artículos Destacados</a></li>
+                <li><a th:href="@{/user/researchers}" class="nav-link px-2 link-dark">Investigadores</a></li>
+                <li><a th:href="@{/user/students}" class="nav-link px-2 link-dark">Estudiantes</a></li>
+                <li><a th:href="@{/user/institutions}" class="nav-link px-2 link-dark">Instituciones</a></li>
             </ul>
 
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+            <form action="#" th:action="@{/busqueda}" method="get" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
                 <input type="search" class="form-control " placeholder="Buscar..." aria-label="Search">
             </form>
 
             <div class="text-end">
-              <button onclick="location.href='/logout'" type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Salir</button>
+                <button sec:authorize="isAuthenticated()" onclick="location.href='/user/addContribution'"  type="button" class="btn btn-outline-secondary btn-lg px-4 me-sm-3">Añadir</button>
+                <button onclick="location.href='/logout'" type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Salir</button>
             </div>
         </header>
     </div>
 
-    
+    <!-- datos -->
     <div class="container-lg">
       <h2 id="nombreUsuario">[[${#request.userPrincipal.principal.fullName}]]</h2>
       <h5>Artículos:</h5>
-      <div class="container m-1">
-        <div class="row">
-          <div class="col-6 col-sm-3"><a href="">Artículo 1</a></div>
-          <div class="col-6 col-sm-3"><a href="">Artículo 2</a></div>
-          <hr>
-        </div>
 
         <div class="container-md">
           <p class="lead">Datos Personales:</p>
@@ -84,9 +77,9 @@
                   </a>
 
                   <ul class="nav col-md-4 justify-content-end">
-                      <li class="nav-item"><a th:href="@{index.html}" class="nav-link px-2 text-muted">Página principal</a></li>
-                      <li class="nav-item"><a th:href="@{faqs}" class="nav-link px-2 text-muted">FAQs</a></li>
-                      <li class="nav-item"><a th:href="@{sobreNosotros}" class="nav-link px-2 text-muted">Sobre nosotros</a></li>
+                      <li class="nav-item"><a th:href="@{/user}" class="nav-link px-2 text-muted">Página principal</a></li>
+                      <li class="nav-item"><a th:href="@{/user/faqs}" class="nav-link px-2 text-muted">FAQs</a></li>
+                      <li class="nav-item"><a th:href="@{/user/about-us}" class="nav-link px-2 text-muted">Sobre nosotros</a></li>
                   </ul>
               </footer>
           </div>

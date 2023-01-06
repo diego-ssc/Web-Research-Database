@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.multipart.commons.*;
 
 @Configuration
 public class DatabaseLoader {
@@ -24,11 +25,9 @@ public class DatabaseLoader {
             Perfil indefinido = new Perfil(1, "indefinido");
             Perfil investigador = new Perfil(2, "investigador");
             Perfil estudiante = new Perfil(3, "estudiante");
-            Perfil general = new Perfil(4, "general");
             Perfil administrador = new Perfil(5, "administrador");
             repositorioPerfil.saveAll(List.of(indefinido, investigador,
-                                              estudiante, general,
-                                              administrador));
+                                              estudiante, administrador));
 
             Institucion indefinidoInstitucion = new Institucion
                 (1, "indefinido", "indefinido");
@@ -79,4 +78,5 @@ public class DatabaseLoader {
                                                    faq));
         };
     }
+
 }

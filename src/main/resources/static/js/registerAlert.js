@@ -14,7 +14,7 @@ const alert = (message, type) => {
 
 const alertTrigger = document.getElementById('register_success')
 if (alertTrigger) {
-  alertTrigger.addEventListener('click', () => {
+  alertTrigger.addEventListener('submit', () => {
     alert('Registro concluido exitosamente', 'success')
   })
 }

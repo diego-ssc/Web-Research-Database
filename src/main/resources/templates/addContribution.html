@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,9 +8,8 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
     </head>
-    <body>
+    <body sec:authorize="isAuthenticated()">
 
-        <script src="../static/js/upload.js" th:src="@{/js/upload.js}"></script>
         <!-- logo  -->
         <svg style="display: none;">
             <symbol id="logo" viewBox="60 10 600 100">
@@ -38,103 +37,85 @@
                 </a>
 
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a th:href="@{index.html}" class="nav-link px-2 link-secondary">Página Principal</a></li>
-                    <li><a th:href="@{featuredArticles.html}" class="nav-link px-2 link-dark">Artículos Destacados</a></li>
-                    <li><a th:href="@{investigadores}" class="nav-link px-2 link-dark">Investigadores</a></li>
-                    <li><a th:href="@{estudiantes}" class="nav-link px-2 link-dark">Estudiantes</a></li>
-                    <li><a th:href="@{instituciones}" class="nav-link px-2 link-dark">Instituciones</a></li>
+                    <li><a th:href="@{/user/}" class="nav-link px-2 link-secondary">Página Principal</a></li>
+                    <li><a th:href="@{/user/f_articles}" class="nav-link px-2 link-dark">Artículos Destacados</a></li>
+                    <li><a th:href="@{/user/researchers}" class="nav-link px-2 link-dark">Investigadores</a></li>
+                    <li><a th:href="@{/user/students}" class="nav-link px-2 link-dark">Estudiantes</a></li>
+                    <li><a th:href="@{/user/institutions}" class="nav-link px-2 link-dark">Instituciones</a></li>
+                    <li><a th:href="@{/user/profile}" class="nav-link px-2 link-dark">Perfil</a></li>
                 </ul>
 
-                <form action="busqueda.html" method="get" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                <form action="#" th:action="@{/busqueda}" method="get" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
                     <input type="search" name="q" class="form-control " placeholder="Buscar..." aria-label="Search">
                 </form>
 
                 <div class="text-end">
-                    <button onclick="location.href='/login'" th:href="@{/login}" type="button" class="btn btn-outline-primary me-2">Acceder</button> <!-- onclick="location.href='login.html'" -->
-                    <button onclick="location.href='/registrarse'" type="button" class="btn btn-primary">Registrarse</button>
+                    <button onclick="location.href='/logout'" type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Salir</button>
                 </div>
             </header>
         </div>
 
 
-        <!-- Formulario  -->
+        <!-- Formulario-->
         <div class="container">
-            <h1>Sube una aportación</h1>
-            <br/>
-            <form class="row g-3 " id="subirArchivo">
+            <h1>Sube un Articulo</h1>
+            <hr/>
+            <form class="row g-3 " id="subirArchivo" th:action="@{/add_article}" th:object="${articulo}"  enctype="multipart/form-data" method="post">
                 <div class="col-12 mb-3">
-                    <label for="autores" class="form-label">Autores</label>
+                    <label for="autores" class="form-label">Email de Autores</label>
                     <div class="input-group">
-                        <span class="input-group-text" id="inputGroupPrepend2">Yo, </span>
-                        <input type="text" class="form-control" id="autores"  aria-describedby="inputGroupPrepend2" >
+                        <span class="input-group-text" id="inputGroupPrepend2">[[${#request.userPrincipal.principal.email}]]</span>
+                        <input type="text" class="form-control" id="autores"  aria-describedby="inputGroupPrepend2" th:field="*{cadenaUsuarios}" required>
                     </div>
                     <div id="emailHelp" class="form-text">Separe por una coma y espacio a cada autor.</div>
                 </div>
 
                 <div class="col-6">
                     <label for="nombre" class="form-label">Nombre de la investigación</label>
-                    <input type="text" class="form-control" id="nombre"  aria-describedby="inputGroupPrepend2" >
+                    <input type="text" class="form-control" id="nombre"  aria-describedby="inputGroupPrepend2" th:field="*{nombre}" required>
                 </div>
 
                 <div class="col-6 mb-3">
-                    <label for="validationDefault04" class="form-label">Archivo</label>
-                    <input type="file" class="form-control" id="archivoASubir" aria-label="file example" required>
+                    <label for="archivoASubir" class="form-label">Archivo</label>
+                    <input type="file" class="form-control" name="archivo" id="archivoASubir" aria-label="file example" th:field="*{archivo}" required>
                     <div class="invalid-feedback">Example invalid form file feedback</div>
                 </div>
 
                 <div class="col-12 mb-3">
                     <label for="descripcion" class="form-label">Descripción</label>
-                    <textarea class="form-control" id="descripcion" aria-label="With textarea" required></textarea>
+                    <textarea class="form-control" id="descripcion" aria-label="With textarea" th:field="*{descripcion}" required></textarea>
                 </div>
-
-                <div class="col-6">
-                    <label for="tipoInvestigacion" class="form-label">Tipo de investigación</label>
-                    <select class="form-select" id="tipoInvestigacion" required>
-                        <option value="articulo">Articulo</option>
-                        <option value="revista">Revista</option>
-                        <option value="proyecto">Proyecto</option>
-                    </select>
-                </div>
-
 
                 <div class="col-3">
                     <label for="mes" class="form-label">Mes</label>
-                    <select class="form-select" id="mes" required>
-                        <option>Enero</option>
-                        <option>Febrero</option>
-                        <option>Marzo</option>
-                        <option>Abril</option>
-                        <option>Mayo</option>
-                        <option>Junio</option>
-                        <option>Julio</option>
-                        <option>Agosto</option>
-                        <option>Septiembre</option>
-                        <option>Octubre</option>
-                        <option>Noviembre</option>
-                        <option>Diciembre</option>
+                    <select class="form-select" id="mes" th:field="*{mes}" >
+                        <option th:value="${enero}">Enero</option>
+                        <option th:value="${febrero}">Febrero</option>
+                        <option th:value="${marzo}">Marzo</option>
+                        <option th:value="${abril}">Abril</option>
+                        <option th:value="${mayo}">Mayo</option>
+                        <option th:value="${junio}">Junio</option>
+                        <option th:value="${julio}">Julio</option>
+                        <option th:value="${agosto}">Agosto</option>
+                        <option th:value="${septiembre}">Septiembre</option>
+                        <option th:value="${octubre}">Octubre</option>
+                        <option th:value="${noviembre}">Noviembre</option>
+                        <option th:value="${diciembre}">Diciembre</option>
                     </select>
                 </div>
 
                 <div class="col-3 mb-3">
                     <label for="ano" class="form-label">Año</label>
-                    <input type="number" class="form-control" id="ano"  aria-describedby="inputGroupPrepend2" required>
+                    <input type="number" class="form-control" id="ano"  aria-describedby="inputGroupPrepend2" th:field="*{ano}" required>
                     </select>
-                </div>
-                <div class="col-12 mb-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
-                        <label class="form-check-label" for="invalidCheck2">
-                            Acepto los términos y condiciones
-                        </label>
-                    </div>
                 </div>
 
                 <div class="col-12 mb-3">
                     <button class="btn btn-primary" type="submit">Submit form</button>
                 </div>
             </form>
-
         </div>
+
         <!-- footer -->
         <div class="container">
             <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
@@ -145,12 +126,9 @@
                 </a>
 
                 <ul class="nav col-md-4 justify-content-end">
-                    <li class="nav-item"><a th:href="@{index.html}" class="nav-link px-2 text-muted">Página principal</a></li>
-                    <li class="nav-item"><a th:href="@{login}" class="nav-link px-2 text-muted">Acceder</a></li>
-                    <li class="nav-item"><a th:href="@{registrarse}" class="nav-link px-2 text-muted">Registrarse</a></li>
-                    <li class="nav-item"><a th:href="@{faqs}" class="nav-link px-2 text-muted">FAQs</a></li>
-                    <li class="nav-item"><a th:href="@{sobreNosotros}" class="nav-link px-2 text-muted">Sobre nosotros</a></li>
-                </ul>
+                    <li class="nav-item"><a th:href="@{/user}" class="nav-link px-2 text-muted">Página principal</a></li>
+                    <li class="nav-item"><a th:href="@{/user/faqs}" class="nav-link px-2 text-muted">FAQs</a></li>
+                    <li class="nav-item"><a th:href="@{/user/about-us}" class="nav-link px-2 text-muted">Sobre nosotros</a></li>
             </footer>
         </div>
     </body>

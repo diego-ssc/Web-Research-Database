@@ -11,17 +11,18 @@ import javax.persistence.*;
 @Table(name = "areas_trabajo")
 public class AreaTrabajo {
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_area")
-    private Integer area;
+    private Integer id;
 
     private String descripcion;
 
-    public Integer getIdArea() {
-        return area;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdArea(Integer area) {
-        this.area = area;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getDescripcion() {

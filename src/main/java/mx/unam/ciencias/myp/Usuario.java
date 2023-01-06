@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.util.Set;
 import java.util.HashSet;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 /**
  * Clase que representa la tabla de usuarios
  * en la base de datos.
@@ -35,13 +37,20 @@ public class Usuario {
 
     private String ano;
 
-    private String telefono;
-
     @Transient
     private String perfilString;
 
     @Transient
     private String institucionString;
+
+    @Transient
+    private String cadenaArticulos;
+
+    @Transient
+    private String cadenaProyectos;
+
+    @Transient
+    private String cadenaRevistas;
 
     @Column(name = "fecha_nacimiento")
     private String fechaNacimiento;
@@ -50,37 +59,25 @@ public class Usuario {
     @JoinColumn(name = "perfil", referencedColumnName = "id_perfil")
     private Perfil perfil;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(joinColumns = {
-            @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario",
-                        nullable = false, updatable = false)},
-        inverseJoinColumns = {
-            @JoinColumn(name = "id_articulo", referencedColumnName = "id_articulo",
-                        nullable = false, updatable = false)})
+    @ManyToMany(mappedBy = "usuarios", fetch = FetchType.LAZY,
+                cascade = CascadeType.MERGE)
+    @JsonManagedReference
     private Set<Articulo> articulos = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(joinColumns = {
-            @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario",
-                        nullable = false, updatable = false)},
-        inverseJoinColumns = {
-            @JoinColumn(name = "id_proyecto", referencedColumnName = "id_proyecto",
-                        nullable = false, updatable = false)})
+    @ManyToMany(mappedBy = "usuarios", fetch = FetchType.LAZY,
+                cascade = CascadeType.MERGE)
+    @JsonManagedReference
     private Set<Proyecto> proyectos = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(joinColumns = {
-            @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario",
-                        nullable = false, updatable = false)},
-        inverseJoinColumns = {
-            @JoinColumn(name = "id_revista", referencedColumnName = "id_revista",
-                        nullable = false, updatable = false)})
+    @ManyToMany(mappedBy = "usuarios", fetch = FetchType.LAZY,
+                cascade = CascadeType.MERGE)
+    @JsonManagedReference
     private Set<Revista> revistas = new HashSet<>();
 
     public boolean hasRole(String roleName) {
         if (roleName == null)
             return false;
-        return this.perfil.getDescripcion().equals(roleName);
+        return this.perfil.getDescripcion().equals(roleName.toLowerCase());
     }
 
     public Integer getId() {
@@ -211,12 +208,28 @@ public class Usuario {
         this.revistas = revistas;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getCadenaArticulos() {
+        return cadenaArticulos;
     }
 
-    public void setTelefono() {
-        this.telefono = telefono;
+    public void setCadenaArticulos(String cadenaArticulos) {
+        this.cadenaArticulos = cadenaArticulos;
+    }
+
+    public String getCadenaRevistas() {
+        return cadenaRevistas;
+    }
+
+    public void setCadenaRevistas(String cadenaRevistas) {
+        this.cadenaRevistas = cadenaRevistas;
+    }
+
+    public String getCadenaProyectos() {
+        return cadenaProyectos;
+    }
+
+    public void setCadenaProyectos(String cadenaProyecto) {
+        this.cadenaProyectos = cadenaProyectos;
     }
 
     /**
@@ -234,5 +247,10 @@ public class Usuario {
         boolean b = email.equals(usuario.getEmail());
 
         return a && b;
+    }
+
+    @Override
+    public String toString() {
+        return this.id + "::" + this.nombre;
     }
 }

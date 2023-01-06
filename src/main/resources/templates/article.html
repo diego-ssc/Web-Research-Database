@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title >Red de Investigadores | Articulo</title>
@@ -35,24 +35,32 @@
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a th:href="@{index.html}" class="nav-link px-2 link-secondary">Página Principal</a></li>
-                <li><a th:href="@{featuredArticles.html}" class="nav-link px-2 link-dark">Artículos Destacados</a></li>
-                <li><a th:href="@{investigadores}" class="nav-link px-2 link-dark">Investigadores</a></li>
-                <li><a th:href="@{estudiantes}" class="nav-link px-2 link-dark">Estudiantes</a></li>
-                <li><a th:href="@{instituciones}" class="nav-link px-2 link-dark">Instituciones</a></li>
+                <li sec:authorize="isAnonymous()"><a th:href="@{index.html}" class="nav-link px-2 link-secondary">Página Principal</a></li>
+                <li sec:authorize="isAnonymous()"><a th:href="@{featuredArticles.html}" class="nav-link px-2 link-dark">Artículos Destacados</a></li>
+                <li sec:authorize="isAnonymous()"><a th:href="@{investigadores}" class="nav-link px-2 link-dark">Investigadores</a></li>
+                <li sec:authorize="isAnonymous()"><a th:href="@{estudiantes}" class="nav-link px-2 link-dark">Estudiantes</a></li>
+                <li sec:authorize="isAnonymous()"><a th:href="@{instituciones}" class="nav-link px-2 link-dark">Instituciones</a></li>
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/user/}" class="nav-link px-2 link-secondary">Página Principal</a></li>
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/user/f_articles}" class="nav-link px-2 link-dark">Artículos Destacados</a></li>
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/user/researchers}" class="nav-link px-2 link-dark">Investigadores</a></li>
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/user/students}" class="nav-link px-2 link-dark">Estudiantes</a></li>
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/user/institutions}" class="nav-link px-2 link-dark">Instituciones</a></li>
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/user/profile}" class="nav-link px-2 link-dark">Perfil</a></li>
             </ul>
 
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+            <form action="#" th:action="@{/busqueda}" method="get" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
                 <input type="search" class="form-control " placeholder="Buscar..." aria-label="Search">
             </form>
 
             <div class="text-end">
-                <button onclick="location.href='login'" type="button" class="btn btn-outline-primary me-2">Acceder</button>
-                <button onclick="location.href='registrarse'" type="button" class="btn btn-primary">Registrarse</button>
+                <button sec:authorize="isAnonymous()" onclick="location.href='/login'" th:href="@{/login}" type="button" class="btn btn-outline-primary me-2">Acceder</button> <!-- onclick="location.href='login.html'" -->
+                <button sec:authorize="isAnonymous()" onclick="location.href='/registrarse'" type="button" class="btn btn-primary">Registrarse</button>
+                <button sec:authorize="isAuthenticated()" onclick="location.href='/logout'" type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Salir</button>
             </div>
         </header>
     </div>
 
+    <!-- Contenido de articulo -->
     <div class="container-lg">
         <div class="alert alert-secondary" role="alert" style="width: 80px; height:40px">Articulo</div>
             <h2 id="tituloArticulo" th:text="${nombre}"/>
@@ -61,7 +69,6 @@
                 <div class="row" th:each="autor : ${listaAutores}">
                     <div class="col-6 col-sm-3"><a th:href="'http://localhost:8080/article?idArticulo='+${autor.id}" th:text="${autor.nombre}+' '+${autor.apellido}"></a></div>
                     <div class="w-100"></div>
-
                 </div>
             </div>
             <p class="small" th:text="'Subido el '+${mes}+' '+${ano}"/>
@@ -79,6 +86,14 @@
             </div>
         </div>
     </div>
+
+    <p class="lead" th:text="${url}" />
+
+    <!-- <iframe th:src="@{/download/{fileName}(fileName=${url})}" width="600" height="400"></iframe> -->
+
+    <a th:href="@{/download/{fileName}(fileName=${url})}" class="btn btn-dark">Descargar</a>
+
+
     <!-- footer -->
     <div class="container">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
@@ -89,11 +104,14 @@
             </a>
 
             <ul class="nav col-md-4 justify-content-end">
-                <li class="nav-item"><a th:href="@{index.html}" class="nav-link px-2 text-muted">Página principal</a></li>
-                <li class="nav-item"><a th:href="@{login}" class="nav-link px-2 text-muted">Acceder</a></li>
-                <li class="nav-item"><a th:href="@{registrarse}" class="nav-link px-2 text-muted">Registrarse</a></li>
-                <li class="nav-item"><a th:href="@{faqs}" class="nav-link px-2 text-muted">FAQs</a></li>
-                <li class="nav-item"><a th:href="@{sobreNosotros}" class="nav-link px-2 text-muted">Sobre nosotros</a></li>
+                <li sec:authorize="isAnonymous()" class="nav-item"><a th:href="@{index.html}" class="nav-link px-2 text-muted">Página principal</a></li>
+                <li sec:authorize="isAnonymous()" class="nav-item"><a th:href="@{login}" class="nav-link px-2 text-muted">Acceder</a></li>
+                <li sec:authorize="isAnonymous()" class="nav-item"><a th:href="@{registrarse}" class="nav-link px-2 text-muted">Registrarse</a></li>
+                <li sec:authorize="isAnonymous()" class="nav-item"><a th:href="@{faqs}" class="nav-link px-2 text-muted">FAQs</a></li>
+                <li sec:authorize="isAnonymous()" class="nav-item"><a th:href="@{sobreNosotros}" class="nav-link px-2 text-muted">Sobre nosotros</a></li>
+                <li sec:authorize="isAuthenticated()" class="nav-item"><a th:href="@{/user/}" class="nav-link px-2 text-muted">Página principal</a></li>
+                <li sec:authorize="isAuthenticated()" class="nav-item"><a th:href="@{/user/faqs}" class="nav-link px-2 text-muted">FAQs</a></li>
+                <li sec:authorize="isAuthenticated()" class="nav-item"><a th:href="@{/user/about-us}" class="nav-link px-2 text-muted">Sobre nosotros</a></li>
             </ul>
         </footer>
     </div>
