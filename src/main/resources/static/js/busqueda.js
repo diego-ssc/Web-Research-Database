@@ -43,9 +43,8 @@ function getAllArticulos(){
                     <div class="card border-dark mb-3">
                         <div class="card-body">
                             <h5 class="card-title">${articulo.nombre}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Autor(es): ${articulo.usuarios} </h6>
                             <p class="card-text">${articulo.descripcion}</p>
-                            <a href="http://localhost:8080/article?idArticulo=${articulo.idArticulo}" class="btn btn-dark">Ir al articulo</a>
+                            <a href="http://localhost:8080/article?idArticulo=${articulo.id}" class="btn btn-dark">Ir al articulo</a>
                         </div>
                         <div class="card-footer">
                             <small class="text-muted">Fecha de publicacion: ${articulo.mes}/${articulo.ano}</small>
@@ -139,7 +138,6 @@ function getAllRevistas(){
                     <div class="card border-dark mb-3">
                         <div class="card-body">
                             <h5 class="card-title">${revista.nombre}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Autor(es): ${usuarios} </h6>
                             <p class="card-text">${nombres}</p>
                             <a href="http://localhost:8080/revista?idRevista=${revista.idArticulo}" class="btn btn-dark">Ir a Revista</a>
                         </div>
@@ -173,7 +171,6 @@ function getAllProyectos(){
                     <div class="card border-dark mb-3">
                         <div class="card-body">
                             <h5 class="card-title">${proyecto.nombre}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Autor(es): ${proyecto.usuarios} </h6>
                             <p class="card-text">${proyecto.descripcion}</p>
                             <a href="http://localhost:8080/proyecto?idProyecto=${proyecto.idProyecto}" class="btn btn-dark">Ir al proyecto</a>
                         </div>
@@ -212,7 +209,6 @@ function getArticulos( query ){
                     <div class="card border-dark mb-3">
                         <div class="card-body">
                             <h5 class="card-title">${articulo.nombre}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Autor(es): ${articulo.usuarios} </h6>
                             <p class="card-text">${articulo.descripcion}</p>
                             <a href="http://localhost:8080/article?idArticulo=${articulo.idArticulo}" class="btn btn-dark">Ir al articulo</a>
                         </div>
@@ -312,7 +308,6 @@ function getRevistas(){
                     <div class="card border-dark mb-3">
                         <div class="card-body">
                             <h5 class="card-title">${revista.nombre}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Autor(es): ${usuarios} </h6>
                             <p class="card-text">${nombres}</p>
                             <a href="http://localhost:8080/revista?idRevista=${revista.idArticulo}" class="btn btn-dark">Ir a Revista</a>
                         </div>
@@ -347,7 +342,6 @@ function getProyectos( query ){
                     <div class="card border-dark mb-3">
                         <div class="card-body">
                             <h5 class="card-title">${proyecto.nombre}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Autor(es): ${proyecto.usuarios} </h6>
                             <p class="card-text">${proyecto.descripcion}</p>
                             <a href="http://localhost:8080/proyecto?idProyecto=${proyecto.idProyecto}" class="btn btn-dark">Ir al proyecto</a>
                         </div>
