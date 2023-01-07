@@ -57,4 +57,11 @@ public class RolesTests {
         mockMvc.perform(get("/administrator"))
                 .andExpect(status().isOk());
     }
+
+	@Test
+	@WithMockUser(roles = "estudiante")
+	public void loginWithRoleUserThenExpectAdminPageForbidden() throws Exception {
+		mockMvc.perform(get("/administrator"))
+				.andExpect(status().isForbidden());
+	}
 }
