@@ -693,6 +693,27 @@ public class ControladorWeb {
         return "instituciones.html";
     }
 
+    @RequestMapping(value = "/faqs", method = RequestMethod.GET)
+    public String faqsVista(){
+        return "faqs.html";
+    }
+
+    @RequestMapping(value = "/user/faqs", method = RequestMethod.GET)
+    public String faqsLogVista(){
+        return "faqs.html";
+    }
+
+    @RequestMapping(value = "/sobreNosotros", method = RequestMethod.GET)
+    public String nosotrosVista(){
+        return "nosotros.html";
+    }
+
+    @RequestMapping(value = "/user/about-us", method = RequestMethod.GET)
+    public String nosotrosLogVista(){
+        return "nosotros.html";
+    }
+
+
     public Optional<Perfil> getPerfil(@PathVariable Integer id){
         return repositorioPerfil.findById(id);
     }
