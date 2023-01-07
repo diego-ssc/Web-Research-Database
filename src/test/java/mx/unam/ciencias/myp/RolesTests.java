@@ -51,4 +51,10 @@ public class RolesTests {
         return CoreMatchers.not(containsString(s));
     }
     
+    @Test
+    @WithMockUser(roles = "administrador")
+    public void loginWithRoleAdminThenExpectAdminSpecificContent() throws Exception {
+        mockMvc.perform(get("/administrator"))
+                .andExpect(status().isOk());
+    }
 }

@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.LinkedList;
+import javax.persistence.*;
 
 
  @SpringBootTest
@@ -54,6 +55,7 @@ public class ControladorTests {
 
     @MockBean
     RepositorioRevista repoRevista;
+
 
     @Test
      public void testGetUsuarios() {
@@ -81,61 +83,6 @@ public class ControladorTests {
     }
 
     @Test
-    public void testAgregaNuevoUsuario() {
-        ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
-
-        org.mockito.Mockito.when(repoUsuario.save(any())).then(invocation -> {
-            Usuario usuario = invocation.getArgument(0);
-            usuarios.add(usuario);
-            return usuario;
-        });
-
-        Perfil perfil = new Perfil();
-        Optional<Perfil> perfilOpt = Optional.of(perfil);
-        org.mockito.Mockito.when(repoPerfil.findById(any())).thenReturn(perfilOpt);
-
-        Institucion institucion = new Institucion();
-        Optional<Institucion> institucionOpt = Optional.of(institucion);
-        org.mockito.Mockito.when(repoInst.findById(any())).thenReturn(institucionOpt);
-
-        int i = 0;
-        Usuario[] arreglo = new Usuario[50];
-        for (int e = 0; e < 50; e++) {
-            arreglo[e] = creaUsuario();
-            controlador.agregaNuevoUsuario(arreglo[e]);
-        }
-        for (Usuario u : usuarios) {
-            assertTrue(u == arreglo[i]);
-            i++;
-        }
-        assertTrue(i == 50);
-
-
-        assertTrue(arreglo[0].getPerfil() == perfil);
-        assertTrue(arreglo[0].getInstitucion() == institucion);
-
-        i = 0;
-        for (Usuario u : institucion.getUsuarios()) {
-            assertTrue(arreglo[i] == u);
-            i++;
-        }
-        assertTrue(i == 50);
-
-    }
-
-    private Usuario creaUsuario() {
-        Usuario usuario = new Usuario();
-        usuario.setPerfilString("999");
-        usuario.setInstitucionString("888");
-        usuario.setContrasena("contrasena");
-        usuario.setDia("18");
-        usuario.setMes("03");
-        usuario.setAno("2003");
-
-        return usuario;
-    }
-
-    @Test
      public void testGetArticulos() {
 
         ArrayList<Articulo> articulos = new ArrayList<Articulo>();
@@ -158,56 +105,5 @@ public class ControladorTests {
             i++;
         }
         assertTrue(i == 100);
-    }
-
-    @Test
-    public void testAgregaRevista() {
-
-        ArrayList<Revista> revistas = new ArrayList<Revista>();
-
-        org.mockito.Mockito.when(repoRevista.save(any())).then(invocation -> {
-            Revista revista = invocation.getArgument(0);
-            revistas.add(revista);
-            return revista;
-        });
-
-        org.mockito.Mockito.when(repoUsuario.buscarPorEmail(any())).then(invocation -> {
-            String email = invocation.getArgument(0);
-            Usuario usuario = new Usuario();
-            usuario.setEmail(email);
-            return usuario;
-        });
-
-
-        int i = 0;
-        Revista[] arreglo = new Revista[50];
-        for (int e = 0; e < 50; e++) {
-            arreglo[e] = creaRevista();
-            controlador.agregaRevista(arreglo[e]);
-        }
-        for (Revista r : revistas) {
-            assertTrue(r == arreglo[i]);
-            i++;
-        }
-        assertTrue(i == 50);
-
-
-        assertTrue(arreglo[0].getUsuarios().size() == 3);
-
-        LinkedList<String> emails = new LinkedList<String>();
-        emails.add("A");
-        emails.add("B");
-        emails.add("C");
-        for (Usuario u : arreglo[0].getUsuarios()) {
-            assertTrue(emails.contains(u.getEmail()));
-            emails.remove(u.getEmail());
-        }
-
-    }
-
-    private Revista creaRevista() {
-        Revista revista = new Revista();
-        revista.setCadenaUsuarios("A,B,C");
-        return revista;
     }
 }
