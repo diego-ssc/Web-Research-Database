@@ -67,7 +67,7 @@
             <h5>Autores:</h5>
             <div class="container m-1" >
                 <div class="row" th:each="autor : ${listaAutores}">
-                    <div class="col-6 col-sm-3"><a th:href="'http://localhost:8080/article?idArticulo='+${autor.id}" th:text="${autor.nombre}+' '+${autor.apellido}"></a></div>
+                    <div class="col-6 col-sm-3"><a th:href="'http://localhost:8080/usuario?idUsuario='+${autor.id}" th:text="${autor.nombre}+' '+${autor.apellido}"></a></div>
                     <div class="w-100"></div>
                 </div>
             </div>
@@ -80,18 +80,9 @@
     </div>
 
     <div class="container-xl">
-        <div class="d-flex justify-content-center">
-            <div class="spinner-border m-5" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
+        <iframe th:src="@{/view-pdf/{fileName}(fileName=${nombre}+${id})}" width="100%" height="800"></iframe>
+        <a     th:href="@{/download/{fileName}(fileName=${nombre}+${id})}" target="_blank" class="btn btn-dark">Descargar</a>
     </div>
-
-    <p class="lead" th:text="${nombre}+${id}" />
-
-    <!-- <iframe th:src="@{/download/{fileName}(fileName=${url})}" width="600" height="400"></iframe> -->
-
-    <a th:href="@{/download/{fileName}(fileName=${nombre}+${id})}" class="btn btn-dark">Descargar</a>
 
 
     <!-- footer -->

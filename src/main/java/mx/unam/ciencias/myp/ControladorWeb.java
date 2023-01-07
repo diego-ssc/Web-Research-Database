@@ -14,8 +14,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import com.itextpdf.text.pdf.PdfReader; // send pdf
+import com.itextpdf.text.pdf.PdfStamper;
+import org.springframework.core.io.InputStreamResource;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import java.util.LinkedList;
 import java.util.Optional;
@@ -338,6 +345,15 @@ public class ControladorWeb {
         model.addAttribute("url", articulo.getUrl());
         model.addAttribute("id", articulo.getId());
 
+        String fileName = articulo.getNombre() + articulo.getId();
+        String filePath =  System.getProperty("user.home");
+        filePath+= "/redDeInvestigadores/"+fileName+".pdf";
+
+        File file = new File(filePath);
+
+        Resource resource = new FileSystemResource(file);
+        model.addAttribute("pdf", resource);
+
         return "article.html";
     }
 
@@ -573,6 +589,32 @@ public class ControladorWeb {
         return instituciones;
     }
 
+    @GetMapping("/view-pdf")
+    public ResponseEntity<InputStreamResource> viewPdf(@RequestParam("fileName") String fileName) throws IOException {
+        // Set the file path
+        String filePath = System.getProperty("user.home") + "/redDeInvestigadores/" + fileName + ".pdf";
+
+        // Load the PDF file from the file path
+        File file = new File(filePath);
+        InputStream inputStream = new FileInputStream(file);
+
+        // Set the content type and file size in the response header
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "inline; filename=" + fileName);
+        headers.add("Content-Type", "application/pdf");
+        headers.add("Content-Length", String.valueOf(file.length()));
+
+        System.out.println("Archivo"+ file);
+
+        // Return the response with the PDF file and headers
+        return ResponseEntity
+            .ok()
+            .headers(headers)
+            .contentType(MediaType.APPLICATION_PDF)
+            .body(new InputStreamResource(inputStream));
+    }
+
+
     @GetMapping("/download/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) {
         // Find file
@@ -584,7 +626,6 @@ public class ControladorWeb {
 
         // Send file
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName+".pdf");
         headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
         headers.add("Pragma", "no-cache");
         headers.add("Expires", "0");
@@ -593,7 +634,7 @@ public class ControladorWeb {
             ResponseEntity<Resource> response = ResponseEntity.ok()
                 .headers(headers)
                 .contentLength(resource.contentLength())
-                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .contentType(MediaType.parseMediaType("application/pdf"))
                 .body(resource);
 
             return response;
