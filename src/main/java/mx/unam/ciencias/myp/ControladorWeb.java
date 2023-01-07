@@ -14,6 +14,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.LinkedList;
 import java.util.Optional;
@@ -174,7 +176,7 @@ public class ControladorWeb {
 
     private void storeFile(MultipartFile file, String fileName){
         String filepath =  System.getProperty("user.home");
-        filepath+= "/redDeInvestigadores/"+fileName+".pdf";
+        filepath+= "/redDeInvestigadores/";
 
         try {
             File uploadedFile = new File(filepath, fileName+".pdf");
@@ -334,6 +336,7 @@ public class ControladorWeb {
         model.addAttribute("mes",articulo.getMes() );
         model.addAttribute("ano", articulo.getAno());
         model.addAttribute("url", articulo.getUrl());
+        model.addAttribute("id", articulo.getId());
 
         return "article.html";
     }

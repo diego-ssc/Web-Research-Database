@@ -87,11 +87,11 @@
         </div>
     </div>
 
-    <p class="lead" th:text="${url}" />
+    <p class="lead" th:text="${nombre}+${id}" />
 
     <!-- <iframe th:src="@{/download/{fileName}(fileName=${url})}" width="600" height="400"></iframe> -->
 
-    <a th:href="@{/download/{fileName}(fileName=${url})}" class="btn btn-dark">Descargar</a>
+    <a th:href="@{/download/{fileName}(fileName=${nombre}+${id})}" class="btn btn-dark">Descargar</a>
 
 
     <!-- footer -->
