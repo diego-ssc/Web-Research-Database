@@ -9,7 +9,7 @@ services:
         - mysqldb
   mysqldb:
     platform: linux/x86_64
-    image: "mysql"
+    image: "mysql:8.0.31"
     restart: always
     ports:
       - 3307:3306
