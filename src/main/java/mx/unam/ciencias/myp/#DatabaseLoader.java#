@@ -124,6 +124,7 @@ public class DatabaseLoader {
             (false, false, "UTF-8", new ClassPathResource("sql_scripts/revistas_articulos.sql"));
         revistas_articulos.execute(dataSource);
 
+        
         ResourceDatabasePopulator revistas_usuarios = new ResourceDatabasePopulator
             (false, false, "UTF-8", new ClassPathResource("sql_scripts/revistas_usuarios.sql"));
         revistas_usuarios.execute(dataSource);
