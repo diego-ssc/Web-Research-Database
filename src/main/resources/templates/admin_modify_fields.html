@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifica Area de Trabajo</title>
+</head>
+<body>
+<div>
+    <h3>Modifica Area de trabajo</h3>
+    <form action="#" th:action="@{/administrator/actualizar_areaTrabajo/{id}(id=${areaTrabajo.id})}" th:object="${areaTrabajo}" method="post">
+        <label for="descripcion">Descripciopn</label>
+        <input type="text" th:field="*{descripcion}" id="descripcion">
+        <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
+        <input type="submit" value="Modifica area de trabajo">
+    </form>
+</div>
+</body>
+</html>

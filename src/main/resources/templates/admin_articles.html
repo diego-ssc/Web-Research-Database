@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Base de Datos | Tabla Articulos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+</head>
+<body >
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<div class="container-sm">
+  <nav class="navbar navbar-dark bg-dark fixed-top">
+    <div class="container-fluid text-center" >
+      <a class="navbar-brand" href="#">Red de Investigacion Base de Datos</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Tablas</h5>
+          <button type="button" class="btn-close btn-close-red" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/administrator/usuarios}">Usuarios</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" th:href="@{/administrator/articulos}">Articulos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link "th:href="@{/administrator/revistas}">Revistas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/administrator/proyectos}">Proyectos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/administrator/perfiles}">Perfiles</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"th:href="@{/administrator/instituciones}">Instituciones</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/administrator/areasTrabajo}">Areas de Trabajo</a>
+            </li>
+            <div class="container text-center">
+              <div class="row row-cols-5">
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col"><button type="button" class="btn btn-danger" onclick="location.href='@{/user/}'">Salir</button></div>
+              </div>
+            </div>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+<hr>
+<div class="container-xl">
+  <h3>Agrega articulo</h3>
+  <form action="#" th:action="@{/administrator/agrega_articulo}" th:object="${articulo}" method="post">
+    <label for="nombre">Nombre</label>
+    <input type="text" th:field="*{nombre}" id="nombre" placeholder="Nombre">
+    <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+    <label for="descripcion">Descripción</label>
+    <input type="text" th:field="*{descripcion}" id="descripcion" placeholder="Descripción">
+    <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
+    <label for="usuarios">Usuarios</label>
+    <input type="text" th:field="*{cadenaUsuarios}" id="usuarios" placeholder="Separa los email con comas-">
+    <span th:if="${#fields.hasErrors('cadenaUsuarios')}" th:errors="*{cadenaUsuarios}"></span>
+    <label for="revistas">Revistas</label>
+    <input type="text" th:field="*{revistas}" id="revistas" placeholder="Separa los id de revistas con comas">
+    <span th:if="${#fields.hasErrors('revistas')}" th:errors="*{revistas}"></span>
+    <label for="mes">Mes</label>
+    <input type="number" th:field="*{mes}" id="mes" placeholder="1" min="1" max="12">
+    <span th:if="${#fields.hasErrors('mes')}" th:errors="*{mes}"></span>
+    <label for="ano">Año</label>
+    <input type="number" th:field="*{ano}" id="ano" placeholder="1999" max="2023">
+    <span th:if="${#fields.hasErrors('ano')}" th:errors="*{ano}"></span>
+    <label for="url">URL</label>
+    <input type="text" th:field="*{url}" id="url" >
+    <span th:if="${#fields.hasErrors('url')}" th:errors="*{url}"></span>
+    <label for="archivoASubir" >Archivo</label>
+    <input type="file"  name="archivo" id="archivoASubir" aria-label="file example" th:field="*{archivo}" required>
+    <span th:if="${#fields.hasErrors('archivo')}" th:errors="*{archivo}"></span>
+    <input type="submit" value="Agregar articulo">
+  </form>
+
+  <h3>Tabla Articulos</h3>
+  <div th:switch="${articulos}">
+    <h2 th:case="null">No users yet!</h2>
+    <div th:case="*">
+      <h4>Articulos</h4>
+      <table>
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Usuarios</th>
+          <th>Revistas</th>
+          <th>Descripcion</th>
+          <th>Mes</th>
+          <th>Ano</th>
+          <th>Url</th>
+          <th>Editar</th>
+          <th>Eliminar</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="articulo : ${articulos}">
+          <td th:text="${articulo.id}"></td>
+          <td th:text="${articulo.nombre}"></td>
+          <td th:text="${articulo.usuarios}"></td>
+          <td th:text="${articulo.revistas}"></td>
+          <td th:text="${articulo.descripcion}"></td>
+          <td th:text="${articulo.mes}"></td>
+          <td th:text="${articulo.ano}"></td>
+          <td th:text="${articulo.url}"></td>
+          <td><a th:href="@{/administrator/editar_articulo/{id}(id=${articulo.id})}">Editar</a></td>
+          <td><a th:href="@{/administrator/eliminar_articulo/{id}(id=${articulo.id})}">Eliminar</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+</html>

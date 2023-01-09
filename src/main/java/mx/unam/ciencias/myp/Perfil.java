@@ -11,17 +11,24 @@ import javax.persistence.*;
 @Table(name = "perfiles")
 public class Perfil {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_perfil")
     private Integer id;
-
+    
     private String descripcion;
 
-    public Integer getIdPerfil() {
+    public Perfil() {}
+    
+    public Perfil(Integer id, String descripcion) {
+        this.id = id;
+        this.descripcion = descripcion;
+    }
+    
+    public Integer getId() {
         return id;
     }
 
-    public void setIdPerfil(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>Red de Investigadores | Estudiantes</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body>
+  <!-- logo  -->
+  <svg style="display: none;">
+    <symbol id="logo" viewBox="60 10 600 100">
+      <title>Logo</title>
+      <g>
+        <line x1="360" y1="40" x2="200" y2="120" stroke="black" stroke-width="3" />
+        <line x1="360" y1="40" x2="520" y2="120" stroke="black" stroke-width="3" />
+        <circle cx=" 360" cy="40" r="20" stroke-width="3" stroke="black" fill="black"/>
+        <circle cx=" 200" cy="120" r="20" stroke-width="3" stroke="black" fill="black"/>
+        <line x1="520" y1="120" x2="440" y2="200" stroke="black" stroke-width="3" />
+        <line x1="520" y1="120" x2="600" y2="200" stroke="black" stroke-width="3" />
+        <circle cx=" 520" cy="120" r="20" stroke-width="3" stroke="black" fill="black"/>
+        <circle cx=" 440" cy="200" r="20" stroke-width="3" stroke="black" fill="black"/>
+        <circle cx=" 600" cy="200" r="20" stroke-width="3" stroke="black" fill="black"/>
+      </g>
+    </symbol>
+  </svg>
+
+  <!-- navbar -->
+  <div class="container-fluid gx-5" >
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+      <a href="./index.html" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+        <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#logo"/></svg>
+        <span class="fs-4">Red de Investigadores</span>
+      </a>
+
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <li sec:authorize="isAnonymous()"><a th:href="@{index.html}" class="nav-link px-2 link-secondary">Página Principal</a></li>
+        <li sec:authorize="isAnonymous()"><a th:href="@{featuredArticles.html}" class="nav-link px-2 link-dark">Artículos Destacados</a></li>
+        <li sec:authorize="isAnonymous()"><a th:href="@{investigadores}" class="nav-link px-2 link-dark">Investigadores</a></li>
+        <li sec:authorize="isAnonymous()"><a th:href="@{estudiantes}" class="nav-link px-2 link-dark">Estudiantes</a></li>
+        <li sec:authorize="isAnonymous()"><a th:href="@{instituciones}" class="nav-link px-2 link-dark">Instituciones</a></li>
+        <li sec:authorize="isAuthenticated()"><a th:href="@{/user/}" class="nav-link px-2 link-secondary">Página Principal</a></li>
+        <li sec:authorize="isAuthenticated()"><a th:href="@{/user/f_articles}" class="nav-link px-2 link-dark">Artículos Destacados</a></li>
+        <li sec:authorize="isAuthenticated()"><a th:href="@{/user/researchers}" class="nav-link px-2 link-dark">Investigadores</a></li>
+        <li sec:authorize="isAuthenticated()"><a th:href="@{/user/students}" class="nav-link px-2 link-dark">Estudiantes</a></li>
+        <li sec:authorize="isAuthenticated()"><a th:href="@{/user/institutions}" class="nav-link px-2 link-dark">Instituciones</a></li>
+        <li sec:authorize="isAuthenticated()"><a th:href="@{/user/profile}" class="nav-link px-2 link-dark">Perfil</a></li>
+      </ul>
+
+      <form action="#" th:action="@{/busqueda}" method="get" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+        <input type="search" class="form-control " placeholder="Buscar..." aria-label="Search">
+      </form>
+
+      <div class="text-end">
+        <button sec:authorize="isAnonymous()" onclick="location.href='/login'" th:href="@{/login}" type="button" class="btn btn-outline-primary me-2">Acceder</button> <!-- onclick="location.href='login.html'" -->
+        <button sec:authorize="isAnonymous()" onclick="location.href='/registrarse'" type="button" class="btn btn-primary">Registrarse</button>
+        <button sec:authorize="isAuthenticated()" onclick="location.href='/logout'" type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Salir</button>
+      </div>
+    </header>
+  </div>
+
+  <div class="container-lg">
+    <h3>Estudiantes</h3>
+    <hr>
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellido</th>
+        <th scope="col">Institucion</th>
+      </tr>
+      </thead>
+      <tbody id="cuerpoTabla">
+      </tbody>
+    </table>
+  </div>
+  <!-- footer -->
+  <div class="container">
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+      <p class="col-md-4 mb-0 text-muted">&copy; 2022 Red de Investigadores</p>
+
+      <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+        <svg class="bi me-2" width="40" height="32"><use xlink:href="#logo"/></svg>
+      </a>
+
+      <ul class="nav col-md-4 justify-content-end">
+        <li sec:authorize="isAnonymous()" class="nav-item"><a th:href="@{index.html}" class="nav-link px-2 text-muted">Página principal</a></li>
+        <li sec:authorize="isAnonymous()" class="nav-item"><a th:href="@{login}" class="nav-link px-2 text-muted">Acceder</a></li>
+        <li sec:authorize="isAnonymous()" class="nav-item"><a th:href="@{registrarse}" class="nav-link px-2 text-muted">Registrarse</a></li>
+        <li sec:authorize="isAnonymous()" class="nav-item"><a th:href="@{faqs}" class="nav-link px-2 text-muted">FAQs</a></li>
+        <li sec:authorize="isAnonymous()" class="nav-item"><a th:href="@{sobreNosotros}" class="nav-link px-2 text-muted">Sobre nosotros</a></li>
+        <li sec:authorize="isAuthenticated()" class="nav-item"><a th:href="@{/user/}" class="nav-link px-2 text-muted">Página principal</a></li>
+        <li sec:authorize="isAuthenticated()" class="nav-item"><a th:href="@{/user/faqs}" class="nav-link px-2 text-muted">FAQs</a></li>
+        <li sec:authorize="isAuthenticated()" class="nav-item"><a th:href="@{/user/about-us}" class="nav-link px-2 text-muted">Sobre nosotros</a></li>
+      </ul>
+    </footer>
+  </div>
+  <script src="/js/students.js" th:src="@{/js/students.js}"></script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Base de Datos | Tabla Instituciones</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<div class="container-sm">
+  <nav class="navbar navbar-dark bg-dark fixed-top">
+    <div class="container-fluid text-center" >
+      <a class="navbar-brand" href="#">Red de Investigacion Base de Datos</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Tablas</h5>
+          <button type="button" class="btn-close btn-close-red" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/administrator/usuarios}">Usuarios</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link ">Articulos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link "th:href="@{/administrator/revistas}">Revistas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/administrator/proyectos}">Proyectos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/administrator/perfiles}">Perfiles</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" th:href="@{/administrator/instituciones}">Instituciones</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/administrator/areasTrabajo}">Areas de Trabajo</a>
+            </li>
+            <div class="container text-center">
+              <div class="row row-cols-5">
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col"><button type="button" class="btn btn-danger" onclick="location.href='@{/user/}'">Salir</button></div>
+              </div>
+            </div>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+<dix>
+    <h3>Agrega Institucion</h3>
+    <form action="#" th:action="@{/administrator/agrega_institucion}" th:object="${institucion}" method="post">
+      <label for="nombre">Nombre</label>
+      <input type="text" th:field="*{nombre}" id="nombre">
+      <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+      <label for="locacion">Locación</label>
+      <input type="text" th:field="*{locacion}" id="locacion" >
+      <span th:if="${#fields.hasErrors('locacion')}" th:errors="*{locacion}"></span>
+      <label for="usuarios">Usuarios</label>
+      <input type="text" th:field="*{cadenaUsuarios}" id="usuarios" placeholder="Separa los email con comas-">
+      <span th:if="${#fields.hasErrors('cadenaUsuarios')}" th:errors="*{cadenaUsuarios}"></span>
+      <input type="submit" value="Agregar institucion">
+    </form>
+</dix>
+<h3>Tabla Institucion</h3>
+<div th:switch="${instituciones}">
+  <h2 th:case="null">Aun no hay instituciones</h2>
+  <div th:case="*">
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Usuarios</th>
+        <th>Editar</th>
+        <th>Eliminar</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="institucion : ${instituciones}">
+        <td th:text="${institucion.id}"></td>
+        <td th:text="${institucion.nombre}"></td>
+        <td th:text="${institucion.usuarios}"></td>
+        <td><a th:href="@{/administrator/editar_institucion/{id}(id=${institucion.id})}">Editar</a></td>
+        <td><a th:href="@{/administrator/eliminar_institucion/{id}(id=${institucion.id})}">Eliminar</a></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>
