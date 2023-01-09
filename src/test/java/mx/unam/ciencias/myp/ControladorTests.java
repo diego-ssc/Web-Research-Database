@@ -32,6 +32,7 @@ import java.util.Optional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.LinkedList;
 import javax.persistence.*;
+import java.util.HashSet;
 
 
  @SpringBootTest
@@ -117,5 +118,23 @@ public class ControladorTests {
      
         assertTrue(controlador.getArticulos("nombre") == usuarios);
     }
+
+    @Test
+    public void testGetAutoresArticulo() {
+        Articulo articulo = new Articulo();
+        HashSet<Usuario> usuarios = new HashSet<Usuario>();
+        articulo.setUsuarios(usuarios);
+        Optional<Articulo> articuloOpt = Optional.of(articulo);
+        Optional<Articulo> vacio = Optional.empty();
+
+        org.mockito.Mockito.when(repoArticulo.findById(1234)).thenReturn(articuloOpt);
+        org.mockito.Mockito.when(repoArticulo.findById(1111)).thenReturn(vacio);
+
+     
+        assertTrue(controlador.getAutoresArticulo("1234") == usuarios);
+        assertTrue(controlador.getAutoresArticulo("1111") == null);
+
+    }
+
 
 }
