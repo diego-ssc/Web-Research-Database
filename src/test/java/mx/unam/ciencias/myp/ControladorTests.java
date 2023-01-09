@@ -55,6 +55,7 @@ public class ControladorTests {
 
     @MockBean
     RepositorioRevista repoRevista;
+    
 
 
     @Test
@@ -106,4 +107,15 @@ public class ControladorTests {
         }
         assertTrue(i == 100);
     }
+
+    @Test
+    public void testGetArticulosPorNombre() {
+        Institucion institucion = new Institucion();
+        LinkedList<Usuario> usuarios = new LinkedList<Usuario>();
+        institucion.setUsuarios(usuarios);
+        org.mockito.Mockito.when(repoInst.buscarPorNombre("nombre")).thenReturn(institucion);
+     
+        assertTrue(controlador.getArticulos("nombre") == usuarios);
+    }
+
 }
