@@ -21,7 +21,7 @@ public class Institucion {
     private String nombre;
 
     private String locacion;
-
+    
     @OneToMany(targetEntity=Usuario.class)
     @JsonBackReference
     private List<Usuario> usuarios = new ArrayList<>();

@@ -6,6 +6,7 @@ import java.util.HashSet;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  * Clase que representa la tabla de usuarios
  * en la base de datos.
@@ -27,7 +28,9 @@ public class Usuario {
     @JoinColumn(name = "institucion", referencedColumnName = "id_institucion")
     private Institucion institucion;
 
-    private String email;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "institucion", referencedColumnName = "nombre")
+    private Institucion institucion;
 
     private String contrasena;
 
@@ -83,6 +86,8 @@ public class Usuario {
             return false;
         return this.perfil.getDescripcion().equals(roleName.toLowerCase());
     }
+    
+    private String email;
 
     public Integer getId() {
         return id;

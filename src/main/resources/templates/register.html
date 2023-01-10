@@ -83,7 +83,20 @@
                 <input type="number" class="form-control" placeholder="Día" aria-label="dia" th:field="*{dia}" id="dia" min="1" max="31" required/>
               </div>
               <div class="col">
-                <input type="number" class="form-control" placeholder="Mes" aria-label="mes" th:field="*{mes}" id="mes" min="1" max="12"  required/>
+                  <select class="form-select" id="mes" th:field="*{mes}" >
+                      <option th:value="${1}">Enero</option>
+                      <option th:value="${2}">Febrero</option>
+                      <option th:value="${3}">Marzo</option>
+                      <option th:value="${4}">Abril</option>
+                      <option th:value="${5}">Mayo</option>
+                      <option th:value="${6}">Junio</option>
+                      <option th:value="${7}">Julio</option>
+                      <option th:value="${8}">Agosto</option>
+                      <option th:value="${9}">Septiembre</option>
+                      <option th:value="${10}">Octubre</option>
+                      <option th:value="${11}">Noviembre</option>
+                      <option th:value="${12}">Diciembre</option>
+                  </select>
               </div>
               <div class="col">
                 <input type="number" class="form-control" placeholder="Año" aria-label="año" th:field="*{ano}" id="ano" min="1900" max="2015" required/>

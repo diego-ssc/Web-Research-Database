@@ -64,10 +64,9 @@
                 <div class="col-12 mb-3">
                     <label for="autores" class="form-label">Email de Autores</label>
                     <div class="input-group">
-                        <span class="input-group-text" id="inputGroupPrepend2">[[${#request.userPrincipal.principal.email}]]</span>
                         <input type="text" class="form-control" id="autores"  aria-describedby="inputGroupPrepend2" th:field="*{cadenaUsuarios}" required>
                     </div>
-                    <div id="emailHelp" class="form-text">Separe por una coma y espacio a cada autor.</div>
+                    <div id="emailHelp" class="form-text">Separe por una coma y espacio a cada autor. Ej: [[${#request.userPrincipal.principal.email}]] </div>
                 </div>
 
                 <div class="col-6">
@@ -89,18 +88,18 @@
                 <div class="col-3">
                     <label for="mes" class="form-label">Mes</label>
                     <select class="form-select" id="mes" th:field="*{mes}" >
-                        <option th:value="${enero}">Enero</option>
-                        <option th:value="${febrero}">Febrero</option>
-                        <option th:value="${marzo}">Marzo</option>
-                        <option th:value="${abril}">Abril</option>
-                        <option th:value="${mayo}">Mayo</option>
-                        <option th:value="${junio}">Junio</option>
-                        <option th:value="${julio}">Julio</option>
-                        <option th:value="${agosto}">Agosto</option>
-                        <option th:value="${septiembre}">Septiembre</option>
-                        <option th:value="${octubre}">Octubre</option>
-                        <option th:value="${noviembre}">Noviembre</option>
-                        <option th:value="${diciembre}">Diciembre</option>
+                        <option th:value="${1}">Enero</option>
+                        <option th:value="${2}">Febrero</option>
+                        <option th:value="${3}">Marzo</option>
+                        <option th:value="${4}">Abril</option>
+                        <option th:value="${5}">Mayo</option>
+                        <option th:value="${6}">Junio</option>
+                        <option th:value="${7}">Julio</option>
+                        <option th:value="${8}">Agosto</option>
+                        <option th:value="${9}">Septiembre</option>
+                        <option th:value="${10}">Octubre</option>
+                        <option th:value="${11}">Noviembre</option>
+                        <option th:value="${12}">Diciembre</option>
                     </select>
                 </div>
 
