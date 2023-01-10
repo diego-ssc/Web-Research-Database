@@ -186,6 +186,12 @@ public class ControladorWeb {
         filepath+= "/redDeInvestigadores/";
 
         try {
+            Files.createDirectories(Paths.get(filepath));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        try {
             File uploadedFile = new File(filepath, fileName+".pdf");
             file.transferTo(uploadedFile);
         } catch (Exception e) {
@@ -375,6 +381,7 @@ public class ControladorWeb {
         model.addAttribute("mes",revista.getMes() );
         model.addAttribute("ano", revista.getAno());
         model.addAttribute("id", revista.getId());
+        model.addAttribute("listaArticulos", revista.getArticulos());
 
         return "revista.html";
     }
@@ -399,7 +406,7 @@ public class ControladorWeb {
         model.addAttribute("ano", proyecto.getAno());
         model.addAttribute("id", proyecto.getId());
 
-        return "article.html";
+        return "proyecto.html";
     }
 
     /**
