@@ -9,7 +9,7 @@
     <class>mx.unam.ciencias.myp.Usuario</class>
 
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/db_researchers"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://database:3306/db_researchers"/>
       <property name="javax.persistence.jdbc.user" value="springuser"/>
       <property name="javax.persistence.jdbc.password" value="ThePassword"/>
       <property name="eclipselink.logging.level" value="SEVERE"/>
@@ -23,7 +23,7 @@
     <class>mx.unam.ciencias.myp.Usuario</class>
       
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/db_researchers"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://database:3306/db_researchers"/>
       <property name="javax.persistence.jdbc.user" value="springuser"/>
       <property name="javax.persistence.jdbc.password" value="ThePassword"/>
       <property name="eclipselink.logging.level" value="SEVERE"/>
@@ -37,7 +37,7 @@
     <class>mx.unam.ciencias.myp.Revista</class>
 
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/db_researchers"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://database:3306/db_researchers"/>
       <property name="javax.persistence.jdbc.user" value="springuser"/>
       <property name="javax.persistence.jdbc.password" value="ThePassword"/>
       <property name="eclipselink.logging.level" value="SEVERE"/>
@@ -52,7 +52,7 @@
     <class>mx.unam.ciencias.myp.Proyecto</class>
 
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/db_researchers"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://database:3306/db_researchers"/>
       <property name="javax.persistence.jdbc.user" value="springuser"/>
       <property name="javax.persistence.jdbc.password" value="ThePassword"/>
       <property name="eclipselink.logging.level" value="SEVERE"/>
