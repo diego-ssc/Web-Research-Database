@@ -207,7 +207,7 @@ public class ControladorWeb {
      * @return la plantilla de respuesta
      *
      */
-    @PostMapping(path="/add_journal")
+    @PostMapping(path="/add_revista")
     public String agregaRevista(Revista revista) {
         String url = verificaRevista(revista);
         if (url != null)
@@ -233,7 +233,7 @@ public class ControladorWeb {
         emf.close();
 
         repositorioRevista.save(revista);
-        return "journal_added";
+        return "article_added";
     }
 
     private Set<Articulo> parseArticles(String cadenaArticulos) {
@@ -316,7 +316,7 @@ public class ControladorWeb {
 
         repositorioProyecto.save(proyecto);
 
-        return "project_added";
+        return "article_added";
     }
 
     private String verificaProyecto(Proyecto proyecto) {
