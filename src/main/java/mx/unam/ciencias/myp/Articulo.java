@@ -5,9 +5,9 @@ import java.util.Set;
 import java.util.HashSet;
 import java.io.Serializable;
 import org.springframework.web.multipart.MultipartFile; // subir Archivo
-
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  * Clase que representa la tabla de instituciones
  * en la base de datos.
@@ -47,7 +47,6 @@ public class Articulo {
     private String url;
 
     @Transient
-    // @Lob
     private MultipartFile archivo;
 
     @Transient

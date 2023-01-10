@@ -6,6 +6,7 @@ import java.util.HashSet;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  * Clase que representa la tabla de usuarios
  * en la base de datos.
@@ -26,8 +27,6 @@ public class Usuario {
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "institucion", referencedColumnName = "id_institucion")
     private Institucion institucion;
-
-    private String email;
 
     private String contrasena;
 
@@ -62,6 +61,10 @@ public class Usuario {
     @JoinColumn(name = "perfil", referencedColumnName = "id_perfil")
     private Perfil perfil;
 
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "area_trabajo", referencedColumnName = "id_area")
+    private AreaTrabajo areaTrabajo;
+
     @ManyToMany(mappedBy = "usuarios", fetch = FetchType.LAZY,
                 cascade = CascadeType.MERGE)
     @JsonManagedReference
@@ -82,6 +85,8 @@ public class Usuario {
             return false;
         return this.perfil.getDescripcion().equals(roleName.toLowerCase());
     }
+    
+    private String email;
 
     public Integer getId() {
         return id;
@@ -171,6 +176,14 @@ public class Usuario {
         this.perfil = perfil;
     }
 
+    public AreaTrabajo getAreaTrabajo() {
+        return areaTrabajo;
+    }
+
+    public void setAreaTrabajo(AreaTrabajo areaTrabajo) {
+        this.areaTrabajo = areaTrabajo;
+    }
+
     public String getPerfilString() {
         return perfilString;
     }
@@ -241,6 +254,14 @@ public class Usuario {
 
     public void setCadenaProyectos(String cadenaProyecto) {
         this.cadenaProyectos = cadenaProyectos;
+    }
+
+    public String getAreaTrabajoString() {
+        return areaTrabajoString;
+    }
+
+    public void setAreaTrabajoString(String areaTrabajoString) {
+        this.areaTrabajoString = areaTrabajoString;
     }
 
     /**
