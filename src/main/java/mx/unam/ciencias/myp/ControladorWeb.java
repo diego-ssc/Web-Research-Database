@@ -294,7 +294,7 @@ public class ControladorWeb {
      * @return la plantilla de respuesta
      *
      */
-    @PostMapping(path="/add_project")
+    @PostMapping(path="/add_proyecto")
     public String agregaProyecto(Proyecto proyecto) {
         String url = verificaProyecto(proyecto);
         if (url != null)
