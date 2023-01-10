@@ -74,6 +74,7 @@
     <div class="container-md">
       <p class="lead">Datos Personales:</p>
       <p th:text="'Perfil: '+${perfil}">
+      <p th:text="'Area de Trabajo'+${areaTrabajo}"></p>
       <p>Institucion: <a th:href="'http://localhost:8080/institucion?idInstitucion='+${idInstitucion}" th:text="${institucion}"></a></p>
       <p th:text="'Email: '+${email}"/>
       <p th:text="'Fecha de nacimiento: '+${fechaDeNacimiento}"/>

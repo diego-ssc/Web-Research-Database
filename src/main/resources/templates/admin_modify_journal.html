@@ -14,7 +14,7 @@
   <label for="usuarios">Usuarios</label>
   <input type="text" th:field="*{cadenaUsuarios}" id="usuarios" placeholder="Separa los email con comas-">
   <span th:if="${#fields.hasErrors('cadenaUsuarios')}" th:errors="*{cadenaUsuarios}"></span>
-  <label for="articulos">Revistas</label>
+  <label for="articulos">Articulos</label>
   <input type="text" th:field="*{cadenaArticulos}" id="articulos" placeholder="Separa los id de articulos por comas">
   <span th:if="${#fields.hasErrors('cadenaArticulos')}" th:errors="*{cadenaArticulos}"></span>
   <label for="mes">Mes</label>

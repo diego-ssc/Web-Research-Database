@@ -339,7 +339,7 @@ public class ControladorWeb {
                              (Integer.parseInt(idArticulo))).get();
         model.addAttribute("nombre", articulo.getNombre());
         model.addAttribute("descripcion", articulo.getDescripcion());
-        model.addAttribute("listaAutores", getAutoresArticulo(idArticulo));
+        model.addAttribute("listaAutores", articulo.getUsuarios());
         model.addAttribute("mes",articulo.getMes() );
         model.addAttribute("ano", articulo.getAno());
         model.addAttribute("url", articulo.getUrl());
@@ -377,7 +377,8 @@ public class ControladorWeb {
         Institucion institucionUsuario=usuario.getInstitucion();
         model.addAttribute("idInstitucion",institucionUsuario.getId());
         model.addAttribute("institucion", institucionUsuario.getNombre());
-
+        //AreaTrabajo areaTrabajoUsuario=usuario.getAreaTrabajo();
+        //model.addAttribute("areaTrabajo", areaTrabajoUsuario.getDescripcion());
         model.addAttribute("email", usuario.getEmail());
         model.addAttribute("fechaDeNacimiento", usuario.getFechaNacimiento());
         //model.addAttribute("dia", usuario.getDia());
@@ -742,10 +743,6 @@ public class ControladorWeb {
         return "busqueda.html";
     }
 
-    @GetMapping("/administrator")
-    public String administradorVista(){
-        return "administrator";
-    }
     /* Tabla Usuarios*/
     @GetMapping("/administrator/usuarios")
     public String administradorUsuarios(Model model) {
@@ -761,7 +758,7 @@ public class ControladorWeb {
             return administradorUsuarios(modelo);
 
         agregaUsuarioAdministrador(usuario);
-        return "redirect:/admin_users";
+        return administradorUsuarios(modelo);
     }
 
     @GetMapping("/administrator/editar_usuario/{id}")
@@ -777,12 +774,11 @@ public class ControladorWeb {
     public String administradorActualizaUsuario(@PathVariable("id") Integer id, @Valid Usuario usuario,
                                                 BindingResult resultado, Model modelo) {
         if (resultado.hasErrors()) {
-            usuario.setId(id);
             return muestraFormularioActualizacionUsuario(id, modelo);
         }
-
+        usuario.setId(id);
         agregaUsuarioAdministrador(usuario);
-        return "redirect:/administrator";
+        return administradorUsuarios(modelo);
     }
 
     private void agregaUsuarioAdministrador(Usuario usuario) {
@@ -810,7 +806,6 @@ public class ControladorWeb {
         usuario.setInstitucion(institucion);
         List<Usuario> lista = institucion.getUsuarios();
 
-        em.persist(usuario);
         institucion.agregaUsuario(usuario);
         institucion.setUsuarios(lista);
 
@@ -846,7 +841,7 @@ public class ControladorWeb {
         Usuario usuario = repositorioUsuario.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Id de usuario inválido:" + id));
         repositorioUsuario.delete(usuario);
-        return "redirect:/administrator";
+        return administradorUsuarios(model);
     }
 
     /* Tabla Artículos */
@@ -864,7 +859,7 @@ public class ControladorWeb {
             return muestraArticulos(modelo);
 
         agregaArticuloAdministrador(articulo);
-        return "redirect:/administrator";
+        return muestraArticulos(modelo);
     }
 
     @GetMapping("/administrator/editar_articulo/{id}")
@@ -880,12 +875,12 @@ public class ControladorWeb {
     public String administradorActualizaArticulo(@PathVariable("id") Integer id, @Valid Articulo articulo,
                                                 BindingResult resultado, Model modelo) {
         if (resultado.hasErrors()) {
-            articulo.setId(id);
+
             return muestraFormularioActualizacionArticulo(id, modelo);
         }
-
+        articulo.setId(id);
         agregaArticuloAdministrador(articulo);
-        return "redirect:/administrator";
+        return muestraArticulos(modelo);
     }
 
     private void agregaArticuloAdministrador(Articulo articulo) {
@@ -920,7 +915,7 @@ public class ControladorWeb {
         Articulo articulo = repositorioArticulo.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Id de artículo inválido:" + id));
         repositorioArticulo.delete(articulo);
-        return "redirect:/administrator";
+        return muestraArticulos(model);
     }
 
     /* Tabla Revistas */
@@ -938,7 +933,7 @@ public class ControladorWeb {
             return muestraRevistas(modelo);
 
         agregaRevistaAdministrador(revista);
-        return "redirect:/administrator";
+        return muestraRevistas(modelo);
     }
 
     @GetMapping("/administrator/editar_revista/{id}")
@@ -954,12 +949,11 @@ public class ControladorWeb {
     public String administradorActualizaRevista(@PathVariable("id") Integer id, @Valid Revista revista,
                                                 BindingResult resultado, Model modelo) {
         if (resultado.hasErrors()) {
-            revista.setId(id);
             return muestraFormularioActualizacionRevista(id, modelo);
         }
-
+        revista.setId(id);
         agregaRevistaAdministrador(revista);
-        return "redirect:/administrator";
+        return muestraRevistas(modelo);
     }
 
     private void agregaRevistaAdministrador(Revista revista) {
@@ -977,8 +971,6 @@ public class ControladorWeb {
         Set<Usuario> usuarios = parseUsers(cadenaUsuarios);
         for (Usuario u : usuarios)
             revista.agregaUsuario(u);
-
-        em.persist(revista);
         em.getTransaction().commit();
         em.close();
         emf.close();
@@ -991,7 +983,7 @@ public class ControladorWeb {
         Revista revista = repositorioRevista.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Id de revista inválido:" + id));
         repositorioRevista.delete(revista);
-        return "redirect:/administrator";
+        return muestraRevistas(model);
     }
 
     /* Tabla Proyectos */
@@ -1009,7 +1001,7 @@ public class ControladorWeb {
             return muestraProyectos(modelo);
 
         agregaProyecto(proyecto);
-        return "redirect:/administrator";
+        return muestraProyectos(modelo);
     }
 
     @GetMapping("/administrator/editar_proyecto/{id}")
@@ -1025,12 +1017,11 @@ public class ControladorWeb {
     public String administradorActualizaProyecto(@PathVariable("id") Integer id, @Valid Proyecto proyecto,
                                                 BindingResult resultado, Model modelo) {
         if (resultado.hasErrors()) {
-            proyecto.setId(id);
             return muestraFormularioActualizacionProyecto(id, modelo);
         }
-
+        proyecto.setId(id);
         agregaProyecto(proyecto);
-        return "redirect:/administrator";
+        return muestraProyectos(modelo);
     }
 
     private void agregaProyectoAdministrador(Proyecto proyecto) {
@@ -1057,7 +1048,7 @@ public class ControladorWeb {
         Proyecto proyecto = repositorioProyecto.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Id de proyecto inválido:" + id));
         repositorioProyecto.delete(proyecto);
-        return "redirect:/administrator";
+        return muestraProyectos(model);
     }
 
     /* Tabla Perfiles */
@@ -1075,7 +1066,7 @@ public class ControladorWeb {
             return muestraPerfiles(modelo);
 
         repositorioPerfil.save(perfil);
-        return "redirect:/administrator";
+        return muestraPerfiles(modelo);
     }
 
     @GetMapping("/administrator/editar_perfil/{id}")
@@ -1091,12 +1082,11 @@ public class ControladorWeb {
     public String administradorActualizaPerfil(@PathVariable("id") Integer id, @Valid Perfil perfil,
                                                  BindingResult resultado, Model modelo) {
         if (resultado.hasErrors()) {
-            perfil.setId(id);
             return muestraFormularioActualizacionPerfil(id, modelo);
         }
-
+        perfil.setId(id);
         repositorioPerfil.save(perfil);
-        return "redirect:/administrator";
+        return muestraPerfiles(modelo);
     }
 
     @GetMapping("/administrator/eliminar_perfil/{id}")
@@ -1104,7 +1094,7 @@ public class ControladorWeb {
         Perfil perfil = repositorioPerfil.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Id de perfil inválido:" + id));
         repositorioPerfil.delete(perfil);
-        return "redirect:/administrator";
+        return muestraPerfiles(model);
     }
 
     /* Tabla Instituciones */
@@ -1122,7 +1112,7 @@ public class ControladorWeb {
             return muestraInstituciones(modelo);
 
         agregaInstitucionAministrador(institucion);
-        return "redirect:/administrator";
+        return muestraInstituciones(modelo);
     }
 
     @GetMapping("/administrator/editar_institucion/{id}")
@@ -1138,12 +1128,11 @@ public class ControladorWeb {
     public String administradorActualizaInstitucion(@PathVariable("id") Integer id, @Valid Institucion institucion,
                                                  BindingResult resultado, Model modelo) {
         if (resultado.hasErrors()) {
-            institucion.setId(id);
             return muestraFormularioActualizacionInstitucion(id, modelo);
         }
-
+        institucion.setId(id);
         agregaInstitucionAministrador(institucion);
-        return "redirect:/administrator";
+        return muestraInstituciones(modelo);
     }
 
     private void agregaInstitucionAministrador(Institucion institucion) {
@@ -1156,7 +1145,6 @@ public class ControladorWeb {
         for (Usuario usuario : usuarios)
             institucion.agregaUsuario(usuario);
 
-        em.persist(institucion);
         em.getTransaction().commit();
         em.close();
         emf.close();
@@ -1168,7 +1156,7 @@ public class ControladorWeb {
         Institucion institucion = repositorioInstitucion.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Id de institución inválido:" + id));
         repositorioInstitucion.delete(institucion);
-        return "redirect:/administrator";
+        return muestraInstituciones(model);
     }
 
     /* Tabla AreaTrabajo */
@@ -1186,7 +1174,7 @@ public class ControladorWeb {
             return muestraAreasTrabajo(modelo);
 
         repositorioAreaTrabajo.save(areaTrabajo);
-        return "redirect:/administrator";
+        return muestraAreasTrabajo(modelo);
     }
 
     @GetMapping("/administrator/editar_areaTrabajo/{id}")
@@ -1202,12 +1190,11 @@ public class ControladorWeb {
     public String administradorActualizaAreaTrabajo(@PathVariable("id") Integer id, @Valid AreaTrabajo areaTrabajo,
                                                     BindingResult resultado, Model modelo) {
         if (resultado.hasErrors()) {
-            areaTrabajo.setId(id);
             return muestraFormularioActualizacionAreaTrabajo(id, modelo);
         }
-
+        areaTrabajo.setId(id);
         repositorioAreaTrabajo.save(areaTrabajo);
-        return "redirect:/administrator";
+        return muestraAreasTrabajo(modelo);
     }
 
     @GetMapping("/administrator/eliminar_areaTrabajo/{id}")
@@ -1215,6 +1202,6 @@ public class ControladorWeb {
         AreaTrabajo areaTrabajo = repositorioAreaTrabajo.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Id de área de trabajo inválido:" + id));
         repositorioAreaTrabajo.delete(areaTrabajo);
-        return "redirect:/administrator";
+        return muestraAreasTrabajo(model);
     }
 }

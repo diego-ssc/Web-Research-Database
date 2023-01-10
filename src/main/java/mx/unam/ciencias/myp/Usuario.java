@@ -52,6 +52,9 @@ public class Usuario {
     @Transient
     private String cadenaRevistas;
 
+    @Transient
+    private String areaTrabajoString;
+
     @Column(name = "fecha_nacimiento")
     private String fechaNacimiento;
 
@@ -226,6 +229,14 @@ public class Usuario {
 
     public String getCadenaProyectos() {
         return cadenaProyectos;
+    }
+
+    public String getAreaTrabajoString() {
+        return areaTrabajoString;
+    }
+
+    public void setAreaTrabajoString(String areaTrabajoString) {
+        this.areaTrabajoString = areaTrabajoString;
     }
 
     public void setCadenaProyectos(String cadenaProyecto) {
