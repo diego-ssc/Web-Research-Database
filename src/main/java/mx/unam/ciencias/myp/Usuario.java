@@ -28,10 +28,6 @@ public class Usuario {
     @JoinColumn(name = "institucion", referencedColumnName = "id_institucion")
     private Institucion institucion;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "institucion", referencedColumnName = "nombre")
-    private Institucion institucion;
-
     private String contrasena;
 
     private String dia;
