@@ -14,20 +14,27 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.context.event.EventListener;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import javax.sql.DataSource;
+import org.hibernate.Hibernate;
 
 @Configuration
 public class DatabaseLoader {
 
     private RepositorioPerfil repositorioPerfil;
     private RepositorioInstitucion repositorioInstitucion;
+    private RepositorioUsuario repositorioUsuario;
+    private RepositorioAreaTrabajo repositorioAreaTrabajo;
 
     @Autowired
     private DataSource dataSource;
 
     public DatabaseLoader(RepositorioPerfil repositorioPerfil,
-                          RepositorioInstitucion repositorioInstitucion) {
+                          RepositorioInstitucion repositorioInstitucion,
+                          RepositorioUsuario repositorioUsuario,
+                          RepositorioAreaTrabajo repositorioAreaTrabajo) {
         this.repositorioPerfil = repositorioPerfil;
         this.repositorioInstitucion = repositorioInstitucion;
+        this.repositorioUsuario = repositorioUsuario;
+        this.repositorioAreaTrabajo = repositorioAreaTrabajo;
     }
 
     @Bean
@@ -83,10 +90,32 @@ public class DatabaseLoader {
             Institucion faq = new Institucion
                 (21, "Facultad de Química", "México");
             repositorioInstitucion.saveAll(List.of(indefinidoInstitucion, fa, fad,
-                                                   fac, facps, fade, fae, fesac,
+                                                   fac, facps, faca, fade, fae, fesac,
                                                    fesar, fesc, fesiz, fesza, faf,
                                                    fai, fam, famvz, famu, fao, fap,
                                                    faq));
+
+            AreaTrabajo indefinidoArea = new AreaTrabajo(1, "Indefinido");
+            AreaTrabajo biologia = new AreaTrabajo(2, "Biología");
+            AreaTrabajo fisica = new AreaTrabajo(3, "Física");
+            AreaTrabajo cc = new AreaTrabajo(4, "Ciencias de la Computación");
+            AreaTrabajo matem = new AreaTrabajo(5, "Matemáticas");
+            AreaTrabajo actuaria = new AreaTrabajo(6, "Actuaría");
+            AreaTrabajo ct = new AreaTrabajo(7, "Ciencias de la Tierra");
+            AreaTrabajo fil = new AreaTrabajo(8, "Filosofía");
+            AreaTrabajo der = new AreaTrabajo(9, "Derecho");
+            AreaTrabajo psi = new AreaTrabajo(10, "Psicología");
+            AreaTrabajo med = new AreaTrabajo(11, "Medicina");
+            AreaTrabajo mus = new AreaTrabajo(12, "Música");
+            AreaTrabajo vet = new AreaTrabajo(13, "Veterinaria");
+            AreaTrabajo ing = new AreaTrabajo(14, "Ingeniería");
+            AreaTrabajo con = new AreaTrabajo(15, "Contaduría");
+            AreaTrabajo cp = new AreaTrabajo(16, "Ciencias Políticas y Sociales");
+            AreaTrabajo ar = new AreaTrabajo(17, "Arquitectura");
+            repositorioAreaTrabajo.saveAll(List.of(indefinidoArea, biologia,
+                                                   fisica, cc, matem, actuaria,
+                                                   ct, fil, der, psi, med, mus,
+                                                   vet, ing, con, cp, ar));
         };
     }
 
@@ -127,6 +156,15 @@ public class DatabaseLoader {
         ResourceDatabasePopulator revistas_usuarios = new ResourceDatabasePopulator
             (false, false, "UTF-8", new ClassPathResource("sql_scripts/revistas_usuarios.sql"));
         revistas_usuarios.execute(dataSource);
+    }
+
+    private void agregaArticulosUsuarios() {
+        Iterable<Usuario> usuarios = repositorioUsuario.findAll();
+        Institucion institucion;
+        for (Usuario u : usuarios) {
+            institucion = u.getInstitucion();
+            institucion.agregaUsuario(u);
+        }
     }
 
 }

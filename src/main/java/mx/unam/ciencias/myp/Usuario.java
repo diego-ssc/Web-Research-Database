@@ -59,6 +59,10 @@ public class Usuario {
     @JoinColumn(name = "perfil", referencedColumnName = "id_perfil")
     private Perfil perfil;
 
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "area_trabajo", referencedColumnName = "id_area")
+    private AreaTrabajo areaTrabajo;
+
     @ManyToMany(mappedBy = "usuarios", fetch = FetchType.LAZY,
                 cascade = CascadeType.MERGE)
     @JsonManagedReference
@@ -166,6 +170,14 @@ public class Usuario {
 
     public void setPerfil(Perfil perfil) {
         this.perfil = perfil;
+    }
+
+    public AreaTrabajo getAreaTrabajo() {
+        return areaTrabajo;
+    }
+
+    public void setAreaTrabajo(AreaTrabajo areaTrabajo) {
+        this.areaTrabajo = areaTrabajo;
     }
 
     public String getPerfilString() {
