@@ -3,7 +3,7 @@
 Ejecutar en el directorio raíz:
 
 ```plaintext
-maven compile
+mvn compile
 ```
 
 
@@ -81,7 +81,7 @@ Una vez completados todos los requerimientos para la ejecución con docker o loc
 ejecutar
 
 ```plaintext
-maven install
+mvn install
 ```
 
 
