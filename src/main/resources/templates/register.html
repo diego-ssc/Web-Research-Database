@@ -48,6 +48,14 @@
                     <input type="search" class="form-control " placeholder="Buscar..." aria-label="Search">
                 </form>
 
+                <div sec:authorize="isAuthenticated()" class="dropdown">
+                    <button class="dropbtn btn btn-outline-primary me-2">Añadir</button>
+                    <div class="dropdown-content">
+                        <a th:href="@{/user/addContribution}">Artículo</a>
+                        <a th:href="@{/user/addJournal}">Revista</a>
+                        <a th:href="@{/user/addProject}">Proyecto</a>
+                    </div>
+                </div>
                 <div class="text-end">
                     <button onclick="location.href='login'" type="button" class="btn btn-outline-primary me-2">Acceder</button>
                     <button onclick="location.href='registrarse'" type="button" class="btn btn-primary">Registrarse</button>

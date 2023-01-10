@@ -357,6 +357,51 @@ public class ControladorWeb {
         return "article.html";
     }
 
+
+    /**
+     * Método de consulta de Revistas.
+     * Devolverá la plantilla asociada a la revista a través del
+     * id correspondiente.
+     * @param idRevista El id del revista requerido
+     * @return La plantilla asociada
+     *
+     */
+    @GetMapping("/revista")
+    public String revista(@RequestParam(name = "idRevista", required=false) String idRevista, Model model){
+        Revista revista = (repositorioRevista.findById (Integer.parseInt(idRevista))).get();
+
+        model.addAttribute("nombre", revista.getNombre());
+        model.addAttribute("listaAutores", getAutoresRevista(idRevista));
+        model.addAttribute("mes",revista.getMes() );
+        model.addAttribute("ano", revista.getAno());
+        model.addAttribute("id", revista.getId());
+
+        return "revista.html";
+    }
+
+    /**
+     * Método de consulta de artículos.
+     * Devolverá la plantilla asociada al artículo a través del
+     * id correspondiente.
+     * @param idArticulo El id del artículo requerido
+     * @return La plantilla asociada
+     *
+     */
+    @GetMapping("/proyecto")
+    public String proyecto(@RequestParam(name = "idProyecto", required=false)
+                          String idProyecto, Model model){
+        Proyecto proyecto = (repositorioProyecto.findById
+                             (Integer.parseInt(idProyecto))).get();
+        model.addAttribute("nombre", proyecto.getNombre());
+        model.addAttribute("descripcion", proyecto.getDescripcion());
+        model.addAttribute("listaAutores", getAutoresProyecto(idProyecto));
+        model.addAttribute("mes",proyecto.getMes() );
+        model.addAttribute("ano", proyecto.getAno());
+        model.addAttribute("id", proyecto.getId());
+
+        return "article.html";
+    }
+
     /**
      * Método de consulta de usuarios.
      * Devolverá la plantilla asociada al usuario a través del
@@ -543,6 +588,18 @@ public class ControladorWeb {
         return "addContribution";
     }
 
+    @GetMapping(path="/user/addJournal")
+    public String addJournal(Model model) {
+        model.addAttribute("revista", new Revista());
+        return "addJournal";
+    }
+
+    @GetMapping(path="/user/addProject")
+    public String addProject(Model model) {
+        model.addAttribute("proyecto", new Proyecto());
+        return "addProject";
+    }
+
     @CrossOrigin
     @GetMapping(path="/autores_articulos")
     public @ResponseBody Iterable<Usuario> getAutoresArticulo
@@ -551,6 +608,31 @@ public class ControladorWeb {
             findById(Integer.parseInt(idArticulo));
         if (articulo.isPresent()) {
             return articulo.get().getUsuarios();
+        }
+        return null;
+    }
+
+
+    @CrossOrigin
+    @GetMapping(path="/autores_proyectos")
+    public @ResponseBody Iterable<Usuario> getAutoresProyecto
+        (@RequestParam String idProyecto) {
+        Optional<Proyecto> proyecto = repositorioProyecto.
+            findById(Integer.parseInt(idProyecto));
+        if (proyecto.isPresent()) {
+            return proyecto.get().getUsuarios();
+        }
+        return null;
+    }
+
+    @CrossOrigin
+    @GetMapping(path="/autores_revistas")
+    public @ResponseBody Iterable<Usuario> getAutoresRevista
+        (@RequestParam String idRevista) {
+        Optional<Revista> revista = repositorioRevista.
+            findById(Integer.parseInt(idRevista));
+        if (revista.isPresent()) {
+            return revista.get().getUsuarios();
         }
         return null;
     }
@@ -646,13 +728,20 @@ public class ControladorWeb {
         return null;
     }
 
-
     @CrossOrigin
     @GetMapping(path="/proyectos_query")
     public @ResponseBody Iterable<Proyecto> getProyectosQuery (@RequestParam String query){
         List<Proyecto> proyectos = new ArrayList<>();
         proyectos = repositorioProyecto.buscarProyectosPorNombre(query);
         return proyectos;
+    }
+
+    @CrossOrigin
+    @GetMapping(path="/revistas_query")
+    public @ResponseBody Iterable<Revista> getRevistaQuery (@RequestParam String query){
+        List<Revista> revistas = new ArrayList<>();
+        revistas = repositorioRevista.buscarRevistasPorNombre(query);
+        return revistas;
     }
 
     public Articulo inserta(Articulo articulo) {
