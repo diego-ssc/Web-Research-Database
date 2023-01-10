@@ -11,5 +11,5 @@ import java.util.List;
 @Repository("repositoriorevista")
 public interface RepositorioRevista extends CrudRepository<Revista, Serializable> {
     @Query("SELECT r FROM Revista r WHERE r.nombre LIKE %?1%")
-    public List<Revista> buscarPorNombre(String nombre);
+    public List<Revista> buscarRevistasPorNombre(String nombre);
 }

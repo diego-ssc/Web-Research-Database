@@ -36,6 +36,8 @@ public class Proyecto implements Serializable {
 
     private String ano;
 
+    private String descripcion;
+
     @Transient
     private String cadenaUsuarios;
 
@@ -85,6 +87,14 @@ public class Proyecto implements Serializable {
 
     public void setAno(String ano) {
         this.ano = ano;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public void agregaUsuario(Usuario usuario) {
