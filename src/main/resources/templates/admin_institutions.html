@@ -61,13 +61,13 @@
     <h3>Agrega Institucion</h3>
     <form action="#" th:action="@{/administrator/agrega_institucion}" th:object="${institucion}" method="post">
       <label for="nombre">Nombre</label>
-      <input type="text" th:field="*{nombre}" id="nombre">
+      <input type="text" th:field="*{nombre}" id="nombre" required>
       <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
       <label for="locacion">Locación</label>
-      <input type="text" th:field="*{locacion}" id="locacion" >
+      <input type="text" th:field="*{locacion}" id="locacion" required>
       <span th:if="${#fields.hasErrors('locacion')}" th:errors="*{locacion}"></span>
       <label for="usuarios">Usuarios</label>
-      <input type="text" th:field="*{cadenaUsuarios}" id="usuarios" placeholder="Separa los email con comas-">
+      <input type="text" th:field="*{cadenaUsuarios}" id="usuarios" placeholder="Separa los email con comas." required>
       <span th:if="${#fields.hasErrors('cadenaUsuarios')}" th:errors="*{cadenaUsuarios}"></span>
       <input type="submit" value="Agregar institucion">
     </form>

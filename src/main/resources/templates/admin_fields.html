@@ -47,7 +47,7 @@
               <div class="row row-cols-5">
                 <div class="col"></div>
                 <div class="col"></div>
-                <div class="col"><button type="button" class="btn btn-danger" onclick="location.href='@{/user/}'">Salir</button></div>
+                <div class="col"><button type="button" class="btn btn-danger" onclick="location.href='@{../../user/}'">Salir</button></div>
               </div>
             </div>
 
@@ -61,7 +61,7 @@
   <h3>Agrega Area de Trabajo</h3>
   <form action="#" th:action="@{/administrator/agrega_areaTrabajo}" th:object="${areaTrabajo}" method="post">
     <label for="descripcion">Descripciopn</label>
-    <input type="text" th:field="*{descripcion}" id="descripcion">
+    <input type="text" th:field="*{descripcion}" id="descripcion" required>
     <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
     <input type="submit" value="Agrega area de trabajo">
   </form>

@@ -61,16 +61,16 @@
     <h3>Agrega proyecto</h3>
     <form action="#" th:action="@{/administrator/agrega_proyecto}" th:object="${proyecto}" method="post">
         <label for="nombre">Nombre</label>
-        <input type="text" th:field="*{nombre}" id="nombre" placeholder="Nombre">
+        <input type="text" th:field="*{nombre}" id="nombre" placeholder="Nombre" required>
         <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
         <label for="usuarios">Usuarios</label>
-        <input type="text" th:field="*{cadenaUsuarios}" id="usuarios" placeholder="Separa los email con comas-">
+        <input type="text" th:field="*{cadenaUsuarios}" id="usuarios" placeholder="Separa los email con comas" required>
         <span th:if="${#fields.hasErrors('cadenaUsuarios')}" th:errors="*{cadenaUsuarios}"></span>
         <label for="mes">Mes</label>
-        <input type="number" th:field="*{mes}" id="mes" placeholder="1" min="1" max="12">
+        <input type="number" th:field="*{mes}" id="mes" placeholder="1" min="1" max="12" required>
         <span th:if="${#fields.hasErrors('mes')}" th:errors="*{mes}"></span>
         <label for="ano">Año</label>
-        <input type="number" th:field="*{ano}" id="ano" placeholder="1999" max="2023">
+        <input type="number" th:field="*{ano}" id="ano" placeholder="1999" max="2023" required>
         <span th:if="${#fields.hasErrors('ano')}" th:errors="*{ano}"></span>
         <input type="submit" value="Agregar proyecto">
     </form>

@@ -60,40 +60,40 @@
 <h3>Agrega usuarios</h3>
 <form action="#" th:action="@{/administrator/agrega_usuario}" th:object="${usuario}" method="post">
   <label for="nombre">Nombre</label>
-  <input type="text" th:field="*{nombre}" id="nombre" >
+  <input type="text" th:field="*{nombre}" id="nombre" requiered >
   <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
   <label for="apellido">Apellido</label>
-  <input type="text" th:field="*{apellido}" id="apellido" >
+  <input type="text" th:field="*{apellido}" id="apellido" requiered>
   <span th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></span>
   <label for="institucion">Institucion</label>
-  <input type="number" th:field="*{institucionString}" id="institucion"  min="1">
+  <input type="number" th:field="*{institucionString}" id="institucion"  min="1" requiered>
   <span th:if="${#fields.hasErrors('institucionString')}" th:errors="*{institucionString}"></span>
   <label for="email">Email</label>
-  <input type="email" th:field="*{email}" id="email">
+  <input type="email" th:field="*{email}" id="email" requiered>
   <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
   <label for="contrasena">Constraseña</label>
-  <input type="password" th:field="*{contrasena}" id="contrasena" >
+  <input type="password" th:field="*{contrasena}" id="contrasena" requiered >
   <span th:if="${#fields.hasErrors('contrasena')}" th:errors="*{contrasena}"></span>
   <label for="dia">Dia</label>
-  <input type="number" th:field="*{dia}" id="dia" placeholder="1" min="1" max="31">
+  <input type="number" th:field="*{dia}" id="dia" placeholder="1" min="1" max="31" requiered>
   <span th:if="${#fields.hasErrors('mes')}" th:errors="*{mes}"></span>
   <label for="mes">Mes</label>
-  <input type="number" th:field="*{mes}" id="mes" placeholder="1" min="1" max="12">
+  <input type="number" th:field="*{mes}" id="mes" placeholder="1" min="1" max="12" requiered>
   <span th:if="${#fields.hasErrors('mes')}" th:errors="*{mes}"></span>
   <label for="ano">Año</label>
-  <input type="number" th:field="*{ano}" id="ano" placeholder="1999" max="2023">
+  <input type="number" th:field="*{ano}" id="ano" placeholder="1900" min="1900" max="2023" requiered>
   <span th:if="${#fields.hasErrors('ano')}" th:errors="*{ano}"></span>
   <label for="perfil">Perfil</label>
-  <input type="number" th:field="*{perfilString}" id="perfil" min="1" max="5" placeholder="1">
+  <input type="number" th:field="*{perfilString}" id="perfil" min="1" max="4" placeholder="1" requiered>
   <span th:if="${#fields.hasErrors('perfilString')}" th:errors="*{perfilString}"></span>
   <label for="articulos">Articulos</label>
-  <input type="text" th:field="*{cadenaArticulos}" id="articulos" placeholder="Separa los id por comas" >
+  <input type="text" th:field="*{cadenaArticulos}" id="articulos" placeholder="Separa los id por comas." requiered >
   <span th:if="${#fields.hasErrors('cadenaArticulos')}" th:errors="*{cadenaArticulos}"></span>
   <label for="proyectos">Proyectos</label>
-  <input type="text" th:field="*{cadenaProyectos}" id="proyectos" placeholder="Separa los id por comas" >
+  <input type="text" th:field="*{cadenaProyectos}" id="proyectos" placeholder="Separa los id por comas." requiered >
   <span th:if="${#fields.hasErrors('cadenaProyectos')}" th:errors="*{cadenaProyectos}"></span>
   <label for="revistas">Revistas</label>
-  <input type="text" th:field="*{cadenaRevistas}" id="revistas" placeholder="Separa los id por comas" >
+  <input type="text" th:field="*{cadenaRevistas}" id="revistas" placeholder="Separa los id por comas" requiered>
   <span th:if="${#fields.hasErrors('cadenaRevistas')}" th:errors="*{cadenaRevistas}"></span>
   <input type="submit" value="Agregar usuario">
 
@@ -111,13 +111,11 @@
         <th>Institucion</th>
         <th>Email</th>
         <th>Contraseña</th>
-        <th>Dia</th>
-        <th>Mes</th>
-        <th>Año</th>
+        <th>Fecha de Nacimiento</th>
         <th>Perfil</th>
-        <th>Articulos</th>
-        <th>Proyectos</th>
-        <th>Revistas</th>
+        <th>Articulos[ID]</th>
+        <th>Proyectos[ID]</th>
+        <th>Revistas[ID]</th>
       </tr>
       </thead>
       <tbody>
@@ -128,9 +126,7 @@
         <td th:text="${usuario.institucion.nombre}"></td>
         <td th:text="${usuario.email}"></td>
         <td th:text="${usuario.contrasena}"></td>
-        <td th:text="${usuario.dia}"></td>
-        <td th:text="${usuario.mes}"></td>
-        <td th:text="${usuario.ano}"></td>
+        <td th:text="${usuario.fechaNacimiento}"></td>
         <td th:text="${usuario.perfil.descripcion}"></td>
         <td th:text="${usuario.articulos}"></td>
         <td th:text="${usuario.proyectos}"></td>

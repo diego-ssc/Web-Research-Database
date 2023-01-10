@@ -262,6 +262,6 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return this.id + "::" + this.nombre;
+        return this.id.toString();
     }
 }

@@ -90,7 +90,6 @@
     </div>
 
     <div class="container-xl">
-        <iframe th:src="@{/view-pdf/{fileName}(fileName=${nombre}+${id})}" width="100%" height="800"></iframe>
         <a     th:href="@{/download/{fileName}(fileName=${nombre}+${id})}" target="_blank" class="btn btn-dark">Descargar</a>
     </div>
 

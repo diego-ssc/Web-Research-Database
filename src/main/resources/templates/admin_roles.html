@@ -61,7 +61,7 @@
   <h3>Agrega perfiles</h3>
   <form action="#" th:action="@{/administrator/agrega_perfil}" th:object="${perfil}" method="post">
     <label for="descripcion">Descripciopn</label>
-    <input type="text" th:field="*{descripcion}" id="descripcion">
+    <input type="text" th:field="*{descripcion}" id="descripcion" required>
     <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
     <input type="submit" value="Agrega area de trabajo">
   </form>

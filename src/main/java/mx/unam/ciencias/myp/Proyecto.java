@@ -106,4 +106,9 @@ public class Proyecto implements Serializable {
         usuarios.remove(usuario);
         usuario.getProyectos().remove(this);
     }
+
+    @Override
+    public String toString(){
+        return this.id.toString();
+    }
 }
