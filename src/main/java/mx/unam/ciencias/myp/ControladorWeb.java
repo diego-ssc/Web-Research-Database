@@ -186,6 +186,12 @@ public class ControladorWeb {
         filepath+= "/redDeInvestigadores/";
 
         try {
+            Files.createDirectories(Paths.get(filepath));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        try {
             File uploadedFile = new File(filepath, fileName+".pdf");
             file.transferTo(uploadedFile);
         } catch (Exception e) {
@@ -201,7 +207,7 @@ public class ControladorWeb {
      * @return la plantilla de respuesta
      *
      */
-    @PostMapping(path="/add_journal")
+    @PostMapping(path="/add_revista")
     public String agregaRevista(Revista revista) {
         String url = verificaRevista(revista);
         if (url != null)
@@ -227,7 +233,7 @@ public class ControladorWeb {
         emf.close();
 
         repositorioRevista.save(revista);
-        return "journal_added";
+        return "article_added";
     }
 
     private Set<Articulo> parseArticles(String cadenaArticulos) {
@@ -288,7 +294,7 @@ public class ControladorWeb {
      * @return la plantilla de respuesta
      *
      */
-    @PostMapping(path="/add_project")
+    @PostMapping(path="/add_proyecto")
     public String agregaProyecto(Proyecto proyecto) {
         String url = verificaProyecto(proyecto);
         if (url != null)
@@ -310,7 +316,7 @@ public class ControladorWeb {
 
         repositorioProyecto.save(proyecto);
 
-        return "project_added";
+        return "article_added";
     }
 
     private String verificaProyecto(Proyecto proyecto) {
@@ -375,6 +381,7 @@ public class ControladorWeb {
         model.addAttribute("mes",revista.getMes() );
         model.addAttribute("ano", revista.getAno());
         model.addAttribute("id", revista.getId());
+        model.addAttribute("listaArticulos", revista.getArticulos());
 
         return "revista.html";
     }
@@ -399,7 +406,7 @@ public class ControladorWeb {
         model.addAttribute("ano", proyecto.getAno());
         model.addAttribute("id", proyecto.getId());
 
-        return "article.html";
+        return "proyecto.html";
     }
 
     /**

@@ -139,7 +139,7 @@ function getAllRevistas(){
                         <div class="card-body">
                             <h5 class="card-title">${revista.nombre}</h5>
                             <p class="card-text">${nombres}</p>
-                            <a href="http://localhost:8080/revista?idRevista=${revista.idArticulo}" class="btn btn-dark">Ir a Revista</a>
+                            <a href="http://localhost:8080/revista?idRevista=${revista.id}" class="btn btn-dark">Ir a Revista</a>
                         </div>
                     </div>
                 </div>
@@ -172,7 +172,7 @@ function getAllProyectos(){
                         <div class="card-body">
                             <h5 class="card-title">${proyecto.nombre}</h5>
                             <p class="card-text">${proyecto.descripcion}</p>
-                            <a href="http://localhost:8080/proyecto?idProyecto=${proyecto.idProyecto}" class="btn btn-dark">Ir al proyecto</a>
+                            <a href="http://localhost:8080/proyecto?idProyecto=${proyecto.id}" class="btn btn-dark">Ir al proyecto</a>
                         </div>
                         <div class="card-footer">
                             <small class="text-muted">Fecha de publicacion: ${proyecto.mes}/${proyecto.ano}</small>
@@ -210,7 +210,7 @@ function getArticulos( query ){
                         <div class="card-body">
                             <h5 class="card-title">${articulo.nombre}</h5>
                             <p class="card-text">${articulo.descripcion}</p>
-                            <a href="http://localhost:8080/article?idArticulo=${articulo.idArticulo}" class="btn btn-dark">Ir al articulo</a>
+                            <a href="http://localhost:8080/article?idArticulo=${articulo.id}" class="btn btn-dark">Ir al articulo</a>
                         </div>
                         <div class="card-footer">
                             <small class="text-muted">Fecha de publicacion: ${articulo.mes}/${articulo.ano}</small>
@@ -289,6 +289,7 @@ function getRevistas(){
     var url = 'http://localhost:8080/revistas_query?query=' + getParameter("q");
     fetch(url)
         .then(function(respuesta){
+            console.log(respuesta);
             return respuesta.json();
         })
         .then(function(revistas){
@@ -297,19 +298,15 @@ function getRevistas(){
 
             // Añade cada artículo al HTML
             for(let revista of revistas){
-                var usuarios = "";
-                var nombres = "";
-                for(let articulo of revista.articulos){
-                    usuarios += articulo.usuarios+", ";
-                    nombres += articulo.nombre+", ";
-                }
                 out += `
                 <div class="col">
                     <div class="card border-dark mb-3">
                         <div class="card-body">
                             <h5 class="card-title">${revista.nombre}</h5>
-                            <p class="card-text">${nombres}</p>
-                            <a href="http://localhost:8080/revista?idRevista=${revista.idArticulo}" class="btn btn-dark">Ir a Revista</a>
+                            <a href="http://localhost:8080/revista?idRevista=${revista.id}" class="btn btn-dark">Ir a Revista</a>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Fecha de publicacion: ${revista.mes}/${revista.ano}</small>
                         </div>
                     </div>
                 </div>
@@ -343,7 +340,7 @@ function getProyectos( query ){
                         <div class="card-body">
                             <h5 class="card-title">${proyecto.nombre}</h5>
                             <p class="card-text">${proyecto.descripcion}</p>
-                            <a href="http://localhost:8080/proyecto?idProyecto=${proyecto.idProyecto}" class="btn btn-dark">Ir al proyecto</a>
+                            <a href="http://localhost:8080/proyecto?idProyecto=${proyecto.id}" class="btn btn-dark">Ir al proyecto</a>
                         </div>
                         <div class="card-footer">
                             <small class="text-muted">Fecha de publicacion: ${proyecto.mes}/${proyecto.ano}</small>

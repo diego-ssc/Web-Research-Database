@@ -49,10 +49,9 @@
         <li sec:authorize="isAuthenticated()"><a th:href="@{/user/profile}" class="nav-link px-2 link-dark">Perfil</a></li>
       </ul>
 
-      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-        <input type="search" class="form-control " placeholder="Buscar..." aria-label="Search">
+      <form action="#" th:action="@{/busqueda}" method="get" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+          <input type="search" name="q" class="form-control " placeholder="Buscar..." aria-label="Search">
       </form>
-
       <div sec:authorize="isAuthenticated()" class="dropdown">
           <button class="dropbtn btn btn-outline-primary me-2">Añadir</button>
           <div class="dropdown-content">
