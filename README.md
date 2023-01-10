@@ -44,7 +44,7 @@ spring.datasource.url=jdbc:mysql://${MYSQL_HOST:localhost}:3306/db_researchers
 javax.persistence.jdbc.url=jdbc:mysql://${MYSQL_HOST:localhost}:3306/db_researchers
 ```
 
-junto con la prueba unitaria mencionada.
+junto con la prueba unitaria mencionada, para la ejecución con localhost.
 
 
 Por último, en el archivo `/src/main/resources/META-INF/persistence.xml`:
@@ -124,7 +124,7 @@ java -jar target/myp-0.0.1-SNAPSHOT.jar
 En ambos casos, la aplicación se abrirá en `http://localhost:8080/`.
 
 # Uso
-Se presentará una página principal con submenús que contienen
+Se presentará una página con submenús que contienen
 la información de los estudiantes, investigadores, instituciones
 y artículos registrados en la base de datos de la aplicación.
 Además de páginas de información que incluyen preguntas frecuentes

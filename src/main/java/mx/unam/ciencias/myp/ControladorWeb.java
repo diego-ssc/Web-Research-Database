@@ -451,12 +451,16 @@ public class ControladorWeb {
             (Integer.parseInt(usuario.getPerfilString()));
         Optional<Institucion> institucionOpt = repositorioInstitucion.findById
             (Integer.parseInt(usuario.getInstitucionString()));
+        Optional<AreaTrabajo> areaOpt = repositorioAreaTrabajo.findById
+            (Integer.parseInt(usuario.getAreaTrabajoString()));
 
         Perfil perfil = perfilOpt.get();
         Institucion institucion = institucionOpt.get();
-
+        AreaTrabajo area = areaOpt.get();
+        
         usuario.setPerfil(perfil);
         usuario.setInstitucion(institucion);
+        usuario.setAreaTrabajo(area);
         List<Usuario> lista = institucion.getUsuarios();
 
         em.persist(usuario);
@@ -802,12 +806,16 @@ public class ControladorWeb {
             (Integer.parseInt(usuario.getPerfilString()));
         Optional<Institucion> institucionOpt = repositorioInstitucion.findById
             (Integer.parseInt(usuario.getInstitucionString()));
+        Optional<AreaTrabajo> areaOpt = repositorioAreaTrabajo.findById
+            (Integer.parseInt(usuario.getAreaTrabajoString()));
 
         Perfil perfil = perfilOpt.get();
         Institucion institucion = institucionOpt.get();
-
+        AreaTrabajo area = areaOpt.get();
+        
         usuario.setPerfil(perfil);
         usuario.setInstitucion(institucion);
+        usuario.setAreaTrabajo(area);
         List<Usuario> lista = institucion.getUsuarios();
 
         em.persist(usuario);

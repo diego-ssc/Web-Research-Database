@@ -16,7 +16,7 @@ import java.util.Optional;
  */
 public class InformacionUsuario implements UserDetails {
     private Usuario usuario;
-    
+
     public InformacionUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
@@ -25,7 +25,7 @@ public class InformacionUsuario implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(usuario.getPerfil().getDescripcion()));
-        
+
         return authorities;
     }
 
@@ -58,7 +58,7 @@ public class InformacionUsuario implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-	
+
     public String getFullName() {
         return usuario.getNombre() + " " + usuario.getApellido();
     }
@@ -86,5 +86,11 @@ public class InformacionUsuario implements UserDetails {
 
     public boolean hasRole(String roleName) {
         return this.usuario.hasRole(roleName);
+    }
+
+    public String getAreaTrabajo() {
+        String s = (usuario.getAreaTrabajo()).getDescripcion();
+        String t = s.substring(0, 1).toUpperCase() + s.substring(1);
+        return t;
     }
 }
