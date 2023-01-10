@@ -997,4 +997,4 @@ insert into usuarios (id_usuario, nombre, apellido, email, contrasena, instituci
 insert into usuarios (id_usuario, nombre, apellido, email, contrasena, institucion, fecha_nacimiento, perfil, area_trabajo) values (997, 'Flynn', 'Clemmen', 'fclemmenro@hexun.com', 'WHOTV3T', 13, '6/3/1939', 2, 12);
 insert into usuarios (id_usuario, nombre, apellido, email, contrasena, institucion, fecha_nacimiento, perfil, area_trabajo) values (998, 'Yevette', 'Ruddom', 'yruddomrp@mlb.com', 'fSkdbqv1qAF', 2, '6/22/1925', 3, 5);
 insert into usuarios (id_usuario, nombre, apellido, email, contrasena, institucion, fecha_nacimiento, perfil, area_trabajo) values (999, 'Paddy', 'Bougen', 'pbougenrq@mit.edu', 'IRIKVBnOX', 11, '5/14/1990', 3, 6);
-insert into usuarios (id_usuario, nombre, apellido, email, contrasena, institucion, fecha_nacimiento, perfil, area_trabajo) values (1000, 'Lina', 'Kikke', 'lkikkerr@theguardian.com', 'H2mvtYpq7yl', 14, '4/17/1979', 2, 16);
+insert into usuarios (id_usuario, nombre, apellido, email, contrasena, institucion, fecha_nacimiento, perfil, area_trabajo) values (1000, 'admin', 'admin', 'admin@ciencias.com', 'H2mvtYpq7yl', 14, '4/17/1979', 4, 16);
