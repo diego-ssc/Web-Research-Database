@@ -114,6 +114,27 @@ docker-compose down
 ```
 detendrá el contenedor creado para la aplicación.
 
+```plaintext
+docker ps
+```
+
+Mostrará los contenedores en ejecución.
+
+Para acceder a la base de datos, se tendrá que ejecutar
+```plaintext
+docker exec -it [identificador] bash
+```
+Donde el identificador son los primeros tres carácteres mostrados en
+el campo id del contenedor `mysql`.
+
+Ingresar 
+```plaintext
+mysql -uspringuser -pThePassword
+use db_researchers;
+```
+para autenticarse como usuario de mysql y acceder a la base de datos,
+respectivamente.
+
 ## Ejecución en `localhost`
 
 Ejecutar en el directorio raíz:
@@ -190,5 +211,12 @@ Para ejecutarla se tendrá que ejecutar el comnado:
 ```plaintext
 java -jar target/administrator-0.0.1-SNAPSHOT.jar
 ```
+La aplicación se abrirá en `http://localhost:8081/`. Se mostrará
+un formulario de inicio de sesión, el acceso se hará con
+```plaintext
+usuario : admin
+contraseña : admin
+```
+
 
 (Es necesario ejecutar la aplicación de la Red de Investigadores para monitorizar sus recursos).
