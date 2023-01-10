@@ -244,6 +244,14 @@ public class Usuario {
         return cadenaProyectos;
     }
 
+    public String getAreaTrabajoString() {
+        return areaTrabajoString;
+    }
+
+    public void setAreaTrabajoString(String areaTrabajoString) {
+        this.areaTrabajoString = areaTrabajoString;
+    }
+
     public void setCadenaProyectos(String cadenaProyecto) {
         this.cadenaProyectos = cadenaProyectos;
     }
@@ -275,6 +283,6 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return this.id + "::" + this.nombre;
+        return this.id.toString();
     }
 }

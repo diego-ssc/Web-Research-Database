@@ -36,6 +36,8 @@ public class Proyecto implements Serializable {
 
     private String ano;
 
+    private String descripcion;
+
     @Transient
     private String cadenaUsuarios;
 
@@ -87,6 +89,14 @@ public class Proyecto implements Serializable {
         this.ano = ano;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     public void agregaUsuario(Usuario usuario) {
         usuarios.add(usuario);
         usuario.getProyectos().add(this);
@@ -95,5 +105,10 @@ public class Proyecto implements Serializable {
     public void eliminaUsuario(Usuario usuario) {
         usuarios.remove(usuario);
         usuario.getProyectos().remove(this);
+    }
+
+    @Override
+    public String toString(){
+        return this.id.toString();
     }
 }

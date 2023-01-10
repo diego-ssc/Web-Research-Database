@@ -39,4 +39,8 @@ public class AreaTrabajo {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
+    public String toString(){
+        return descripcion;
+    }
 }

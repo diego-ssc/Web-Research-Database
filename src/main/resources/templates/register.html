@@ -48,6 +48,14 @@
                     <input type="search" class="form-control " placeholder="Buscar..." aria-label="Search">
                 </form>
 
+                <div sec:authorize="isAuthenticated()" class="dropdown">
+                    <button class="dropbtn btn btn-outline-primary me-2">Añadir</button>
+                    <div class="dropdown-content">
+                        <a th:href="@{/user/addContribution}">Artículo</a>
+                        <a th:href="@{/user/addJournal}">Revista</a>
+                        <a th:href="@{/user/addProject}">Proyecto</a>
+                    </div>
+                </div>
                 <div class="text-end">
                     <button onclick="location.href='login'" type="button" class="btn btn-outline-primary me-2">Acceder</button>
                     <button onclick="location.href='registrarse'" type="button" class="btn btn-primary">Registrarse</button>
@@ -130,6 +138,25 @@
                     <option th:value="${20}">Facultad de Psicología</option>
                     <option th:value="${21}">Facultad de Química</option>
                 </select>
+              <select th:field="*{areaTrabajoString}" class="form-select" aria-label="select areaTrabajo" required >
+                  <option value="" selected>Area de Trabajo</option>
+                  <option th:value="${2}">Biologia</option>
+                  <option th:value="${3}">Fisica</option>
+                  <option th:value="${4}">Ciencias de la Computación</option>
+                  <option th:value="${5}">Matemáticas</option>
+                  <option th:value="${6}">Actuaria</option>
+                  <option th:value="${7}">Ciencias de la Tierra</option>
+                  <option th:value="${8}">Filosofia</option>
+                  <option th:value="${9}">Derecho</option>
+                  <option th:value="${10}">Psicologia</option>
+                  <option th:value="${11}">Medicina</option>
+                  <option th:value="${12}">Música</option>
+                  <option th:value="${13}">Veterinaria</option>
+                  <option th:value="${14}">Ingeniería</option>
+                  <option th:value="${15}">Contaduría</option>
+                  <option th:value="${16}">Ciencias Politicas y Sociales</option>
+                  <option th:value="${17}">Arquitectura</option>
+              </select>
                 <div class="col-12">
                   <div id="liveAlertPlaceholder"></div>
                     <button  type="submit" id="register_success" class="btn btn-primary">Registrarse</button>

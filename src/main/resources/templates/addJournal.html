@@ -67,10 +67,11 @@
 
 
         <!-- Formulario-->
+
         <div class="container">
-            <h1>Sube un Articulo</h1>
+            <h1>Sube una Revista</h1>
             <hr/>
-            <form class="row g-3 " id="subirArchivo" th:action="@{/add_article}" th:object="${articulo}"  enctype="multipart/form-data" method="post">
+            <form class="row g-3 " id="subirArchivo" th:action="@{/add_revista}" th:object="${revista}"  enctype="multipart/form-data" method="post">
                 <div class="col-12 mb-3">
                     <label for="autores" class="form-label">Email de Autores</label>
                     <div class="input-group">
@@ -79,20 +80,18 @@
                     <div id="emailHelp" class="form-text">Separe por una coma y espacio a cada autor. Ej: [[${#request.userPrincipal.principal.email}]] </div>
                 </div>
 
-                <div class="col-6">
-                    <label for="nombre" class="form-label">Nombre de la investigación</label>
-                    <input type="text" class="form-control" id="nombre"  aria-describedby="inputGroupPrepend2" th:field="*{nombre}" required>
-                </div>
 
                 <div class="col-6 mb-3">
-                    <label for="archivoASubir" class="form-label">Archivo</label>
-                    <input type="file" class="form-control" name="archivo" id="archivoASubir" aria-label="file example" th:field="*{archivo}" required>
-                    <div class="invalid-feedback">Example invalid form file feedback</div>
+                    <label for="autores" class="form-label">Id de articulos</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="articulos"  aria-describedby="inputGroupPrepend2" th:field="*{cadenaArticulos}" required>
+                    </div>
+                    <div id="emailHelp" class="form-text">Seleccione id's de artículos en la base de datos, aparece al entrar al artíuclo en la url como campo idArticulo=... . Ej: 1, 2, 3 </div>
                 </div>
 
-                <div class="col-12 mb-3">
-                    <label for="descripcion" class="form-label">Descripción</label>
-                    <textarea class="form-control" id="descripcion" aria-label="With textarea" th:field="*{descripcion}" required></textarea>
+                <div class="col-6">
+                    <label for="nombre" class="form-label">Nombre del proyecto</label>
+                    <input type="text" class="form-control" id="nombre"  aria-describedby="inputGroupPrepend2" th:field="*{nombre}" required>
                 </div>
 
                 <div class="col-3">
@@ -120,7 +119,7 @@
                 </div>
 
                 <div class="col-12 mb-3">
-                    <button class="btn btn-primary" type="submit">Subir</button>
+                    <button class="btn btn-primary" type="submit">Submit form</button>
                 </div>
             </form>
         </div>
@@ -138,7 +137,6 @@
                     <li class="nav-item"><a th:href="@{/user}" class="nav-link px-2 text-muted">Página principal</a></li>
                     <li class="nav-item"><a th:href="@{/user/faqs}" class="nav-link px-2 text-muted">FAQs</a></li>
                     <li class="nav-item"><a th:href="@{/user/about-us}" class="nav-link px-2 text-muted">Sobre nosotros</a></li>
-                </ul>
             </footer>
         </div>
     </body>

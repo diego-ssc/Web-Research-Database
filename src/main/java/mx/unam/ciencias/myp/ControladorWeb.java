@@ -186,6 +186,12 @@ public class ControladorWeb {
         filepath+= "/redDeInvestigadores/";
 
         try {
+            Files.createDirectories(Paths.get(filepath));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        try {
             File uploadedFile = new File(filepath, fileName+".pdf");
             file.transferTo(uploadedFile);
         } catch (Exception e) {
@@ -201,7 +207,7 @@ public class ControladorWeb {
      * @return la plantilla de respuesta
      *
      */
-    @PostMapping(path="/add_journal")
+    @PostMapping(path="/add_revista")
     public String agregaRevista(Revista revista) {
         String url = verificaRevista(revista);
         if (url != null)
@@ -227,7 +233,7 @@ public class ControladorWeb {
         emf.close();
 
         repositorioRevista.save(revista);
-        return "journal_added";
+        return "article_added";
     }
 
     private Set<Articulo> parseArticles(String cadenaArticulos) {
@@ -288,7 +294,7 @@ public class ControladorWeb {
      * @return la plantilla de respuesta
      *
      */
-    @PostMapping(path="/add_project")
+    @PostMapping(path="/add_proyecto")
     public String agregaProyecto(Proyecto proyecto) {
         String url = verificaProyecto(proyecto);
         if (url != null)
@@ -310,7 +316,7 @@ public class ControladorWeb {
 
         repositorioProyecto.save(proyecto);
 
-        return "project_added";
+        return "article_added";
     }
 
     private String verificaProyecto(Proyecto proyecto) {
@@ -339,7 +345,7 @@ public class ControladorWeb {
                              (Integer.parseInt(idArticulo))).get();
         model.addAttribute("nombre", articulo.getNombre());
         model.addAttribute("descripcion", articulo.getDescripcion());
-        model.addAttribute("listaAutores", getAutoresArticulo(idArticulo));
+        model.addAttribute("listaAutores", articulo.getUsuarios());
         model.addAttribute("mes",articulo.getMes() );
         model.addAttribute("ano", articulo.getAno());
         model.addAttribute("url", articulo.getUrl());
@@ -355,6 +361,52 @@ public class ControladorWeb {
         model.addAttribute("pdf", resource);
 
         return "article.html";
+    }
+
+
+    /**
+     * Método de consulta de Revistas.
+     * Devolverá la plantilla asociada a la revista a través del
+     * id correspondiente.
+     * @param idRevista El id del revista requerido
+     * @return La plantilla asociada
+     *
+     */
+    @GetMapping("/revista")
+    public String revista(@RequestParam(name = "idRevista", required=false) String idRevista, Model model){
+        Revista revista = (repositorioRevista.findById (Integer.parseInt(idRevista))).get();
+
+        model.addAttribute("nombre", revista.getNombre());
+        model.addAttribute("listaAutores", getAutoresRevista(idRevista));
+        model.addAttribute("mes",revista.getMes() );
+        model.addAttribute("ano", revista.getAno());
+        model.addAttribute("id", revista.getId());
+        model.addAttribute("listaArticulos", revista.getArticulos());
+
+        return "revista.html";
+    }
+
+    /**
+     * Método de consulta de artículos.
+     * Devolverá la plantilla asociada al artículo a través del
+     * id correspondiente.
+     * @param idArticulo El id del artículo requerido
+     * @return La plantilla asociada
+     *
+     */
+    @GetMapping("/proyecto")
+    public String proyecto(@RequestParam(name = "idProyecto", required=false)
+                          String idProyecto, Model model){
+        Proyecto proyecto = (repositorioProyecto.findById
+                             (Integer.parseInt(idProyecto))).get();
+        model.addAttribute("nombre", proyecto.getNombre());
+        model.addAttribute("descripcion", proyecto.getDescripcion());
+        model.addAttribute("listaAutores", getAutoresProyecto(idProyecto));
+        model.addAttribute("mes",proyecto.getMes() );
+        model.addAttribute("ano", proyecto.getAno());
+        model.addAttribute("id", proyecto.getId());
+
+        return "proyecto.html";
     }
 
     /**
@@ -377,7 +429,8 @@ public class ControladorWeb {
         Institucion institucionUsuario=usuario.getInstitucion();
         model.addAttribute("idInstitucion",institucionUsuario.getId());
         model.addAttribute("institucion", institucionUsuario.getNombre());
-
+        //AreaTrabajo areaTrabajoUsuario=usuario.getAreaTrabajo();
+        //model.addAttribute("areaTrabajo", areaTrabajoUsuario.getDescripcion());
         model.addAttribute("email", usuario.getEmail());
         model.addAttribute("fechaDeNacimiento", usuario.getFechaNacimiento());
         return "usuario.html";
@@ -655,6 +708,18 @@ public class ControladorWeb {
         return "addContribution";
     }
 
+    @GetMapping(path="/user/addJournal")
+    public String addJournal(Model model) {
+        model.addAttribute("revista", new Revista());
+        return "addJournal";
+    }
+
+    @GetMapping(path="/user/addProject")
+    public String addProject(Model model) {
+        model.addAttribute("proyecto", new Proyecto());
+        return "addProject";
+    }
+
     /**
      * Método que devuelve los usuarios asociados
      * a un artículo específico.
@@ -672,6 +737,30 @@ public class ControladorWeb {
             findById(Integer.parseInt(idArticulo));
         if (articulo.isPresent()) {
             return articulo.get().getUsuarios();
+        }
+        return null;
+    }
+
+    @CrossOrigin
+    @GetMapping(path="/autores_proyectos")
+    public @ResponseBody Iterable<Usuario> getAutoresProyecto
+        (@RequestParam String idProyecto) {
+        Optional<Proyecto> proyecto = repositorioProyecto.
+            findById(Integer.parseInt(idProyecto));
+        if (proyecto.isPresent()) {
+            return proyecto.get().getUsuarios();
+        }
+        return null;
+    }
+
+    @CrossOrigin
+    @GetMapping(path="/autores_revistas")
+    public @ResponseBody Iterable<Usuario> getAutoresRevista
+        (@RequestParam String idRevista) {
+        Optional<Revista> revista = repositorioRevista.
+            findById(Integer.parseInt(idRevista));
+        if (revista.isPresent()) {
+            return revista.get().getUsuarios();
         }
         return null;
     }
@@ -840,6 +929,18 @@ public class ControladorWeb {
         List<Proyecto> proyectos = new ArrayList<>();
         proyectos = repositorioProyecto.buscarProyectosPorNombre(query);
         return proyectos;
+    }
+
+    @CrossOrigin
+    @GetMapping(path="/revistas_query")
+    public @ResponseBody Iterable<Revista> getRevistaQuery (@RequestParam String query){
+        List<Revista> revistas = new ArrayList<>();
+        revistas = repositorioRevista.buscarRevistasPorNombre(query);
+        return revistas;
+    }
+
+    public Articulo inserta(Articulo articulo) {
+        return repositorioArticulo.save(articulo);
     }
 
     /**
@@ -1029,7 +1130,7 @@ public class ControladorWeb {
             return administradorUsuarios(modelo);
 
         agregaUsuarioAdministrador(usuario);
-        return "redirect:/admin_users";
+        return administradorUsuarios(modelo);
     }
 
     /**
@@ -1065,12 +1166,11 @@ public class ControladorWeb {
     public String administradorActualizaUsuario(@PathVariable("id") Integer id, @Valid Usuario usuario,
                                                 BindingResult resultado, Model modelo) {
         if (resultado.hasErrors()) {
-            usuario.setId(id);
             return muestraFormularioActualizacionUsuario(id, modelo);
         }
-
+        usuario.setId(id);
         agregaUsuarioAdministrador(usuario);
-        return "redirect:/administrator";
+        return administradorUsuarios(modelo);
     }
 
     private void agregaUsuarioAdministrador(Usuario usuario) {
@@ -1102,7 +1202,6 @@ public class ControladorWeb {
         usuario.setAreaTrabajo(area);
         List<Usuario> lista = institucion.getUsuarios();
 
-        em.persist(usuario);
         institucion.agregaUsuario(usuario);
         institucion.setUsuarios(lista);
 
@@ -1146,7 +1245,7 @@ public class ControladorWeb {
         Usuario usuario = repositorioUsuario.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Id de usuario inválido:" + id));
         repositorioUsuario.delete(usuario);
-        return "redirect:/administrator";
+        return administradorUsuarios(model);
     }
 
     /* Tabla Artículos */
@@ -1182,7 +1281,7 @@ public class ControladorWeb {
             return muestraArticulos(modelo);
 
         agregaArticuloAdministrador(articulo);
-        return "redirect:/administrator";
+        return muestraArticulos(modelo);
     }
 
     /**
@@ -1218,12 +1317,12 @@ public class ControladorWeb {
     public String administradorActualizaArticulo(@PathVariable("id") Integer id, @Valid Articulo articulo,
                                                 BindingResult resultado, Model modelo) {
         if (resultado.hasErrors()) {
-            articulo.setId(id);
+
             return muestraFormularioActualizacionArticulo(id, modelo);
         }
-
+        articulo.setId(id);
         agregaArticuloAdministrador(articulo);
-        return "redirect:/administrator";
+        return muestraArticulos(modelo);
     }
 
     private void agregaArticuloAdministrador(Articulo articulo) {
@@ -1266,7 +1365,7 @@ public class ControladorWeb {
         Articulo articulo = repositorioArticulo.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Id de artículo inválido:" + id));
         repositorioArticulo.delete(articulo);
-        return "redirect:/administrator";
+        return muestraArticulos(model);
     }
 
     /* Tabla Revistas */
@@ -1302,7 +1401,7 @@ public class ControladorWeb {
             return muestraRevistas(modelo);
 
         agregaRevistaAdministrador(revista);
-        return "redirect:/administrator";
+        return muestraRevistas(modelo);
     }
 
     /**
@@ -1338,12 +1437,11 @@ public class ControladorWeb {
     public String administradorActualizaRevista(@PathVariable("id") Integer id, @Valid Revista revista,
                                                 BindingResult resultado, Model modelo) {
         if (resultado.hasErrors()) {
-            revista.setId(id);
             return muestraFormularioActualizacionRevista(id, modelo);
         }
-
+        revista.setId(id);
         agregaRevistaAdministrador(revista);
-        return "redirect:/administrator";
+        return muestraRevistas(modelo);
     }
 
     private void agregaRevistaAdministrador(Revista revista) {
@@ -1361,8 +1459,6 @@ public class ControladorWeb {
         Set<Usuario> usuarios = parseUsers(cadenaUsuarios);
         for (Usuario u : usuarios)
             revista.agregaUsuario(u);
-
-        em.persist(revista);
         em.getTransaction().commit();
         em.close();
         emf.close();
@@ -1383,7 +1479,7 @@ public class ControladorWeb {
         Revista revista = repositorioRevista.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Id de revista inválido:" + id));
         repositorioRevista.delete(revista);
-        return "redirect:/administrator";
+        return muestraRevistas(model);
     }
 
     /* Tabla Proyectos */
@@ -1419,7 +1515,7 @@ public class ControladorWeb {
             return muestraProyectos(modelo);
 
         agregaProyecto(proyecto);
-        return "redirect:/administrator";
+        return muestraProyectos(modelo);
     }
 
     /**
@@ -1455,12 +1551,11 @@ public class ControladorWeb {
     public String administradorActualizaProyecto(@PathVariable("id") Integer id, @Valid Proyecto proyecto,
                                                 BindingResult resultado, Model modelo) {
         if (resultado.hasErrors()) {
-            proyecto.setId(id);
             return muestraFormularioActualizacionProyecto(id, modelo);
         }
-
+        proyecto.setId(id);
         agregaProyecto(proyecto);
-        return "redirect:/administrator";
+        return muestraProyectos(modelo);
     }
 
     private void agregaProyectoAdministrador(Proyecto proyecto) {
@@ -1495,7 +1590,7 @@ public class ControladorWeb {
         Proyecto proyecto = repositorioProyecto.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Id de proyecto inválido:" + id));
         repositorioProyecto.delete(proyecto);
-        return "redirect:/administrator";
+        return muestraProyectos(model);
     }
 
     /* Tabla Perfiles */
@@ -1531,7 +1626,7 @@ public class ControladorWeb {
             return muestraPerfiles(modelo);
 
         repositorioPerfil.save(perfil);
-        return "redirect:/administrator";
+        return muestraPerfiles(modelo);
     }
 
     /**
@@ -1567,12 +1662,11 @@ public class ControladorWeb {
     public String administradorActualizaPerfil(@PathVariable("id") Integer id, @Valid Perfil perfil,
                                                  BindingResult resultado, Model modelo) {
         if (resultado.hasErrors()) {
-            perfil.setId(id);
             return muestraFormularioActualizacionPerfil(id, modelo);
         }
-
+        perfil.setId(id);
         repositorioPerfil.save(perfil);
-        return "redirect:/administrator";
+        return muestraPerfiles(modelo);
     }
 
     /**
@@ -1588,7 +1682,7 @@ public class ControladorWeb {
         Perfil perfil = repositorioPerfil.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Id de perfil inválido:" + id));
         repositorioPerfil.delete(perfil);
-        return "redirect:/administrator";
+        return muestraPerfiles(model);
     }
 
     /* Tabla Instituciones */
@@ -1624,7 +1718,7 @@ public class ControladorWeb {
             return muestraInstituciones(modelo);
 
         agregaInstitucionAministrador(institucion);
-        return "redirect:/administrator";
+        return muestraInstituciones(modelo);
     }
 
     /**
@@ -1660,12 +1754,11 @@ public class ControladorWeb {
     public String administradorActualizaInstitucion(@PathVariable("id") Integer id, @Valid Institucion institucion,
                                                  BindingResult resultado, Model modelo) {
         if (resultado.hasErrors()) {
-            institucion.setId(id);
             return muestraFormularioActualizacionInstitucion(id, modelo);
         }
-
+        institucion.setId(id);
         agregaInstitucionAministrador(institucion);
-        return "redirect:/administrator";
+        return muestraInstituciones(modelo);
     }
 
     private void agregaInstitucionAministrador(Institucion institucion) {
@@ -1678,7 +1771,6 @@ public class ControladorWeb {
         for (Usuario usuario : usuarios)
             institucion.agregaUsuario(usuario);
 
-        em.persist(institucion);
         em.getTransaction().commit();
         em.close();
         emf.close();
@@ -1698,7 +1790,7 @@ public class ControladorWeb {
         Institucion institucion = repositorioInstitucion.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Id de institución inválido:" + id));
         repositorioInstitucion.delete(institucion);
-        return "redirect:/administrator";
+        return muestraInstituciones(model);
     }
 
     /* Tabla AreaTrabajo */
@@ -1734,7 +1826,7 @@ public class ControladorWeb {
             return muestraAreasTrabajo(modelo);
 
         repositorioAreaTrabajo.save(areaTrabajo);
-        return "redirect:/administrator";
+        return muestraAreasTrabajo(modelo);
     }
 
     /**
@@ -1770,12 +1862,11 @@ public class ControladorWeb {
     public String administradorActualizaAreaTrabajo(@PathVariable("id") Integer id, @Valid AreaTrabajo areaTrabajo,
                                                     BindingResult resultado, Model modelo) {
         if (resultado.hasErrors()) {
-            areaTrabajo.setId(id);
             return muestraFormularioActualizacionAreaTrabajo(id, modelo);
         }
-
+        areaTrabajo.setId(id);
         repositorioAreaTrabajo.save(areaTrabajo);
-        return "redirect:/administrator";
+        return muestraAreasTrabajo(modelo);
     }
 
     /**
@@ -1791,6 +1882,6 @@ public class ControladorWeb {
         AreaTrabajo areaTrabajo = repositorioAreaTrabajo.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Id de área de trabajo inválido:" + id));
         repositorioAreaTrabajo.delete(areaTrabajo);
-        return "redirect:/administrator";
+        return muestraAreasTrabajo(model);
     }
 }

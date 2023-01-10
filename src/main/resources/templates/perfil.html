@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link href="../static/css/article.css" rel="stylesheet">
+    <link th:href="@{/css/dropdown.css}"  rel="stylesheet">
 </head>
 <body sec:authorize="isAuthenticated()">
     <!-- logo  -->
@@ -47,6 +48,14 @@
                 <input type="search" class="form-control " placeholder="Buscar..." aria-label="Search">
             </form>
 
+            <div sec:authorize="isAuthenticated()" class="dropdown">
+                <button class="dropbtn btn btn-outline-primary me-2">Añadir</button>
+                <div class="dropdown-content">
+                    <a th:href="@{/user/addContribution}">Artículo</a>
+                    <a th:href="@{/user/addJournal}">Revista</a>
+                    <a th:href="@{/user/addProject}">Proyecto</a>
+                </div>
+            </div>
             <div class="text-end">
                 <button sec:authorize="isAuthenticated()" onclick="location.href='/user/addContribution'"  type="button" class="btn btn-outline-secondary btn-lg px-4 me-sm-3">Añadir</button>
                 <button onclick="location.href='/logout'" type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Salir</button>

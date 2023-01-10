@@ -136,4 +136,9 @@ public class Revista implements Serializable {
         articulos.remove(articulo);
         articulo.getRevistas().remove(this);
     }
+
+    @Override
+    public String toString(){
+        return this.id.toString();
+    }
 }
