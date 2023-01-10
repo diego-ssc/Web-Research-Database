@@ -17,7 +17,6 @@
     </properties>
   </persistence-unit>
 
-
   <persistence-unit name="usuarios_articulos">
     <class>mx.unam.ciencias.myp.Articulo</class>    
     <class>mx.unam.ciencias.myp.Usuario</class>

@@ -20,8 +20,8 @@ Además, verificar que en el archivo `/src/main/resources/application.properties
 descomentadas las líneas
 
 ```plaintext
-spring.datasource.url=jdbc:mysql://mysqldb:3306/db_researchers
-javax.persistence.jdbc.url=jdbc:mysql://mysqldb:3306/db_researchers
+spring.datasource.url=jdbc:mysql://database:3306/db_researchers
+javax.persistence.jdbc.url=jdbc:mysql://database:3306/db_researchers
 ```
 
 Y comentadas
@@ -33,8 +33,8 @@ javax.persistence.jdbc.url=jdbc:mysql://${MYSQL_HOST:localhost}:3306/db_research
 De manera análoga, se comentarán las líneas
 
 ```plaintext
-spring.datasource.url=jdbc:mysql://mysqldb:3306/db_researchers
-javax.persistence.jdbc.url=jdbc:mysql://mysqldb:3306/db_researchers
+spring.datasource.url=jdbc:mysql://database:3306/db_researchers
+javax.persistence.jdbc.url=jdbc:mysql://database:3306/db_researchers
 ```
 
 y se descomentarán
@@ -47,9 +47,43 @@ javax.persistence.jdbc.url=jdbc:mysql://${MYSQL_HOST:localhost}:3306/db_research
 junto con la prueba unitaria mencionada.
 
 
+Por último, en el archivo `/src/main/resources/META-INF/persistence.xml`:
+
+Para ejecución con docker
+
+```plaintext
+jdbc:mysql://database:3306/db_researchers
+```
+
+Para ejecución con localhost
+```plaintext
+jdbc:mysql://localhost:3306/db_researchers
+```
+
+Estos cambios se harán en las líneas 12, 25, 39 y 54 del archivo `persistence.xml`.
+
+En el caso de uso de localhost, será necesario crear una base de datos como sigue:
+```plaintext
+sudo mysql --password
+```
+
+```plaintext
+create database db_researchers;
+```
+```plaintext
+create user 'springuser'@'%' identified by 'ThePassword';
+```
+```plaintext
+grant all on db_researchers.* to 'springuser'@'%';
+```
+
+Una vez completados todos los requerimientos para la ejecución con docker o localhost,
+ejecutar
+
 ```plaintext
 maven install
 ```
+
 
 # Ejecución
 ## Ejecución con docker
