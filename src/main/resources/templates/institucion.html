@@ -80,7 +80,7 @@
             <h5>Usuarios asociados</h5>
             <hr>
             <div class="row" th:each="usuario : ${listaUsuarios}">
-                <div class="col-6 col-sm-3"><a href="" th:text="${usuario.nombre}+' '+${usuario.apellido}"></a></div>
+                <div class="col-6 col-sm-3"><a th:href="'http://localhost:8080/usuario?idUsuario='+${usuario.id}" th:text="${usuario.nombre}+' '+${usuario.apellido}"></a></div>
                 <div class="w-100"></div>
             </div>
         </div>
