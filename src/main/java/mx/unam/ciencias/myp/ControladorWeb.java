@@ -182,8 +182,12 @@ public class ControladorWeb {
     }
 
     private void storeFile(MultipartFile file, String fileName){
-        String filepath =  System.getProperty("user.home");
-        filepath+= "/redDeInvestigadores/";
+        /* Para ejecución en localhost */
+        // String filepath =  System.getProperty("user.home");
+        // filepath += "/redDeInvestigadores/";
+        
+        /* Para ejecución con Docker */
+        String filepath = "/root/redDeInvestigadores/";
 
         try {
             Files.createDirectories(Paths.get(filepath));
@@ -429,8 +433,8 @@ public class ControladorWeb {
         Institucion institucionUsuario=usuario.getInstitucion();
         model.addAttribute("idInstitucion",institucionUsuario.getId());
         model.addAttribute("institucion", institucionUsuario.getNombre());
-        //AreaTrabajo areaTrabajoUsuario=usuario.getAreaTrabajo();
-        //model.addAttribute("areaTrabajo", areaTrabajoUsuario.getDescripcion());
+        AreaTrabajo areaTrabajoUsuario=usuario.getAreaTrabajo();
+        model.addAttribute("areaTrabajo", areaTrabajoUsuario.getDescripcion());
         model.addAttribute("email", usuario.getEmail());
         model.addAttribute("fechaDeNacimiento", usuario.getFechaNacimiento());
         return "usuario.html";

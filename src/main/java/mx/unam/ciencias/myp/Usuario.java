@@ -256,14 +256,6 @@ public class Usuario {
         this.cadenaProyectos = cadenaProyectos;
     }
 
-    public String getAreaTrabajoString() {
-        return areaTrabajoString;
-    }
-
-    public void setAreaTrabajoString(String areaTrabajoString) {
-        this.areaTrabajoString = areaTrabajoString;
-    }
-
     /**
      * Método que nos dice si el usuario es igual al objeto recibido.
      * @param objeto el objeto a comparar.

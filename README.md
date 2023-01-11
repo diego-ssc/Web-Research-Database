@@ -77,6 +77,28 @@ create user 'springuser'@'%' identified by 'ThePassword';
 grant all on db_researchers.* to 'springuser'@'%';
 ```
 
+En el método `storeFile` de la clase `ControladorWeb.java` será
+necesario descomentar las líneas
+
+```plaintext
+String filepath =  System.getProperty("user.home");
+filepath += "/redDeInvestigadores/";
+```
+
+Y comentar
+```plaintext
+String filepath = "/root/redDeInvestigadores/";
+```
+
+Además, en el archivo `/src/main/resources/application.properties` será necesario
+definir la propiedad
+```plaintext
+spring.jpa.hibernate.ddl-auto
+```
+
+A `update`, al ejecutar con Docker. O a `create`, al ejecutar en `localhost`.
+
+
 Una vez completados todos los requerimientos para la ejecución con docker o localhost,
 ejecutar
 
