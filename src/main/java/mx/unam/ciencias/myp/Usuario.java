@@ -28,10 +28,6 @@ public class Usuario {
     @JoinColumn(name = "institucion", referencedColumnName = "id_institucion")
     private Institucion institucion;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "institucion", referencedColumnName = "nombre")
-    private Institucion institucion;
-
     private String contrasena;
 
     private String dia;
@@ -55,12 +51,19 @@ public class Usuario {
     @Transient
     private String cadenaRevistas;
 
+    @Transient
+    private String areaTrabajoString;
+
     @Column(name = "fecha_nacimiento")
     private String fechaNacimiento;
 
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "perfil", referencedColumnName = "id_perfil")
     private Perfil perfil;
+
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "area_trabajo", referencedColumnName = "id_area")
+    private AreaTrabajo areaTrabajo;
 
     @ManyToMany(mappedBy = "usuarios", fetch = FetchType.LAZY,
                 cascade = CascadeType.MERGE)
@@ -173,6 +176,14 @@ public class Usuario {
         this.perfil = perfil;
     }
 
+    public AreaTrabajo getAreaTrabajo() {
+        return areaTrabajo;
+    }
+
+    public void setAreaTrabajo(AreaTrabajo areaTrabajo) {
+        this.areaTrabajo = areaTrabajo;
+    }
+
     public String getPerfilString() {
         return perfilString;
     }
@@ -233,6 +244,14 @@ public class Usuario {
         return cadenaProyectos;
     }
 
+    public String getAreaTrabajoString() {
+        return areaTrabajoString;
+    }
+
+    public void setAreaTrabajoString(String areaTrabajoString) {
+        this.areaTrabajoString = areaTrabajoString;
+    }
+
     public void setCadenaProyectos(String cadenaProyecto) {
         this.cadenaProyectos = cadenaProyectos;
     }
@@ -256,6 +275,6 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return this.id + "::" + this.nombre;
+        return this.id.toString();
     }
 }

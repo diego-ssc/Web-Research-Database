@@ -17,6 +17,13 @@ public class AreaTrabajo {
 
     private String descripcion;
 
+    public AreaTrabajo() {}
+
+    public AreaTrabajo(Integer id, String descripcion) {
+        this.id = id;
+        this.descripcion = descripcion;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -31,5 +38,9 @@ public class AreaTrabajo {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String toString(){
+        return descripcion;
     }
 }

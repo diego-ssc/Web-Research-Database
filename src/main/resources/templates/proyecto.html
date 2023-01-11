@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Red de Investigadores | Articulos</title>
+    <title >Red de Investigadores | Proyecto </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="../static/css/article.css" rel="stylesheet">
 
     <link th:href="@{/css/dropdown.css}"  rel="stylesheet">
 </head>
 <body>
-
     <!-- logo  -->
     <svg style="display: none;">
         <symbol id="logo" viewBox="60 10 600 100">
@@ -30,7 +30,7 @@
 
     <!-- navbar -->
     <div class="container-fluid gx-5" >
-      <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
         <a sec:authorize="isAnonymous()" href="./index.html" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
             <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#logo"/></svg>
             <span class="fs-4">Red de Investigadores</span>
@@ -55,7 +55,7 @@
             </ul>
 
             <form action="#" th:action="@{/busqueda}" method="get" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                <input name="q" type="search" class="form-control " placeholder="Buscar..." aria-label="Search">
+                <input type="search" class="form-control " placeholder="Buscar..." aria-label="Search">
             </form>
 
             <div sec:authorize="isAuthenticated()" class="dropdown">
@@ -74,12 +74,25 @@
         </header>
     </div>
 
-    <div class="container-lg" >
-        <h3 >Articulos destacados.</h3>
+    <!-- Contenido de articulo -->
+    <div class="container-lg">
+        <div class="alert alert-secondary" role="alert" style="width: 80px; height:40px">Proyecto</div>
+            <h2 id="tituloArticulo" th:text="${nombre}"/>
+            <h5>Autores:</h5>
+            <div class="container m-1" >
+                <div class="row" th:each="autor : ${listaAutores}">
+                    <div class="col-6 col-sm-3"><a th:href="'http://localhost:8080/usuario?idUsuario='+${autor.id}" th:text="${autor.nombre}+' '+${autor.apellido}"></a></div>
+                    <div class="w-100"></div>
+                </div>
+            </div>
+            <p class="small" th:text="'Subido el '+${mes}+' '+${ano}"/>
+            <div class="container-md">
+                <p class="lead">Descripcion</p>
+                <p class="lead" th:text="${descripcion}" />
+            </div>
         <hr>
-        <div th:id="cartas">
-        </div>
     </div>
+
 
     <!-- footer -->
     <div class="container">
@@ -102,6 +115,8 @@
             </ul>
         </footer>
     </div>
-    <script src="/js/featuredArticles.js" th:src="@{/js/featuredArticles.js}"></script>
+
+
+
 </body>
 </html>

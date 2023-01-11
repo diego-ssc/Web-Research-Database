@@ -1,20 +1,28 @@
 version: "3.8"
 services:
-  server:
+  database:
+    image: mysql
+    ports: ['3307:3306']
+    environment:
+      MYSQL_ROOT_PASSWORD: ThePassword
+      MYSQL_PASSWORD: ThePassword
+      MYSQL_USER: springuser
+      MYSQL_DATABASE: db_researchers
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 55
+  web:
     build: .
-    restart: always
     ports:
       - 8080:8080
-    depends_on:
-        - mysqldb
-  mysqldb:
-    platform: linux/x86_64
-    image: "mysql:8.0.31"
-    restart: always
-    ports:
-      - 3307:3306
     environment:
-      MYSQL_DATABASE: db_researchers
-      MYSQL_USER: springuser
-      MYSQL_PASSWORD: ThePassword
-      MYSQL_ROOT_PASSWORD: ThePassword
+      SPRING_DATASOURCE_PASSWORD: ThePassword
+      SPRING_DATASOURCE_USER: springuser
+      SPRING_DATASOURCE_NAME: db_researchers
+      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/db_researchers
+    depends_on:
+      database:
+        condition: service_healthy
