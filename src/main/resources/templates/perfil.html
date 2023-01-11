@@ -65,15 +65,13 @@
     <!-- datos -->
     <div class="container-lg">
       <h2 id="nombreUsuario">[[${#request.userPrincipal.principal.fullName}]]</h2>
-      <h5>Artículos:</h5>
-
         <div class="container-md">
           <p class="lead">Datos Personales:</p>
           <p>[[${#request.userPrincipal.principal.Perfil}]] en
             <a href="/user/institucion?nombre=1">[[${#request.userPrincipal.principal.Institucion}]]</a></p>
           <p>Email: [[${#request.userPrincipal.principal.Email}]]</p>
           <p>Fecha de Nacimiento: [[${#request.userPrincipal.principal.FechaNacimiento}]]</p>
-          <p>Area de Trabajo; [[${#request.userPrincipal.principal.areaTrabajo}]]</p>
+          <p>Area de Trabajo: [[${#request.userPrincipal.principal.areaTrabajo}]]</p>
         </div>
 
           <!-- footer -->

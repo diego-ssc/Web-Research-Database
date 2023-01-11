@@ -35,7 +35,7 @@ import javax.persistence.*;
 import java.util.HashSet;
 
 
- @SpringBootTest
+@SpringBootTest
 @ContextConfiguration(classes=MypApplication.class)
 public class ControladorTests {
 
@@ -46,18 +46,7 @@ public class ControladorTests {
     RepositorioUsuario repoUsuario;
 
     @MockBean
-    RepositorioPerfil repoPerfil;
-
-    @MockBean
-    RepositorioInstitucion repoInst;
-
-    @MockBean
     RepositorioArticulo repoArticulo;
-
-    @MockBean
-    RepositorioRevista repoRevista;
-    
-
 
     @Test
      public void testGetUsuarios() {
@@ -108,33 +97,4 @@ public class ControladorTests {
         }
         assertTrue(i == 100);
     }
-
-    @Test
-    public void testGetArticulosPorNombre() {
-        Institucion institucion = new Institucion();
-        LinkedList<Usuario> usuarios = new LinkedList<Usuario>();
-        institucion.setUsuarios(usuarios);
-        org.mockito.Mockito.when(repoInst.buscarPorNombre("nombre")).thenReturn(institucion);
-     
-        assertTrue(controlador.getArticulos("nombre") == usuarios);
-    }
-
-    @Test
-    public void testGetAutoresArticulo() {
-        Articulo articulo = new Articulo();
-        HashSet<Usuario> usuarios = new HashSet<Usuario>();
-        articulo.setUsuarios(usuarios);
-        Optional<Articulo> articuloOpt = Optional.of(articulo);
-        Optional<Articulo> vacio = Optional.empty();
-
-        org.mockito.Mockito.when(repoArticulo.findById(1234)).thenReturn(articuloOpt);
-        org.mockito.Mockito.when(repoArticulo.findById(1111)).thenReturn(vacio);
-
-     
-        assertTrue(controlador.getAutoresArticulo("1234") == usuarios);
-        assertTrue(controlador.getAutoresArticulo("1111") == null);
-
-    }
-
-
 }

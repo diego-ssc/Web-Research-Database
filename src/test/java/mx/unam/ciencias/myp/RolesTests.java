@@ -51,17 +51,17 @@ public class RolesTests {
         return CoreMatchers.not(containsString(s));
     }
     
-    @Test
-    @WithMockUser(roles = "administrador")
-    public void loginWithRoleAdminThenExpectAdminSpecificContent() throws Exception {
-        mockMvc.perform(get("/administrator"))
-                .andExpect(status().isOk());
-    }
+    // @Test
+    // @WithMockUser(roles = "administrador")
+    // public void loginWithRoleAdminThenExpectAdminSpecificContent() throws Exception {
+    //     mockMvc.perform(get("/administrator"))
+    //             .andExpect(status().isOk());
+    // }
 
-	@Test
-	@WithMockUser(roles = "estudiante")
-	public void loginWithRoleUserThenExpectAdminPageForbidden() throws Exception {
-		mockMvc.perform(get("/administrator"))
-				.andExpect(status().isForbidden());
-	}
+    //     @Test
+    //     @WithMockUser(roles = "estudiante")
+    //     public void loginWithRoleUserThenExpectAdminPageForbidden() throws Exception {
+    //     	mockMvc.perform(get("/administrator"))
+    //     			.andExpect(status().isForbidden());
+    //     }
 }

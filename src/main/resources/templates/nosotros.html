@@ -75,7 +75,6 @@
                 <div class="text-end">
                     <button sec:authorize="isAnonymous()" onclick="location.href='/login'" th:href="@{/login}" type="button" class="btn btn-outline-primary me-2">Acceder</button> <!-- onclick="location.href='login.html'" -->
                     <button sec:authorize="isAnonymous()" onclick="location.href='/registrarse'" type="button" class="btn btn-primary">Registrarse</button>
-                    <button sec:authorize="isAuthenticated()" onclick="location.href='/user/addContribution'"  type="button" class="btn btn-outline-secondary btn-lg px-4 me-sm-3">Añadir</button>
                     <button sec:authorize="isAuthenticated()" onclick="location.href='/logout'" type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Salir</button>
                 </div>
             </header>

@@ -182,15 +182,11 @@ se haya creado un perfil con el rol de investigador. El archivo .pdf
 registrado se almacenará en un directorio `redDeInvestigadores`
 en la raíz del directorio personal del usuario actual.
 
+Para acceder a la interfaz de administrador, se tendrá que accesar al
+siguiente link.
 
-Para acceder a la interfaz de administrador, será necesario acceder
-con una cuenta registrada como administrador de la aplicación, se cuenta
-con una en la base de datos con el correo y contraseña
 ```plaintext
-admin@ciencias.com
-```
-```plaintext
-admin
+http://localhost:8080/administrator/usuarios
 ```
 
 Ahora la interfaz de administrador será accesible con el link
@@ -242,3 +238,6 @@ contraseña : admin
 
 
 (Es necesario ejecutar la aplicación de la Red de Investigadores para monitorizar sus recursos).
+
+# Known Bugs
+- La pestaña de perfil no muestra los artículos asociados a un usuario correctamente.
